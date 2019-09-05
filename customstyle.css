@@ -46,18 +46,18 @@ body{
  }
  
  .signup-button-field{
-     background: #28AB87;
+     background: #000;
      color: aliceblue;
      padding:14px 16px;
      border-radius: 10px;
      outline: none;   
  }
  .signup-button-field:hover{
-     color: #28AB87;
+     color: #000;
      background: #fff;
  }
  .button-field{
-     background: #009879;
+     background: #000;
      color: aliceblue;
      border: 0;
      width: 180px;
@@ -76,16 +76,16 @@ body{
      font-size: 18px; 
      border-radius: 10px;
      outline: none;
-     background: #009879;
+     background: #000;
  }
  .nav{
       background: #fff;
-      color: #009879;
+      color: #000;
       padding:14px 16px;
  }
  .nav:hover{
       color: #fff;
-      background: #009879;
+      background: #000;
       padding:14px 16px;
       border-radius: 13px;
  }
@@ -125,4 +125,17 @@ body{
  }
  .close{
       display: none;
+ }
+ .cart-btn{
+     position:relative;
+     cursor: pointer;
+ }
+ .cart-items{
+     position: absolute;
+     top: -8px;
+     right: -8px;
+     background: #28AB87;
+     padding: 0 5px;
+     border-radius: 30%;
+     color: white;
  }

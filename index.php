@@ -13,10 +13,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="./customstyle.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+        <style>
+            .cart-btn{
+                position:relative;
+                cursor: pointer;
+            }
+            .cart-items{
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #28AB87;
+                padding: 0 5px;
+                border-radius: 30%;
+                color: white;
+            }
+        </style>
     </head>
     <body>
-        <div class="d-flex flex-col">
+        <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col">
             <div class="w-100 d-flex flex-row white">
                 <div class="container d-flex flex-row">
                     <a href="index.php">
@@ -97,6 +112,7 @@
                             </div>
                         </div>
                 </div>
+        
 <?php
     require "footer.php";
 ?>

@@ -17,8 +17,8 @@
           <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+
         <style>
              .content-table{
                   border-collapse: collapse;
@@ -45,6 +45,19 @@
              .content-table tbody tr:last-of-type{
                border-bottom: 2px solid #009879;
              }
+             .cart-btn{
+                position:relative;
+                cursor: pointer;
+            }
+            .cart-items{
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #28AB87;
+                padding: 0 5px;
+                border-radius: 30%;
+                color: white;
+            }
         </style>
      </head>
      <body>
@@ -67,9 +80,11 @@
                               if(isset($_SESSION['userId'])){
                                    echo'<form action="includes/logout.inc.php" method="post">
                                    <div class="d-flex jcfe">
-                                   
-                                   <div><a href="./cart/cart.php"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAACEUlEQVRYw2NgGAV4gMyqPk7dpe2CyFhhfgPHgDhGfXV7h8bq9v/IWH1Vx/oBcYzGmrZ2dMcA8R/NtS3y9HfM6rYSoOV3IbjtLcJBbVM0VrUbUxurrGoTJdJhHVZYQona+K/6qjY/ItNQx3laO0hzTXsXsWkolcaO+aO5rlWHKMcYb27gQk071MZtM0jM7h39NHLMZ821rZIkOUZ7VbsKKKFRPa2sbq8lN8vvorJjnuot6uYms2Tu8KeqY1a1J5BfGq5axayxpv0+lRxygaGhgYnC0rmjiippZVWnK8VVBajoBhr2nRKHqK9q30qdigsYtEADr1PgmG/aq9q0qNO8WNOegWTwLyB+RwI+ob621ZEqDtFe1SUBNRTqmI70AWsBAnPSTKRQOUpxbqAsJ7XfQiTCNj+1te1KlGBQSJPvmFUd+6hcAm+hJGTcQNX9oHAMODetancCNc6BBp2hFAMbVBOGT59Ka02HNrArMxvos3XA6j+F4f9/RqI0AtWBWoygUAXpB5lDkUNUV3RqgkpQlKJ9dUcnMXpBbVy09PJVbU2bBiVdmClYEuEP45kzWfEXlg1sIHVYmpuTKKkKFmFxzD+VJQ18+PQprergB6nDqDCB5lFSAgdjGLi6Yw/5ZVRbEKVZuxRaP/0G4u3qyzuliNGntqpFWmNV2w6ovnegXit1shQwZ5A7KgHWR2wOHAU4AAAihUFS96whqQAAAABJRU5ErkJggg=="></a></div>
-                                   <div class="text-black"><a class="text-white" href="account/myAccount.php?acc"><div class="mx-1" ><i style="background:#28AB87 ; border-radius:40px; padding:7px;" class="material-icons mx-1">person</i></div></a></div>
+                                   <div class="cart-btn">
+          <div style="font-size:30px;" class="nav-icon"><a href="./cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+          <div class="cart-items">0</div>
+          </div>
+          <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
                                    <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="includes/logout.inc.php" name="logout-submit">Logout</a></div>
                                    </div>
                                    </form>';
