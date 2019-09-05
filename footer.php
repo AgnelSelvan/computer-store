@@ -30,6 +30,19 @@
                               <a class="text-deco-none py-sm text-black footer-hover" align="left"  href="#">Terms & Policy</a>
                          </div>
                     </div>
+                    <div style="width:300px;" class="mr-2 mb-2">
+                         <h3 align='left'>Get the News</h3>
+                         <div class='b-1 text-white mb-1'></div>
+                         <div class="d-flex flex-col">
+                              <div style=" font-size:20px;" align='left'>Don't miss our latest update</div>
+                              <div>
+                                   <form action="" method="post">
+                                        <input type="text" placeholder="Enter your email..." style="border:none; padding:10px;margin-top:10px; border-radius:10px; float:left">
+                                        <input type="submit" style="border:none; padding:10px;margin-top:10px; border-radius:10px;color:white; background:black; width:80px;">
+                                   </form>
+                              </div>
+                         </div>
+                    </div>
                </div>
                <div class="b-1 text-white w-max-50 ml-50 mb-3"></div>
                <div class="p-1">

@@ -11,12 +11,12 @@
         <title>Login</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
     </head>
     <body>
-        <div class="w-100 d-flex flex-row white">
+        <div style="position:sticky;top:0px;z-index:1;" class="w-100 d-flex flex-row white">
             <div class="container d-flex flex-row">
                 <a href="index.php">
                     <img class="img1" src="../img/cpu.png" alt="logo">
@@ -34,15 +34,20 @@
                         if(isset($_SESSION['userId'])){
                             echo'<form action="includes/logout.inc.php" method="post">
                             <div class="d-flex jcfe">
-                            <div><button type="submit" class="text-deco-none signup-button-field mr-2 text-black pr-1 b-0" name="logout-submit">Logout</button></div>
+                            <div class="cart-btn">
+                            <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                            <div class="cart-items">0</div>
+                            </div>
+                            <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                            <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
                             </div>
                             </form>';
                         }
                         else{
                             echo'
                             <div class="container d-flex flex-row jcfe">
-                                <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
-                                <div><a class="text-deco-none text-black pr-1 mr-2 nav" href="login.php" class="loginphp">Login</a></div>
+                                <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
                             </div>
                             ';
                         }
@@ -55,7 +60,7 @@
             <div class="d-flex flex-row jcs">
                 <div class="m-0 p-0 w-min-100">
                     <div class="container">
-                        <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > My Account</div>
+                        <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > System Builds</div>
                     </div>
                     <div class="container white p-3 b-rad-2 shadow-md">
                         <div class="">

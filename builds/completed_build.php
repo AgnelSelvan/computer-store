@@ -14,9 +14,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
     </head>
     <body>
-        <div class="w-100 d-flex flex-row white">
+        <div style="position:sticky;top:0px;z-index:1;" class="w-100 d-flex flex-row white">
+        
                 <div class="container d-flex flex-row">
                     <a href="index.php">
                         <img class="img1" src="../img/cpu.png" alt="logo">
@@ -34,15 +36,20 @@
                             if(isset($_SESSION['userId'])){
                                 echo'<form action="includes/logout.inc.php" method="post">
                                 <div class="d-flex jcfe">
-                                <div><button type="submit" class="text-deco-none signup-button-field mr-2 text-black pr-1 b-0" name="logout-submit">Logout</button></div>
+                                <div class="cart-btn">
+                                <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                <div class="cart-items">0</div>
+                                </div>
+                                <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
                                 </div>
                                 </form>';
                             }
                             else{
                                 echo'
                                 <div class="container d-flex flex-row jcfe">
-                                    <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
-                                    <div><a class="text-deco-none text-black pr-1 mr-2 nav" href="../login.php" class="loginphp">Login</a></div>
+                                    <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                    <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
                                 </div>
                                 ';
                             }
@@ -50,23 +57,27 @@
                     </div>
                 </div>
                 <div class="bg-color">
-                <div class="m-0 p-0 pb-3 w-100">
-                            <h1 align="left"  style="font-size:30px;" class="text-black px-3 pt-3 ">Completed Builds</h1>
-                            <div class="b-1 ml-2 accent mr-4" ></div>
-                                <div class="d-flex flex-wrap">
-                                        <?php
-                                            getMainPageCompletedBuilds();
-                                        ?>
-                                 </div>
-                            </div>
+                    <div class="container pt-sm">
+                        <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > Completed Builds</div>
+                            <div class=" pb-3 w-100">
+                                <h1 align="left"  style="font-size:30px;" class="text-black px-3 pt-3 ">Completed Builds</h1>
+                                <div class="b-1 ml-2 accent mr-4" ></div>
+                                    <div class="d-flex flex-wrap">
+                                            <?php
+                                                getMainPageCompletedBuilds();
+                                            ?>
+                                    </div>
+                                </div>
                         </div>
-                        
+                        </div>  
           
           </div>
 
  <div class=" text-center">
  <div style="background:gray" class=" pt-3 pb-3 d-flex flex-col">
+                    
                <div class="d-flex jcc">
+                    
                     <div style="width:200px;" class="mr-2 mb-2">
                          <h3 align='left'>Categories</h3>
                          <div class='b-1 text-white mb-1'></div>

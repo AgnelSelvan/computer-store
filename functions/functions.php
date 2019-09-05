@@ -3,32 +3,76 @@ error_reporting(0);
 include('../includes/dbh.inc.php');
 session_start();
 
+//begin getRealIpUser ///
+
+function getRealIpUser(){
+     switch(true){
+          case(!empty($_SERVER['HTTP_X_REAL_IP'])) : return $_SERVER['HTTP_X_REAL_IP'];
+          case(!empty($_SERVER['HTTP_CLIENT_IP'])): return $_SERVER['HTTP_CLIENT_IP'];
+          case(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])): return $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+          default: return $_SERVER['REMOTE_ADDR'];
+     }
+}
+
+//End getRealIpUser ///
+
+function add_cart(){
+     global $conn;
+     if (isset($_POST['add_cart'])) {
+          $ip_add = getRealIpUser();
+          $p_id = $_GET['add_cart'];
+          $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
+          $run_product = mysqli_query($conn, $check_product);
+          $part_qty = $_GET['part_qty'];
+          if (my_sqli_rows($run_product) > 0) {
+               echo"<script>alert('This product had already added in cart')</script>";
+               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+          } else {
+               $query = "INSERT INTO cart(cID, ipAddr, productid, quantity) VALUES (null, '$ip_add', '$p_id','$part_qty');";
+               $check = mysqli_query($conn, $query);
+               if($check){
+                    echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+               }
+               
+          }
+          
+     }
+}
+
+// Begin Add Cart//
+
+//End Add Cart
+
+
 function getpcPart(){
      global $conn;
-     $query = "SELECT * FROM pcPart;";
+     $query = "SELECT * FROM pcpart;";
      $check = mysqli_query($conn, $query);
      while ($row = mysqli_fetch_assoc($check)) {
-          $PartID = $row['partName'];
+          $partname = $row['partName'];
+          $partID = $row['pcPartID'];
           echo "
-          <div style='width:235px;' class=' fade-in shadow-md white ml-2 mr-1 mt-2 p-1 b-rad-5'>
-               <img class='img2' src='admin/upload/".$row['image']."'/>
-               <div style='font-size:20px;' class='p-1 text-center'>";
-               $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$PartID';";
+          <div style='width:13%;'  class='mt-2 mr-2 fade-in shadow-md white b-rad-5'>
+               <img class='img2 m-1' src='admin/upload/".$row['image']."'/>
+               <div style='font-size:20px;' class='text-center'>";
+               $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
                $connect = mysqli_query($conn, $q);
                if($connect){
                     while($partrow = mysqli_fetch_row($connect)){
                          $partName = $partrow[1];
                     }
                }
-               echo"<h2>$partName</h2><br>";
+               echo"<h3>$partName</h3><br>";
                echo"<div class='text-primary'>
-               <p >{$row['partDesc']}</p>
-               <p>Quantity:{$row['qty']}</p>
-               <b>Price:&#8377;</b>{$row['price']}<p>
-               </div>
-               <div class='my-1'>
-                    <a class='button-field text-deco-none  shadow-md' href='index.php?{$partName}'>Add to cart</a>
-               </div>
+                         <p >{$row['partDesc']}</p>
+                         <p>Quantity:{$row['qty']}</p>
+                         <div class='m-1'><b style='color:#28AB87'>&#8377;{$row['price']}/-</b></div>
+                    </div>
+                    <div class='mb-3 mt-2'>
+                         <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
+                         <a class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
+                    </div>
           </div>
           </div>
           ";
@@ -94,6 +138,7 @@ function loginORnot(){
 
 function uploadCompleteBuild(){
      if(isset($_POST['upload'])){
+          global    $conn;
           $file = $_FILES['file'];
           //print_r($file);
           $fileName = $_FILES['file']['name'];

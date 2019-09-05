@@ -28,8 +28,8 @@
              }
 </style>
 <div class="">
-     <h1 style="color:#003426;">My Orders</h1> 
-     <p style="color:gray">If u have any question, feel free to <a href="../contact.php">Contact us</a>. Our Customer service work <strong>24 &#10006; 7</strong> </p>
+     <h1 style="font-size:30px;color:#003426;">My Orders</h1> 
+     <p style="color:gray; margin:30px;">If u have any question, feel free to <a href="../contact.php">Contact us</a>. Our Customer service work <strong>24 &#10006; 7</strong> </p>
      <hr>
      <div class="mt-3">
           <center>

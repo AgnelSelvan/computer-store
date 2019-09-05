@@ -24,8 +24,12 @@
                 top: -8px;
                 right: -8px;
                 background: #28AB87;
-                padding: 0 5px;
+                padding: 0 10px;
                 border-radius: 30%;
+                color: white;
+            }
+            .navactive{
+                background: black;
                 color: white;
             }
         </style>
@@ -38,7 +42,7 @@
                         <img class="img1" src="./img/cpu.png" alt="logo">
                     </a>
                     <ul class="d-flex flex-row ls-none ">
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
+                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php?home">Home</a></li>
                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
