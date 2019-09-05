@@ -27,13 +27,11 @@ function getpcPart(){
                <b>Price:&#8377;</b>{$row['price']}<p>
                </div>
                <div class='my-1'>
-                    <a class='button-field text-deco-none' href='index.php?{$partName}'>Add to cart</a>
+                    <a class='button-field text-deco-none  shadow-md' href='index.php?{$partName}'>Add to cart</a>
                </div>
           </div>
           </div>
-          ";if(isset($_GET[$partName])){
-               echo"<script>alert('Added to cart')</script>";
-          }
+          ";
      }
      
 }
@@ -66,7 +64,7 @@ function getCompleteBuilts(){
                     Ram Capacity:</b> {$row['ram_capacity']}GB</p>
                </div>
                <div class='my-1'>
-               <a class='button-field text-deco-none' href='buy/buyOrLogin.php'>Buy Now<a></div>
+               <a class='button-field text-deco-none shadow-md' href='index.php?{$p_id}'>Add to cart<a></div>
           </div>"
           ;} 
 }
@@ -86,7 +84,7 @@ function loginORnot(){
           echo'
           <div class="container d-flex flex-row jcfe">
               <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
-              <div><a class="text-deco-none text-black pr-1 mr-2 nav" href="login.php" class="loginphp">Login</a></div>
+              <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="login.php">Login</a></div>
           </div>
           ';
       }

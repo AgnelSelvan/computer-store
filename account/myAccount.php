@@ -14,6 +14,16 @@
         <link rel="stylesheet" href="../customstyle.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style>
+          .myAcc{
+               color:#28AB87;
+               background: white;
+          }
+          .myAcc:hover{
+               background: #fff;
+
+          }
+        </style>
      </head>
      <body>
           <div class="w-100 d-flex flex-row white">
@@ -58,21 +68,22 @@
                                    <div class="pt-1"><img style="width:90%;" class="b-rad-2" src="../haha.jpeg" alt="My photo"/></div>
                                    <div style="font-size:20px;" class="m-1"><i class="material-icons mx-1 mb-2">person</i>Name: Mr.Agnel Selvan</div>
                               </div>
-                              <div class="my-3 mx-2">
-                                   <div class="my-2">
-                                        <div style=" font-size:24px; color:#28AB87" class='m-1 profile <?php if(isset($_GET['myOrders'])){echo'linkactive';}?>'><a style="float: left;" class="text-deco-none" href="myAccount.php?myOrders"><i style="padding-right:24px;" class="material-icons">view_list</i>My Orders</a></div><br>
+                              <div class="mt-3 mx-2 ">
+                                   <div class="mx-2 myAcc" style=" height:50px;">
+                                        <div style=" font-size:24px; color:#28AB87;"><a style="float: left;" class="text-deco-none" href="myAccount.php?myOrders"><i style="padding-right:24px;" class="material-icons">view_list</i>My Orders</a></div>
+                                        <br>
                                    </div>
-                                   <div class="my-2">
-                                        <div style=" font-size:24px; color:#28AB87" class='m-1 profile <?php if(isset($_GET['editAccount'])){echo'linkactive';}?>'><a style="float: left;" class="text-deco-none" href="myAccount.php?editAccount"><img style="padding-right:24px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAdklEQVRIx2NgGAVAoL66o0ZjdfsHzVXt4VQ3HGhwAxD/h+I/6ms6YmhpAQj/popPNFa12eOyBBhk76nl6gZsloDihJpBgm5JAzUNh7q4vYMWkYmOHWhpeP2o4aOG08FwqAW0M5yABfXUKnppZzgOC6hn+CjABQA9zTJfDzuYPAAAAABJRU5ErkJggg==">Edit Account</a></div><br>
+                                   <div class="my-2 mx-2 myAcc" style=" height:50px;">
+                                        <div style=" font-size:24px; color:#28AB87"><a style="float: left;" class="text-deco-none" href="myAccount.php?editAccount"><img style="padding-right:24px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAdklEQVRIx2NgGAVAoL66o0ZjdfsHzVXt4VQ3HGhwAxD/h+I/6ms6YmhpAQj/popPNFa12eOyBBhk76nl6gZsloDihJpBgm5JAzUNh7q4vYMWkYmOHWhpeP2o4aOG08FwqAW0M5yABfXUKnppZzgOC6hn+CjABQA9zTJfDzuYPAAAAABJRU5ErkJggg==">Edit Account</a></div><br>
                                    </div>
-                                   <div class="my-2">
-                                        <div style=" font-size:24px; color:#28AB87" class='m-1 profile <?php if(isset($_GET['changePassword'])){echo'linkactive';}?>'><a style="float: left;" class="text-deco-none" href="myAccount.php?changePassword"><img style="padding-right:24px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAj0lEQVRIx2NgGAVAoLG6vUF9dXsHzQwH4v8gTHVLkA2nuiXYDKelT8AG0zKSB5kF2qsa2NRXd3QCNT3DFc7IBpJsASiS8BlMsQVAxU/Bmla1WdIkiEjRoL62zRqq/gnZFhATXBqr21ppZcETkOGghDGacSgDmqvby/GEcz0tLamnpU/qaRUHoLK+YbQxAAIAGfH0e4msKQoAAAAASUVORK5CYII=">Change Password</a></div><br>
+                                   <div class="my-2 mx-2 myAcc" style=" height:50px;">
+                                        <div style=" font-size:24px; color:#28AB87"><a style="float: left;" class="text-deco-none" href="myAccount.php?changePassword"><img style="padding-right:24px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAj0lEQVRIx2NgGAVAoLG6vUF9dXsHzQwH4v8gTHVLkA2nuiXYDKelT8AG0zKSB5kF2qsa2NRXd3QCNT3DFc7IBpJsASiS8BlMsQVAxU/Bmla1WdIkiEjRoL62zRqq/gnZFhATXBqr21ppZcETkOGghDGacSgDmqvby/GEcz0tLamnpU/qaRUHoLK+YbQxAAIAGfH0e4msKQoAAAAASUVORK5CYII=">Change Password</a></div><br>
                                    </div>
-                                   <div class="my-2">
-                                        <div style=" font-size:24px; color:#28AB87" class='m-1 profile <?php if(isset($_GET['deleteAccount'])){echo'linkactive';}?>'><a style="float: left;" class="text-deco-none" href="myAccount.php?deleteAccount"><i style="padding-right:24px;" class="material-icons">delete</i>Delete Account</a></div><br>
+                                   <div class="my-2 mx-2 myAcc" style=" height:50px;">
+                                        <div style=" font-size:24px; color:#28AB87"><a style="float: left;" class="text-deco-none" href="myAccount.php?deleteAccount"><i style="padding-right:24px;" class="material-icons">delete</i>Delete Account</a></div><br>
                                    </div>
-                                   <div class="my-2">
-                                        <div style=" font-size:24px; color:#28AB87" class='m-1 profile <?php if(isset($_GET['logout'])){echo'linkactive';}?>'><a style="float: left;" class="text-deco-none" href="../includes/logout.inc.php"><img style="padding-right:24px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAd0lEQVRIx2NgGLZAc1WHt8bq9idA/J8Afqy2usOTZAtAGokwHIzV17Q/IseC/6TgUQsGjwXqq9s7aGoBOFURYwklFhBlCanhjDV/4LOEGhYAcT3Nggiv4VSwoJ6WkdwwmpOHjgW0rXBA1SAxloAMV1/V7jF8Gw8AqRdDbiMaXNIAAAAASUVORK5CYII=">Logout</a></div><br>
+                                   <div class="my-2 mx-2 myAcc" style=" height:50px;">
+                                        <div style=" font-size:24px; color:#28AB87"><a style="float: left;" class="text-deco-none" href="../includes/logout.inc.php"><img style="padding-right:24px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAd0lEQVRIx2NgGLZAc1WHt8bq9idA/J8Afqy2usOTZAtAGokwHIzV17Q/IseC/6TgUQsGjwXqq9s7aGoBOFURYwklFhBlCanhjDV/4LOEGhYAcT3Nggiv4VSwoJ6WkdwwmpOHjgW0rXBA1SAxloAMV1/V7jF8Gw8AqRdDbiMaXNIAAAAASUVORK5CYII=">Logout</a></div><br>
                                    </div>
                               </div>
                           </div>

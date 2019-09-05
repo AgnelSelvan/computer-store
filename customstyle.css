@@ -57,7 +57,7 @@ body{
      background: #fff;
  }
  .button-field{
-     background: black;
+     background: #009879;
      color: aliceblue;
      border: 0;
      width: 180px;
@@ -76,16 +76,16 @@ body{
      font-size: 18px; 
      border-radius: 10px;
      outline: none;
-     background: #181818;
+     background: #009879;
  }
  .nav{
       background: #fff;
-      color: #181818;
+      color: #009879;
       padding:14px 16px;
  }
  .nav:hover{
       color: #fff;
-      background: #181818;
+      background: #009879;
       padding:14px 16px;
       border-radius: 13px;
  }
@@ -126,18 +126,3 @@ body{
  .close{
       display: none;
  }
-.profile{
-     background: #fff;
-      color: #28AB87;
-      padding:14px 16px;
-}
-.profile:hover{
-      color: #28AB87;
-      background: #eeeeee;
-      padding:14px 16px;
-      border-radius: 13px;
-}
-.linkactive{
-     background: #28AB87;
-     color: white;
-}
