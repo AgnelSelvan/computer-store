@@ -1,0 +1,143 @@
+.img1{
+     width:50px;
+}
+.bg-color{
+     background: #E0E0E0;
+}
+
+body{
+     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.img2{
+     width: 200px;
+     height: 200px;
+}
+.ml-50{
+     margin-left: 25%
+}
+.input-field{
+     padding: 15px;
+     border: 1px solid #E0E0E0;
+     border-radius: 10px;
+     margin: 10px;
+     width: 250px;
+     background: #fff; 
+     transition: ease-in-out, width .35s ease-in-out;
+ }
+ .input-field:focus{
+     outline: none;
+     width: 270px;
+     border: 2px solid #696969;
+ }
+ 
+ .input-field-l{
+     padding: 15px;
+     border: 1px solid #E0E0E0;
+     border-radius: 10px;
+     margin: 10px;
+     width: 250px;
+     background: #E0E0E0; 
+     transition: ease-in-out, width .35s ease-in-out;
+ }
+ .input-field-l:focus{
+     outline: none;
+     width: 270px;
+     border: 2px solid #696969;
+ }
+ 
+ .signup-button-field{
+     background: #28AB87;
+     color: aliceblue;
+     padding:14px 16px;
+     border-radius: 10px;
+     outline: none;   
+ }
+ .signup-button-field:hover{
+     color: #28AB87;
+     background: #fff;
+ }
+ .button-field{
+     background: black;
+     color: aliceblue;
+     border: 0;
+     width: 180px;
+     font-size: 16px;
+     padding:14px;
+     margin-top: 10px;
+     border-radius: 10px;
+     outline: none;   
+     margin-bottom: 20px;
+ }
+ .button-field:hover{
+     outline: none;
+     color: white;
+     border: 0;
+     width: 200px;
+     font-size: 18px; 
+     border-radius: 10px;
+     outline: none;
+     background: #181818;
+ }
+ .nav{
+      background: #fff;
+      color: #181818;
+      padding:14px 16px;
+ }
+ .nav:hover{
+      color: #fff;
+      background: #181818;
+      padding:14px 16px;
+      border-radius: 13px;
+ }
+ .footer-link{
+      color: #E0E0E0;
+ }
+ .footer-link:hover{
+      color: #181818;
+      border: 2px solid #181818;
+ }
+ .footer-hover{
+      color: #181818;
+ }
+ .footer-hover:hover{
+      color: white;
+ }
+ .forgetpass{
+      color: black;
+      font-size: 16px;
+ }
+ .box select{
+     background: #181818;
+     color: #fff;
+     padding: 10px;
+     width: 250px;
+     height: 50px;
+     font-size: 12px;
+     box-shadow: 0 5px 25px rgba(0, 0, 0, .5);
+     -webkit-appearance: button;
+ }
+ .box:before{
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: #E0E0E0;
+ }
+ .close{
+      display: none;
+ }
+.profile{
+     background: #fff;
+      color: #28AB87;
+      padding:14px 16px;
+}
+.profile:hover{
+      color: #28AB87;
+      background: #eeeeee;
+      padding:14px 16px;
+      border-radius: 13px;
+}
+.linkactive{
+     background: #28AB87;
+     color: white;
+}
