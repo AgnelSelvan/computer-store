@@ -55,10 +55,10 @@
                         ?>
                 </div>
             </div>
-            <!-- <div style=" background:gray">
+            <div style=" background:gray">
                 <div class="<?php if(isset($_GET['close'])){echo'close';} ?>">
                     <div style="margin:10px;">
-                        <div class="container d-flex flex-row">
+                        <div class="container d-flex flex-row jcc">
                             <div style="background:#28AB87" class="text-white p-sm b-rad-2">
                                 Welcome!
                             </div>
@@ -69,30 +69,15 @@
                             <div class="text-white my-sm">
                                 Total Price: &#8377; 1000
                             </div>
-                            <div style="margin-left:400px;" class="">
-                                <div class="d-flex">
-                                    <div class="text-white m-sm">
-                                        Register
-                                    </div>
-                                    <div style="border:1px solid white; height:20px; margin:10px;"></div>
-                                    <div class="text-white m-sm">
-                                        Login
-                                    </div>
-                                    <div style="border:1px solid white; height:20px; margin:10px;"></div>
-                                    <div class="text-white m-sm">
-                                        My Account
-                                    </div>
-                                    <div>
-                                        <a href="index.php?close">
-                                            <button name="close">&#10006;</button>
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class=" ml-2">
+                                <a href="index.php?close">
+                                    <button class="" style='padding:6px;color:#28AB87;' name="close">&#10006;</button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
                 <div class="primary bg-color">
                     <div class="d-flex flex-col jcs">

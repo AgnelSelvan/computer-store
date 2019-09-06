@@ -162,6 +162,7 @@
                               <a href="#" style="padding:10px 14px;margin-top:20px;width:170px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md"><img class="pr-sm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAADfSURBVDgR1cFLLkMBFADQG2GEdsAOtHP1GYpILYs+YhM+a3iJmImk6SJKbUF5A2rQ2VH/9+mgQ86Jf8CeC7devBo4tx/TOYoJTTfKeppRhcS2DA+OtdQsajkwRGYnyrwb49JK5KhJkWlEkU9981FiTopuFPmWRIW6IdqR51cSFTo4i9lpYRCzs4xR5BlhOWbnHusxO+c4jAqJH5FnH0O1qJD4EkV6SM1FiQV9H6JIU4ZUPXKsusLYRJTZkeFRx4YldZtOPOLJloSo0tBVdm0tJhzFdNrO3Bl51ndqN/6+N0OOEsZruO+6AAAAAElFTkSuQmCC">Update Cart</a>
                               <a href="#" style="padding:10px 14px;margin-top:20px;width:170px;background:#28AB87; border:none; color:white;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout<img class="pl-sm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAADySURBVDjL1dLdK4NxFAfwkxts5CVZrc1LNitv5Z9252ZqmWlChiSlUPJuw/6Kjxs95cLzuORcnYvvp1/nnF/E3y1FDeWvft2mXBbYwL3ZCAMu0c4gxhzj2UKEqi4OjGSRDl5UIlT1sC+fTvL28KoSYVEPO4azSBvvln5PcnbxYTlCTQ/NbNJC30qEmjc0DaWTQVvoW03IdiqRs4O+tQjVzDeSKVYiVHTRSpni255mPOIw5Rrfjlf2gKOUext3knyPkjt0jKbFT/FkPkLBNc5N/ByfcIZbpQjTrnBhMm2VddwoRkRoZMYjzGkoJH3dVPyX+gSghAV/M/LrRQAAAABJRU5ErkJggg=="></a>
                          </div>
+                         
                     </div>
                </div>
           </div>

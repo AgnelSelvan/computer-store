@@ -2,7 +2,51 @@
 error_reporting(0);
     require "../../includes/dbh.inc.php";
     include('../../functions/functions.php');
-    uploadCompleteBuild();
+    if(isset($_POST['upload'])){
+        global    $conn;
+        $file = $_FILES['file'];
+        //print_r($file);
+        $fileName = $_FILES['file']['name'];
+        $fileTmpName = $_FILES['file']['tmp_name'];
+
+        $folder = "uploadedimages/".$fileName;
+        move_uploaded_file($fileTmpName, $folder);
+
+        $compName = $_POST['compName'];
+        $compType = $_POST['comp_type'];
+        $motherboard = $_POST['motherboard'];
+        $processor = $_POST['processor'];
+        $pcDetailPrice = $_POST['pcDetailPrice'];
+        $harddisk = $_POST['harddisk'];
+        $monitor_company = $_POST['monitorCompany'];
+         $monitor_display = $_POST['monitorDisplay'];
+         $graphics_card_type = $_POST['graphicsCardType'];
+         $graphics_card = $_POST['graphicsCard'];
+         $keyboard_company = $_POST['keyboardCompany'];
+         $mouse_company = $_POST['mouseCompany'];
+         $speaker_company = $_POST['speakerCompany'];
+         $ram_type = $_POST['ramType'];
+         $ram_company = $_POST['ramCompany'];
+         $ram_capacity = $_POST['ramCapacity'];
+
+          if(empty($compType) || empty($motherboard) || empty($processor) || empty($pcDetailPrice) || empty($harddisk) || empty($monitor_company) || empty($monitor_display) || empty($graphics_card_type) || empty($graphics_card) || empty($keyboard_company) || empty($mouse_company) || empty($speaker_company) || empty($ram_type) || empty($ram_company) || empty($ram_capacity)){
+            header("location: upload_pc_details.php?error=emptyfield");
+          }
+          else{
+            $query = "INSERT INTO pc_details VALUES(NULL,'$folder','$compName', '$compType', '$motherboard', '$processor','$pcDetailPrice' , '$harddisk', '$monitor_company', '$monitor_display', '$graphics_card_type', '$graphics_card', '$keyboard_company', '$mouse_company', '$speaker_company', '$ram_type', '$ram_company', '$ram_capacity') ;";
+            
+            $check = mysqli_query($conn, $query);
+            if($check){
+                
+                header("LOCATION: upload_pc_details.php?data=success");
+                
+            }
+            else{
+                header("LOCATION: upload_pc_details.php?data=unsuccess");
+
+            }
+          }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +59,8 @@ error_reporting(0);
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-        <script>tinymce.init({selector:'textarea'});</script>
+        <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>tinymce.init({selector:'textarea'});</script> -->
     </head>
     <body class="bg-color">
         <div class="w-100 d-flex flex-row white">
