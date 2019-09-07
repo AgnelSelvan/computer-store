@@ -1,4 +1,3 @@
-
 <?php
     require "../includes/dbh.inc.php";
     include('../functions/functions.php');

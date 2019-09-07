@@ -40,18 +40,18 @@
      if (isset($_GET['add_cart'])) {
           $ip_add = getRealIpUser();
           $p_id = $_GET['add_cart'];
-          //  $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
-          //  $run_product = mysqli_query($conn, $check_product);
-          //  $part_qty = $_GET['quantity'];
-          //  if (my_sqli_rows($run_product) > 0) {
-          //       echo"<script>alert('This product had already added in cart')</script>";
-          //       echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-          //  } else {
+            $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
+            $run_product = mysqli_query($conn, $check_product);
+            $part_qty = $_POST['quantity'];
+            if (mysqli_fetch_array($run_product) > 0) {
+                 echo"<script>alert('This product has already added in cart')</script>";
+                 echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+            } else {
                $query = "INSERT INTO cart(cID, ipAddr, productid, quantity) VALUES (null, '$ip_add', '$p_id','$part_qty');";
                $check = mysqli_query($conn, $query);
                if($check){
                     echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
-          //     }
+               }
                
           }
           
@@ -95,29 +95,22 @@
                               <img width="400px" src="admin/upload/<?php echo $image ; ?>" alt="">
                          </div>
                          <div style="width:100%" class="white p-1 shadow-md aic">
-                              <div class=" white pt-1 ">
-                                   <h3><b><?php echo $partTitle; ?></b></h3>
+                              <div class=" white pt-1 container">
+                                   <h3 class=""><b><?php echo $partTitle; ?></b></h3>
                               </div>
-                              <div class="white p-sm">
+                              <div class="white p-sm container">
                                    <?php
                                    
                                    
-                                   if(isset($_GET['part_det'])){
+                                   if(isset($_GET['part_det']) || isset($_GET['add_cart'])){
                                    echo'
-                                        <form action="details.php?add_cart='?><?php echo $productID; echo'" method="GET">
-                                             <div>
-                                                  <input type="text" style="width:20%;" name="quantity" placeholder="Enter quantity...">
-                                             </div>
-                                             <div class="pt-sm">
-                                                  &#8377;';
-                                             echo $price; 
-                                             echo'
-                                             </div>
-                                             <div class="m-1">
-                                                  <button class="btn text-deco-none p-sm fas fa-cart-plus">Add to cart</button>
-                                                  <a style="background:#28AB87; color:white" class="btn text-deco-none p-sm" href="details.php?add_cart='?><?php echo $productID; echo'"><i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>Add to cart</a>
-                                             </div>
-                                        </form>
+                                        <div>
+                                             <form action="details.php?add_cart='?><?php echo $productID; echo'" method="POST">
+                                                  <input class="input-field" type="number" style="" name="quantity" placeholder="Enter quantity...">
+                                                  <div><button style="background:#28AB87; color:white" class="px-1 py-sm mt-1 b-0 b-rad-1 fas fa-cart-plus">Add to cart</button></div>
+                                             </form>
+                                        </div>
+                                        
                                         ';
                                         
                                    }
@@ -137,7 +130,18 @@
                                              
                                         }
                                    ?>
-                              
+<!--                               
+                              <div>
+                                        <input type="text" style="width:20%;" name="quantity" placeholder="Enter quantity..." value="1">
+                                   </div>
+                                   <div class="pt-sm">
+                                        &#8377;';
+                                   echo $price; 
+                                   echo'
+                                   </div>
+                                   <div class="m-1">
+                                        <a style="background:#28AB87; color:white" class="btn text-deco-none p-sm" href="details.php?add_cart='?>// echo $productID; echo'"><i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>Add to cart</a>
+                                   </div> -->
                               </div>
                          </div>
                     </div>
@@ -146,7 +150,7 @@
                               <h3 class="p-sm" style="background:#28AB87; color:white;">Products Details</h3>
                          </div>
                          <div class="mx-1 pb-1" style="font-size:18px;">
-                              <p><?php if(isset($_GET['part_det'])){ echo $desc; }?></p>
+                              <p><?php if(isset($_GET['part_det']) || isset($_GET['add_cart'])){ echo "<div class='container p-2'>$desc</div>"; }?></p>
                               <p class="text-left">
                                    <?php
                                         if(isset($_GET['pc_det'])){
@@ -222,7 +226,7 @@
                     </div>
                <div class="d-flex jcc">
                     <?php
-                         if(isset($_GET['part_det'])){
+                         if(isset($_GET['part_det']) || isset($_GET['add_cart'])){
                               $selectQuery = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3";
                               $runQuery = mysqli_query($conn, $selectQuery);
                               while($row = mysqli_fetch_array($runQuery)){
