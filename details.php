@@ -130,18 +130,6 @@
                                              
                                         }
                                    ?>
-<!--                               
-                              <div>
-                                        <input type="text" style="width:20%;" name="quantity" placeholder="Enter quantity..." value="1">
-                                   </div>
-                                   <div class="pt-sm">
-                                        &#8377;';
-                                   echo $price; 
-                                   echo'
-                                   </div>
-                                   <div class="m-1">
-                                        <a style="background:#28AB87; color:white" class="btn text-deco-none p-sm" href="details.php?add_cart='?>// echo $productID; echo'"><i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>Add to cart</a>
-                                   </div> -->
                               </div>
                          </div>
                     </div>
@@ -223,7 +211,7 @@
                     </div>
                <div style="" class="white mt-1 p-1">
                         <b> Products You may also like</b>
-                    </div>
+               </div>
                <div class="d-flex jcc">
                     <?php
                          if(isset($_GET['part_det']) || isset($_GET['add_cart'])){

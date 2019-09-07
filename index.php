@@ -117,7 +117,7 @@
                                             Welcome!
                                         </div>
                                         <div class="text-white m-sm">
-                                            5 Items in your cart
+                                            '?><?php cartcount(); echo' Items in your cart
                                         </div>
                                         <div style="border:1px solid white; height:20px; margin:10px;"></div>
                                         <div class="text-white my-sm">

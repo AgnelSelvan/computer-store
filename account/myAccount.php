@@ -40,31 +40,12 @@
                 </div>
                 <div class="container">
                         <?php
-                            if(isset($_SESSION['userId'])){
-                              echo'<form action="includes/logout.inc.php" method="post">
-                              <div class="d-flex jcfe">
-                              <div class="cart-btn">
-     <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-     <div class="cart-items">0</div>
-     </div>
-     <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href=".myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                              <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
-                              </div>
-                              </form>';
-                          }
-                          else{
-                              echo'
-                              <div class="container d-flex flex-row jcfe">
-                                  <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
-                                  <div><a class="text-deco-none text-black pr-1 mr-2 nav" href="login.php" class="../loginphp">Login</a></div>
-                              </div>
-                              ';
-                          }
+                            loginORnot();
                         ?>
                 </div>
           </div>
           <div class="primary bg-color">
-               <div class="container">
+               <div style="position:sticky;top:0px;z-index:1;" class="container">
                     <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > My Account</div>
                     <div class="d-flex">
                           <div style="width:30%;" class="white mr-1 b-rad-2 shadow-sm ">
