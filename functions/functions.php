@@ -19,25 +19,7 @@ function getRealIpUser(){
 
 function add_cart(){
      global $conn;
-     if (isset($_POST['add_cart'])) {
-          $ip_add = getRealIpUser();
-          $p_id = $_GET['add_cart'];
-          $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
-          $run_product = mysqli_query($conn, $check_product);
-          $part_qty = $_GET['part_qty'];
-          if (my_sqli_rows($run_product) > 0) {
-               echo"<script>alert('This product had already added in cart')</script>";
-               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-          } else {
-               $query = "INSERT INTO cart(cID, ipAddr, productid, quantity) VALUES (null, '$ip_add', '$p_id','$part_qty');";
-               $check = mysqli_query($conn, $query);
-               if($check){
-                    echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
-               }
-               
-          }
-          
-     }
+     
 }
 
 // Begin Add Cart//
@@ -95,7 +77,7 @@ function getCompleteBuilts(){
                </div>
                <div class='my-1'>
                <a class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Details<a>
-               <a class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Add to cart<a></div>
+               <a class='button-field text-deco-none shadow-md' href='details.php?add_cart={$p_id}'>Add to cart<a></div>
           </div>"
           ;} 
 }

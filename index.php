@@ -2,6 +2,7 @@
     require "./includes/dbh.inc.php";
     include('./functions/functions.php');
     session_start();
+    
 ?>
 <!DOCTYPE html>
  <html class="no-js">
@@ -56,29 +57,36 @@
                 </div>
             </div>
             <div style=" background:gray">
-                <div class="<?php if(isset($_GET['close'])){echo'close';} ?>">
-                    <div style="margin:10px;">
-                        <div class="container d-flex flex-row jcc">
-                            <div style="background:#28AB87" class="text-white p-sm b-rad-2">
-                                Welcome!
+                <?php
+                    if(isset($_SESSION['userId'])){
+                        echo'
+                            <div class="?><?php if(isset($_GET["close"])){echo "close";}">
+                                <div style="margin:10px;">
+                                    <div class="container d-flex flex-row jcc">
+                                        <div style="background:#28AB87" class="text-white p-sm b-rad-2">
+                                            Welcome!
+                                        </div>
+                                        <div class="text-white m-sm">
+                                            5 Items in your cart
+                                        </div>
+                                        <div style="border:1px solid white; height:20px; margin:10px;"></div>
+                                        <div class="text-white my-sm">
+                                            Total Price: &#8377; 1000
+                                        </div>
+                                        <div class=" ml-2">
+                                            <a href="index.php?close">
+                                                <button class="" style="padding:6px;color:#28AB87;" name="close">&#10006;</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-white m-sm">
-                                5 Items in your cart
-                            </div>
-                            <div style="border:1px solid white; height:20px; margin:10px;"></div>
-                            <div class="text-white my-sm">
-                                Total Price: &#8377; 1000
-                            </div>
-                            <div class=" ml-2">
-                                <a href="index.php?close">
-                                    <button class="" style='padding:6px;color:#28AB87;' name="close">&#10006;</button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        ';
+                    }
+                ?>
+                
         </div>
+    </div>
                 <div class="primary bg-color">
                     <div class="d-flex flex-col jcs">
                         <div class="m-0 p-0 w-100">
@@ -86,7 +94,37 @@
                         <div class="b-1 text-white mr-3 ml-2"></div>
                             <div class="d-flex flex-wrap jcc">
                                     <?php
-                                        getpcPart();
+                                        $query = "SELECT * FROM pcpart;";
+                                        $check = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_assoc($check)) {
+                                             $partname = $row['partKeyword'];
+                                             $partID = $row['pcPartID'];
+                                             echo "
+                                             <div style='width:13%;'  class='mt-2 mr-2 fade-in shadow-md white b-rad-5'>
+                                                  <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                                  <div style='font-size:20px;' class='text-center'>";
+                                                  $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
+                                                  $connect = mysqli_query($conn, $q);
+                                                  if($connect){
+                                                       while($partrow = mysqli_fetch_row($connect)){
+                                                            
+                                                       }
+                                                       
+                                                  }
+                                                  echo"<h4 class='m-1'>{$row['partTitle']}</h4><br>";
+                                                  echo"<div class='text-primary'>
+                                                            <b></b>
+                                                            <p>Quantity:{$row['qty']}</p>
+                                                            <div class='m-1'><b style='color:#28AB87'>&#8377;{$row['price']}/-</b></div>
+                                                       </div>
+                                                       <div class='mb-3 mt-2'>
+                                                            <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
+                                                            <a  class='button-field text-deco-none shadow-md' href='index.php?add_det={$partID}'>Add to cart</a>
+                                                       </div>
+                                             </div>
+                                             </div>
+                                             ";
+                                        }
                                     ?>
                             </div>
                         </div>

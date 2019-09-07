@@ -4,8 +4,13 @@
      include("./functions/functions.php");
 ?>
 <?php
-               if(isset($_GET['part_det'])){
-                    $productID = $_GET['part_det'];
+               if(isset($_GET['part_det']) || isset($_GET['add_cart'])){
+                    if(isset($_GET['part_det'])){
+                         $productID = $_GET['part_det'];
+                    }
+                    else{
+                         $productID = $_GET['add_cart'];
+                    }
                     $selQuery = "SELECT * FROM pcpart WHERE pcPartID='$productID'";
                     $runQuery = mysqli_query($conn, $selQuery);
                     $row = mysqli_fetch_array($runQuery);
@@ -30,6 +35,26 @@
           $image = $row['pc_image'];
           $partTitle = $row['pcName'];
           $price = $row['pcPrice'];
+     }
+
+     if (isset($_GET['add_cart'])) {
+          $ip_add = getRealIpUser();
+          $p_id = $_GET['add_cart'];
+          //  $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
+          //  $run_product = mysqli_query($conn, $check_product);
+          //  $part_qty = $_GET['quantity'];
+          //  if (my_sqli_rows($run_product) > 0) {
+          //       echo"<script>alert('This product had already added in cart')</script>";
+          //       echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+          //  } else {
+               $query = "INSERT INTO cart(cID, ipAddr, productid, quantity) VALUES (null, '$ip_add', '$p_id','$part_qty');";
+               $check = mysqli_query($conn, $query);
+               if($check){
+                    echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+          //     }
+               
+          }
+          
      }
 ?>
      <div class="container">
@@ -62,7 +87,7 @@
              }
           </style>
           <div class="w-min-100">
-               <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="./index.php">Home</a> > Details > <a href="" style="color:#28AB87;" class="text-deco-none"><?php echo $compName ;?></a><a href="./builds/completed_build.php" style="color:#28AB87;" class="text-deco-none">Completed Builds</a>   > <?php echo $partTitle;  ?></div>
+               <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="./index.php">Home</a> > Details > <a href="" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['part_det'])){ echo $compName ;} ?></a><a href="./builds/completed_build.php" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['pc_det'])){ echo "Completed Builds" ;} ?></a>   > <?php echo $partTitle;  ?></div>
           </div>
           <div class="container">
                     <div class="w-min-100 d-flex mb-1">
@@ -75,26 +100,26 @@
                               </div>
                               <div class="white p-sm">
                                    <?php
+                                   
+                                   
                                    if(isset($_GET['part_det'])){
                                    echo'
-                                        <form action="">
-                                             <select style="width:20%;" name="quantity" id="">
-                                                  <option value="">1</option>
-                                                  <option value="">2</option>
-                                                  <option value="">3</option>
-                                                  <option value="">4</option>
-                                                  <option value="">5</option>
-                                             </select>
+                                        <form action="details.php?add_cart='?><?php echo $productID; echo'" method="GET">
+                                             <div>
+                                                  <input type="text" style="width:20%;" name="quantity" placeholder="Enter quantity...">
+                                             </div>
                                              <div class="pt-sm">
                                                   &#8377;';
                                              echo $price; 
                                              echo'
                                              </div>
                                              <div class="m-1">
-                                                  <button style="background:#28AB87; color:white" class="btn p-sm"><i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>Add to cart</button>
+                                                  <button class="btn text-deco-none p-sm fas fa-cart-plus">Add to cart</button>
+                                                  <a style="background:#28AB87; color:white" class="btn text-deco-none p-sm" href="details.php?add_cart='?><?php echo $productID; echo'"><i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>Add to cart</a>
                                              </div>
                                         </form>
                                         ';
+                                        
                                    }
                                    if(isset($_GET['pc_det'])){
                                         echo'
@@ -112,6 +137,7 @@
                                              
                                         }
                                    ?>
+                              
                               </div>
                          </div>
                     </div>
