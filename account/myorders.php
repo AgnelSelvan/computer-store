@@ -30,7 +30,9 @@
 <div class="">
      <h1 style="font-size:30px;color:#003426;">My Orders</h1> 
      <p style="color:gray; margin:30px;">If u have any question, feel free to <a href="../contact.php">Contact us</a>. Our Customer service work <strong>24 &#10006; 7</strong> </p>
-     <hr>
+     <div class="mx-4">
+          <hr>
+     </div>
      <div class="mt-3">
           <center>
                <table class="content-table">

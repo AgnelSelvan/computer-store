@@ -4,7 +4,7 @@
      include("./functions/functions.php");
 ?>
 <?php
-               if(isset($_GET['part_det']) || isset($_GET['add_cart'])){
+               if(isset($_GET['part_det']) || isset($_GET['add_cart']) || isset($_GET['qty'])){
                     if(isset($_GET['part_det'])){
                          $productID = $_GET['part_det'];
                     }
@@ -38,23 +38,26 @@
      }
 
      if (isset($_GET['add_cart'])) {
-          $ip_add = getRealIpUser();
+          $userID=$_SESSION['userId'];
+          $part_qty = $_POST['quantity'];
           $p_id = $_GET['add_cart'];
-            $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
-            $run_product = mysqli_query($conn, $check_product);
-            $part_qty = $_POST['quantity'];
-            if (mysqli_fetch_array($run_product) > 0) {
-                 echo"<script>alert('This product has already added in cart')</script>";
-                 echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-            } else {
-               $query = "INSERT INTO cart(cID, ipAddr, productid, quantity) VALUES (null, '$ip_add', '$p_id','$part_qty');";
+          if($part_qty == 0){
+               header("LOCATION: details.php?qty=no");
+          }
+          else{
+               $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
+               $run_product = mysqli_query($conn, $check_product);
+               if (mysqli_fetch_array($run_product) > 0) {
+                    echo"<script>alert('This product has already added in cart')</script>";
+                    echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+               } else {
+               $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
                $check = mysqli_query($conn, $query);
                if($check){
                     echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+                    }
                }
-               
           }
-          
      }
 ?>
      <div class="container">
@@ -95,14 +98,17 @@
                               <img width="400px" src="admin/upload/<?php echo $image ; ?>" alt="">
                          </div>
                          <div style="width:100%" class="white p-1 shadow-md aic">
-                              <div class=" white pt-1 container">
+                              <?php
+                                   if(isset($_GET['qty'])){
+                                        echo"Enter some quantity";
+                                   }
+                              ?>
+                              <div class=" white pt-1">
                                    <h3 class=""><b><?php echo $partTitle; ?></b></h3>
                               </div>
-                              <div class="white p-sm container">
+                              <div class="white p-sm">
                                    <?php
-                                   
-                                   
-                                   if(isset($_GET['part_det']) || isset($_GET['add_cart'])){
+                                   if(isset($_GET['part_det']) || isset($_GET['add_cart']) || isset($_GET['qty'])){
                                    echo'
                                         <div>
                                              <form action="details.php?add_cart='?><?php echo $productID; echo'" method="POST">

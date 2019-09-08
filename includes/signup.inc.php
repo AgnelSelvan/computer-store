@@ -1,13 +1,25 @@
 <?php 
+include("../functions/functions.php");
 if(isset($_POST['signup-submit'])){
-
     require 'dbh.inc.php';
     require_once 'emailController.inc.php';
+
+    $ipAddr = getRealIpUser();
     $username = $_POST['uid'];
     $email = $_POST['mail'];
     $password = $_POST['pwd'];
     $passwordRepeat = $_POST['pwd-repeat'];
     $mobNumber = $_POST['mobnum'];
+    $address = $_POST['address'];
+    $state = $_POST['state'];
+    $country = $_POST['country'];
+
+    $file = $_FILES['file'];
+    $fileName = $_FILES['file']['name'];
+    $fileTmpName = $_FILES['file']['tmp_name'];
+    $folder = "userimages/".$fileName;
+    
+    move_uploaded_file($fileTmpName, $folder);
 
     function validate_phone_number($phone)
     {
@@ -68,20 +80,15 @@ if(isset($_POST['signup-submit'])){
             }
             else{
 
-                $sql = "INSERT INTO users (uidUsers, emailUsers, pwdUsers, mobNumber) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO users (uidUsers, emailUsers, pwdUsers, mobNumber, address, country, state, userImage, ipAddr ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = mysqli_stmt_init($conn);
                 if( !mysqli_stmt_prepare($stmt, $sql) ){
                     header("Location: ../signup.php?error=sqlerror");
                     exit();
                 }
                 else{
-
                     $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-
-                    
-                    
-
-                    mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $hashedPwd, $mobNumber);
+                    mysqli_stmt_bind_param($stmt, "sssssssss", $username, $email, $hashedPwd, $mobNumber, $address, $state, $country, $folder, $ipAddr);
                     mysqli_stmt_execute($stmt);
                     header("Location: ../signup.php?signup=success");
                     exit();

@@ -3,16 +3,16 @@
     include('./functions/functions.php');
     session_start();
     if (isset($_GET['add_cart'])) {
-        $ip_add = getRealIpUser();
+        $userID = $_SESSION['userId'];
         $p_id = $_GET['add_cart'];
-          $check_product = "SELECT * FROM cart WHERE ipAddr='$ip_add' AND productid='$p_id';";
+          $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
           $run_product = mysqli_query($conn, $check_product);
           $part_qty = 1;
           if (mysqli_fetch_array($run_product) > 0) {
                echo"<script>alert('This product has already added in cart')</script>";
                echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
           } else {
-             $query = "INSERT INTO cart(cID, ipAddr, productid, quantity) VALUES (null, '$ip_add', '$p_id','$part_qty');";
+             $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
              $check = mysqli_query($conn, $query);
              if($check){
                   echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
@@ -51,6 +51,14 @@
                 background: black;
                 color: white;
             }
+            .card-hover{
+                margin-top: 32px;
+                margin-right: 32px;
+
+            }
+            .card-hover:hover{
+                border: 1px solid #28AB87;
+            }
             label{
                 margin: 0 0 0 20px;
                 font-size: 24px;
@@ -62,7 +70,9 @@
                 float: left;
                 display: none;
             }
-             
+            .close{
+                display:none;
+            }
             @media screen and (max-width:988px){
                 label{
                     display: block;
@@ -108,20 +118,22 @@
             </div>
             <div style=" background:gray">
                 <?php
+                    $grandTotal = $_SESSION['grandtotal'];
+                    $userName = $_SESSION['userUid'];
                     if(isset($_SESSION['userId'])){
                         echo'
-                            <div class="?><?php if(isset($_GET["close"])){echo "close";}">
+                            <div class="'?><?php if(isset($_GET["close"])){echo "close";} echo'">
                                 <div style="margin:10px;">
                                     <div class="container d-flex flex-row jcc">
                                         <div style="background:#28AB87" class="text-white p-sm b-rad-2">
-                                            Welcome!
+                                            Welcome! &nbsp; '?><?php echo $userName; echo'
                                         </div>
                                         <div class="text-white m-sm">
                                             '?><?php cartcount(); echo' Items in your cart
                                         </div>
                                         <div style="border:1px solid white; height:20px; margin:10px;"></div>
                                         <div class="text-white my-sm">
-                                            Total Price: &#8377; 1000
+                                            Total Price: &#8377; '?><?php echo $grandTotal; echo'
                                         </div>
                                         <div class=" ml-2">
                                             <a href="index.php?close">
@@ -150,7 +162,7 @@
                                              $partname = $row['partKeyword'];
                                              $partID = $row['pcPartID'];
                                              echo "
-                                                <div style='width:220px;'  class='mt-2 mr-2 fade-in shadow-md white b-rad-5'>
+                                                <div style='width:220px;'  class='shadow-md white b-rad-2 card-hover'>
                                                     <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
                                                     <div style='font-size:20px;' class='text-center'>";
                                                         $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
@@ -161,15 +173,15 @@
                                                             }
                                                             
                                                         }
-                                                        echo"<h4 class='m-1'>{$row['partTitle']}</h4><br>";
+                                                        echo"<a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'><h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
                                                         echo"<div class='text-primary'>
                                                                     <b></b>
                                                                     <p>Quantity:{$row['qty']}</p>
-                                                                    <div class='m-1'><b style='color:#28AB87'>&#8377;{$row['price']}/-</b></div>
+                                                                    <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
                                                             </div>
                                                             <div class='mb-3 mt-2'>
-                                                                    <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
-                                                                    <a  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
+                                                                    <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
+                                                                    <a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
                                                             </div>
                                                     </div>
                                                 </div>

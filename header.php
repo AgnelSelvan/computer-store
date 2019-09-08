@@ -15,7 +15,7 @@
 
     </head>
     <body>
-    <div style="position:sticky;top:0px;z-index:1;" class="w-100 d-flex flex-row white">
+    <div style="position:sticky;top:0px;z-index:1;" class="w-100 d-flex flex-row white shadow-sm">
                 <div class="container d-flex flex-row">
                     <a href="index.php">
                         <img class="img1" src="./img/cpu.png" alt="logo">

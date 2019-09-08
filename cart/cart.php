@@ -83,8 +83,9 @@
                          <div class="w-100 b-rad-2 shadow-md white text-left p-3" >
                               <form action="cart.php" method="POST" enctype="multipart/form-data">
                                    <?php
+                                        $userID = $_SESSION['userId'];
                                         $ip_add = getRealIpUser();
-                                        $selectQuery = "SELECT * FROM cart WHERE ipAddr='$ip_add'";
+                                        $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
                                         $runQuery = mysqli_query($conn, $selectQuery);
                                         $count = mysqli_num_rows($runQuery);
                                    ?>
@@ -103,7 +104,8 @@
                                         <tbody>
                                                   <?php
                                                        $grandTotal = 0;
-                                                       $getCart = "SELECT * FROM cart";
+                                                       $userID = $_SESSION['userId'];
+                                                       $getCart = "SELECT * FROM cart WHERE userID='$userID'";
                                                        $runGetCart = mysqli_query($conn, $getCart);
                                                        while($row = mysqli_fetch_array($runGetCart)){
                                                             $productID = $row['productid'];
@@ -131,18 +133,20 @@
                                                                  </tr>
                                                                  ';
                                                             }
+                                                            session_start();
+                                                            $_SESSION['grandtotal'] = $grandTotal;
                                                        }
                                                   ?>
                                         </tbody>
                                    </table>
-                                   <div class="text-right mr-4 mb-2">&#8377;<?php echo $grandTotal;?></div>
+                                   <div class="text-right mr-4 mb-2"><?php if($count === 0){ echo "No items in your cart";}else{ echo "&#8377;"+$grandTotal;}?></div>
                                    <div class="d-flex jcsb">
                                         <a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a>
                                         <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
                                              <i class=" fas fa-refresh pr-sm"></i>
                                              Update Cart
                                         </button>
-                                        <a href="#" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i> </a>
+                                        <a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i> </a>
                                    </div>
                               </form>
                               <?php
@@ -203,31 +207,34 @@
                     <div style="" class="white mt-1 p-1">
                         <b> Products You may also like</b>
                     </div>
-                    <div class="d-flex jcc">
+                    <div class="d-flex flex-wrap jcc">
                          <?php
-                              $selectQuery = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4";
-                              $runQuery = mysqli_query($conn, $selectQuery);
-                              while($row = mysqli_fetch_array($runQuery)){
-                                   $pcPartID = $row['pcPartID'];
-                                   $partTitle = $row['partTitle'];
-                                   $image = $row['image'];
-                                   $partKeyword = $row['partKeyword'];
-                                   $query = "SELECT * FROM pcpartcomp WHERE pcPartID='$partKeyword'";
-                                   $check = mysqli_query($conn, $query);
-                                   $partName = $check;
-                                   echo"
-                                   <div style='width:220px;' class='mx-2 d-flex flex-wrap jcc'>
-                                        <div class='mt-1 mr-2 shadow-md white b-rad-2'>
-                                             <img class='img2 m-1' src='../admin/upload/$image'/>
-                                             <div style='font-size:20px;' class='text-center'>
-                                                  <h3 class='m-sm'>$partTitle</h3><br>
-                                                  <div class='text-primary'>
-                                                       <div class=''><b style='color:#28AB87'>&#8377;1000/-</b></div>
-                                                  </div>
-                                                  <div class='mb-3 mt-2'>
-                                                       <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$pcPartID}'>Details</a>
-                                                       <a class='button-field text-deco-none shadow-md' href='index.php?add_cart={$pcPartID}'>Add to cart</a>
-                                                  </div>
+                         $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4;";
+                         $check = mysqli_query($conn, $query);
+                         while ($row = mysqli_fetch_assoc($check)) {
+                              $partname = $row['partKeyword'];
+                              $partID = $row['pcPartID'];
+                              echo "
+                                   <div style='width:220px;'  class='shadow-md mx-sm my-1  white b-rad-2 card-hover'>
+                                        <img class='img2 mt-1' src='../admin/upload/".$row['image']."'/>
+                                        <div style='font-size:20px;' class='text-center'>";
+                                             $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
+                                             $connect = mysqli_query($conn, $q);
+                                             if($connect){
+                                             while($partrow = mysqli_fetch_row($connect)){
+                                                       
+                                             }
+                                             
+                                             }
+                                             echo"<a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'><h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                             echo"<div class='text-primary'>
+                                                       <b></b>
+                                                       <p>Quantity:{$row['qty']}</p>
+                                                       <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                             </div>
+                                             <div class='mb-3 mt-2'>
+                                                       <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
+                                                       <a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
                                              </div>
                                         </div>
                                    </div>

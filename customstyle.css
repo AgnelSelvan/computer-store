@@ -17,16 +17,16 @@ body{
 }
 .input-field{
      padding: 15px;
-     border: 1px solid #E0E0E0;
-     border-radius: 10px;
+     border: 1px solid #E0e0e0;
+     border-radius: 4px;
      margin: 10px;
-     width: 250px;
+     width: 40%;
      background: #fff; 
      transition: ease-in-out, width .35s ease-in-out;
  }
  .input-field:focus{
      outline: none;
-     width: 270px;
+     width: 45%;
      border: 2px solid #696969;
  }
  

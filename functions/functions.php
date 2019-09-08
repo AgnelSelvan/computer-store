@@ -17,51 +17,47 @@ function getRealIpUser(){
 
 //End getRealIpUser ///
 
-function add_cart(){
-     global $conn;
-     
-}
 
 // Begin Add Cart//
 
 //End Add Cart
 
 
-function getpcPart(){
-     global $conn;
-     $query = "SELECT * FROM pcpart;";
-     $check = mysqli_query($conn, $query);
-     while ($row = mysqli_fetch_assoc($check)) {
-          $partname = $row['partKeyword'];
-          $partID = $row['pcPartID'];
-          echo "
-          <div style='width:13%;'  class='mt-2 mr-2 fade-in shadow-md white b-rad-5'>
-               <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
-               <div style='font-size:20px;' class='text-center'>";
-               $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
-               $connect = mysqli_query($conn, $q);
-               if($connect){
-                    while($partrow = mysqli_fetch_row($connect)){
+// function getpcPart(){
+//      global $conn;
+//      $query = "SELECT * FROM pcpart;";
+//      $check = mysqli_query($conn, $query);
+//      while ($row = mysqli_fetch_assoc($check)) {
+//           $partname = $row['partKeyword'];
+//           $partID = $row['pcPartID'];
+//           echo "
+//           <div style='width:13%;'  class='mt-2 mr-2 fade-in shadow-md white b-rad-5'>
+//                <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+//                <div style='font-size:20px;' class='text-center'>";
+//                $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
+//                $connect = mysqli_query($conn, $q);
+//                if($connect){
+//                     while($partrow = mysqli_fetch_row($connect)){
                          
-                    }
+//                     }
                     
-               }
-               echo"<h4 class='m-1'>{$row['partTitle']}</h4><br>";
-               echo"<div class='text-primary'>
-                         <b></b>
-                         <p>Quantity:{$row['qty']}</p>
-                         <div class='m-1'><b style='color:#28AB87'>&#8377;{$row['price']}/-</b></div>
-                    </div>
-                    <div class='mb-3 mt-2'>
-                         <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
-                         <a class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
-                    </div>
-          </div>
-          </div>
-          ";
-     }
+//                }
+//                echo"<h4 class='m-1'>{$row['partTitle']}</h4><br>";
+//                echo"<div class='text-primary'>
+//                          <b></b>
+//                          <p>Quantity:{$row['qty']}</p>
+//                          <div class='m-1'><b style='color:#28AB87'>&#8377;{$row['price']}/-</b></div>
+//                     </div>
+//                     <div class='mb-3 mt-2'>
+//                          <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
+//                          <a class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
+//                     </div>
+//           </div>
+//           </div>
+//           ";
+//      }
      
-}
+// }
 function getCompleteBuilts(){
      $query = "SELECT * FROM pc_details;";
      global $conn;
@@ -69,15 +65,15 @@ function getCompleteBuilts(){
      while ($row = mysqli_fetch_assoc($check)) {
           $p_id = $row['pc_id'];
           echo "
-          <div style='width:240px;' class='fade-in shadow-md text-center white m-1 p-1 b-rad-5'>
+          <div style='width:240px;' class='fade-in shadow-md text-center white m-1 p-1 b-rad-2 card-hover'>
                <img class='img2 mt-1' src='./admin/upload/".$row['pc_image']."'/><br>
-               <h3 style='margin-top:20px;'>{$row['pcName']}</h3>
-               <div style='font-size:24px;color:#28AB87;'  class='text-primary p-1'>
+               <a style='color:#28AB87' class='text-deco-none' href='details.php?pc_det=".$p_id."'><h3 class='m-1'>{$row['pcName']}</h3></a>
+               <div style='font-size:24px;'  class='text-black p-1'>
                     <b>&#8377;  {$row['pcPrice']}</b>
                </div>
                <div class='my-1'>
-               <a class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Details<a>
-               <a class='button-field text-deco-none shadow-md' href='details.php?add_cart={$p_id}'>Add to cart<a></div>
+               <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Details<a>
+               <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?add_cart={$p_id}'>Add to cart<a></div>
           </div>"
           ;} 
 }
@@ -135,7 +131,7 @@ function getMainPageCompletedBuilds(){
                     Ram Capacity:</b> {$row['ram_capacity']}GB</p>
                </div>
                <div class='my-1'>
-               <a class='button-field text-deco-none' href='buy/buyOrLogin.php'>Buy Now<a></div>
+               <a style='background:#28AB87' class='button-field text-deco-none' href='buy/buyOrLogin.php'>Buy Now<a></div>
           </div>"
           ;} 
 }
@@ -144,8 +140,8 @@ function getMainPageCompletedBuilds(){
 
 function cartcount(){
      global $conn;
-     $ip_add = getRealIpUser();
-     $selectQuery = "SELECT * FROM cart WHERE ipAddr='$ip_add'";
+     $userID=$_SESSION['userId'];
+     $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
      $runQuery = mysqli_query($conn, $selectQuery);
      $count = mysqli_num_rows($runQuery);
      echo $count;
