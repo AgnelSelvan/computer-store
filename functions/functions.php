@@ -73,7 +73,7 @@ function getCompleteBuilts(){
                </div>
                <div class='my-1'>
                <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Details<a>
-               <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?add_cart={$p_id}'>Add to cart<a></div>
+               <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='index.php?addpc_cart={$p_id}'>Add to cart<a></div>
           </div>"
           ;} 
 }
@@ -103,6 +103,7 @@ function loginORnot(){
 
 
 function getMainPageCompletedBuilds(){
+     
      $query = "SELECT * FROM pc_details;";
      global $conn;
      $check = mysqli_query($conn, $query);
@@ -111,7 +112,7 @@ function getMainPageCompletedBuilds(){
           echo "
           <div style='width:270px;' class='fade-in shadow-md text-center white m-1 p-1 b-rad-5'>
                <img class='img2 mt-1' src='../admin/upload/".$row['pc_image']."'/><br>
-               <h3 style='margin-top:20px;'>{$row['pcName']}</h3>
+               <a style='color:#28AB87' class='text-deco-none' href='../details.php?pc_det=".$p_id."'><h3 style='margin-top:20px;'>{$row['pcName']}</h3></a>
                <div style='font-size:14px;' class='text-primary p-1'>
                     <b>Desktop Type:</b>{$row['PC_Type']}
                     <p align='left'><b>Motherboard:</b>{$row['motherboard']}</p><p align='left'>
@@ -129,9 +130,14 @@ function getMainPageCompletedBuilds(){
                     Ram Type:</b> {$row['ram_type']}</p><p align='left'><b>
                     Ram Company:</b> {$row['ram_company']}</p><p align='left'><b>
                     Ram Capacity:</b> {$row['ram_capacity']}GB</p>
+                    <div style='font-size:24px;'  class='text-black p-1'>
+                         <b>&#8377;  {$row['pcPrice']}</b>
+                    </div>
                </div>
                <div class='my-1'>
-               <a style='background:#28AB87' class='button-field text-deco-none' href='buy/buyOrLogin.php'>Buy Now<a></div>
+               <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='../details.php?pc_det={$p_id}'>Details<a>
+               <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='./completed_build.php?addpc_cart={$p_id}'>Add to cart<a>
+               </div>
           </div>"
           ;} 
 }
@@ -144,6 +150,10 @@ function cartcount(){
      $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
      $runQuery = mysqli_query($conn, $selectQuery);
      $count = mysqli_num_rows($runQuery);
+     
+     $countCart = "SELECT * FROM pccart WHERE userid='$userID'";
+     $countQuery = mysqli_query($conn, $countCart);
+     $count += mysqli_num_rows($countQuery);
      echo $count;
 }
 

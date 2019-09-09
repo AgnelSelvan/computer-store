@@ -16,8 +16,8 @@
                          <h3 align='left'>Categories</h3>
                          <div class='b-1 text-white mb-1'></div>
                          <div class="d-flex flex-col">
-                              <a class="text-deco-none py-sm text-black footer-hover" align="left" href="#">System build</a>
-                              <a class="text-deco-none py-sm text-black footer-hover" align="left" href="#">Completed build</a>
+                              <a class="text-deco-none py-sm text-black footer-hover" align="left" href="./builds/system-build.php">System build</a>
+                              <a class="text-deco-none py-sm text-black footer-hover" align="left" href="./builds/completed_build.php">Completed build</a>
                               <a class="text-deco-none py-sm text-black footer-hover" align="left" href="#">Browse Product</a>
                          </div>
                     </div>
@@ -26,7 +26,7 @@
                          <div class='b-1 text-white mb-1'></div>
                          <div class="d-flex flex-col">
                               <a class="text-deco-none py-sm text-black footer-hover" align="left" href="about.php">About</a>
-                              <a class="text-deco-none py-sm text-black footer-hover" align="left"  href="#">Contact Us</a>
+                              <a class="text-deco-none py-sm text-black footer-hover" align="left"  href="contact.php">Contact Us</a>
                               <a class="text-deco-none py-sm text-black footer-hover" align="left"  href="#">Terms & Policy</a>
                          </div>
                     </div>

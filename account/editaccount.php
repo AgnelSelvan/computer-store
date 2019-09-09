@@ -10,7 +10,7 @@
      .input-field-f:hover{
           border:2px solid #28AB87;
           outline: none;
-     transition: ease-in-out, width .35s ease-in-out;
+          transition: ease-in-out, width .35s ease-in-out;
      }
      .input-field-f:focus{
           width: 450px;
@@ -35,9 +35,9 @@
                move_uploaded_file($fileTmpName, $folder);
 
                $update= "UPDATE users SET uidUsers='$username',emailUsers='$email', mobNumber='$mobnumber', address='$address', country='$country',
-                    state = '$state', userImage='$folder' WHERE isUsers='$userID';
+                    state='$state', userImage='$folder' WHERE isUsers='$userID';
                 ";
-               $check = $mysqli_check($conn, $update);
+               $check = mysqli_query($conn, $update);
                if($check){
                     header("LOCATION: myAccount.php?editAccount?update=success");
                }

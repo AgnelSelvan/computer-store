@@ -1,42 +1,30 @@
 <?php
-     require"header.php";
+     include('./functions/functions.php');
      require"./includes/dbh.inc.php";
-     include("./functions/functions.php");
 ?>
 <?php
-               if(isset($_GET['part_det']) || isset($_GET['add_cart']) || isset($_GET['qty'])){
-                    if(isset($_GET['part_det'])){
-                         $productID = $_GET['part_det'];
-                    }
-                    else{
-                         $productID = $_GET['add_cart'];
-                    }
-                    $selQuery = "SELECT * FROM pcpart WHERE pcPartID='$productID'";
-                    $runQuery = mysqli_query($conn, $selQuery);
-                    $row = mysqli_fetch_array($runQuery);
-                    $image = $row['image'];
-                    $desc = $row['partDesc'];
-                    $qty = $row['qty'];
-                    $price = $row['price'];
-                    $partTitle = $row['partTitle'];
-                    $partName = $row['partKeyword'];
-                    $fetchQuery = "SELECT * FROM pcpartcomp WHERE pcPartID='$partName'";
-                    $fetchQuery = mysqli_query($conn, $fetchQuery);
-                    $fetchRow = mysqli_fetch_array($fetchQuery);
-                    $compName = $fetchRow['pcPartComponents'];
-               }
-?>
-<?php
-     if(isset($_GET['pc_det'])){
-          $productID = $_GET['pc_det'];
-          $selQuery = "SELECT * FROM pc_details WHERE pc_id='$productID'";
+     if(isset($_GET['part_det']) || isset($_GET['add_cart']) || isset($_GET['qty'])){
+          if(isset($_GET['part_det'])){
+               $productID = $_GET['part_det'];
+          }
+          else{
+               $productID = $_GET['add_cart'];
+          }
+          $selQuery = "SELECT * FROM pcpart WHERE pcPartID='$productID'";
           $runQuery = mysqli_query($conn, $selQuery);
           $row = mysqli_fetch_array($runQuery);
-          $image = $row['pc_image'];
-          $partTitle = $row['pcName'];
-          $price = $row['pcPrice'];
+          $image = $row['image'];
+          $desc = $row['partDesc'];
+          $qty = $row['qty'];
+          $price = $row['price'];
+          $partTitle = $row['partTitle'];
+          $partName = $row['partKeyword'];
+          $fetchQuery = "SELECT * FROM pcpartcomp WHERE pcPartID='$partName'";
+          $fetchQuery = mysqli_query($conn, $fetchQuery);
+          $fetchRow = mysqli_fetch_array($fetchQuery);
+          $compName = $fetchRow['pcPartComponents'];
      }
-
+     
      if (isset($_GET['add_cart'])) {
           $userID=$_SESSION['userId'];
           $part_qty = $_POST['quantity'];
@@ -60,6 +48,73 @@
           }
      }
 ?>
+<?php
+     if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
+          if(isset($_GET['pc_det'])){
+               $productID = $_GET['pc_det'];
+          }
+          else{
+               $productID = $_GET['addpc_cart'];
+          }
+          $selQuery = "SELECT * FROM pc_details WHERE pc_id='$productID'";
+          $runQuery = mysqli_query($conn, $selQuery);
+          $row = mysqli_fetch_array($runQuery);
+          $image = $row['pc_image'];
+          $partTitle = $row['pcName'];
+          $price = $row['pcPrice'];
+     }
+     
+     if (isset($_GET['addpc_cart'])) {
+          $userID=$_SESSION['userId'];
+          $p_id = $_GET['addpc_cart'];
+          $check_product = "SELECT * FROM pccart WHERE userid='$userID' AND pcid='$p_id';";
+          $run_product = mysqli_query($conn, $check_product);
+          if (mysqli_fetch_array($run_product) > 0) {
+               echo"<script>alert('This product has already added in cart')</script>";
+               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+          } else {
+          $query = "INSERT INTO pccart VALUES (null, '$p_id', '$userID');";
+          $check = mysqli_query($conn, $query);
+          if($check){
+               echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+               }
+          }
+     }
+     
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+     <title>Details</title>
+        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./customstyle.css">
+</head>
+<body>
+     <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col">
+               <div class="w-100 d-flex flex-row white">
+                    <div class="container d-flex flex-row">
+                         <a href="index.php">
+                         <img class="img1" src="./img/cpu.png" alt="logo">
+                         </a>
+                         <ul class="d-flex flex-row ls-none ">
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./index.php">Home</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./builds/system-build.php">SystemBuild</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./builds/completed_build.php">CompletedBuild</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./about.php">About</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="  ./contact.php">Contact</a></li>
+                         </ul>
+                    </div>
+                    <div class="container">
+                         <?php
+                              loginORnot();
+                          ?>
+                    </div>
+               </div>
+     </div>
      <div class="container">
           <style>
                .content-table{
@@ -90,7 +145,7 @@
              }
           </style>
           <div class="w-min-100">
-               <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="./index.php">Home</a> > Details > <a href="" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['part_det'])){ echo $compName ;} ?></a><a href="./builds/completed_build.php" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['pc_det'])){ echo "Completed Builds" ;} ?></a>   > <?php echo $partTitle;  ?></div>
+               <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="./index.php">Home</a> > Details > <a href="" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['part_det'])){ echo $compName ;} ?></a><a href="./builds/completed_build.php" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){ echo "Completed Builds" ;} ?></a>   > <?php echo $partTitle;  ?></div>
           </div>
           <div class="container">
                     <div class="w-min-100 d-flex mb-1">
@@ -120,18 +175,19 @@
                                         ';
                                         
                                    }
-                                   if(isset($_GET['pc_det'])){
+                                   if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
                                         echo'
-                                             <form action="">
                                                   <div class="pt-sm">
                                                        &#8377; ';
                                              echo $price;
                                              echo'
                                                   </div>
                                                   <div class="m-1">
-                                                       <button style="background:#28AB87; color:white" class="btn p-sm"><i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>Add to cart</button>
+                                                       <a href="details.php?addpc_cart='.$productID.'" style="background:#28AB87; color:white" class="text-deco-none p-sm b-rad-1 shadow-md">
+                                                            <i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>
+                                                            Add to cart
+                                                       </a>
                                                   </div>
-                                             </form>
                                              ';
                                              
                                         }
@@ -147,7 +203,7 @@
                               <p><?php if(isset($_GET['part_det']) || isset($_GET['add_cart'])){ echo "<div class='container p-2'>$desc</div>"; }?></p>
                               <p class="text-left">
                                    <?php
-                                        if(isset($_GET['pc_det'])){
+                                        if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
                                              echo"
                                                   <table class='w-min-100 content-table'>
                                                        <tr>

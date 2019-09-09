@@ -3,6 +3,7 @@
     include('../../functions/functions.php');
     session_start();
 ?>
+
 <!DOCTYPE html>
      <head>
           <meta charset="utf-8">
@@ -85,12 +86,14 @@
                               <div class="mt-1">
                                    <div class="container text-left">
                                         <div class="container">
-                                        <form action="order.php">
-                                             <div class="p-sm"><input type="radio" name="credit" value="payment">Credit</div><hr>
-                                             <div class="p-sm"><input type="radio" name="PhonePe" value="payment">PhonePe</div><hr>
-                                             <div class="p-sm"><input type="radio" name="netbanking">Net Banking</div><hr>
-                                             <div class="p-sm"><input type="radio" name="cod">Cash on delivery</div><hr>
-                                             <div class="text-center my-1"><button style='background:#28AB87'  class='button-field text-deco-none shadow-md' type="submit">Place order</button></div>
+                                        <form action="order.php" method="POST">
+                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="credit">Credit</div><hr>
+                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="phonepe">PhonePe</div><hr>
+                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="netbanking">Net Banking</div><hr>
+                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
+                                             <div class="text-center my-1">
+                                                  <button name="payment" style='background:#28AB87'  class='button-field text-deco-none shadow-md' type="submit">Place order</button>
+                                             </div>
                                         </form>
                                         </div>
                                    </div>

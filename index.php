@@ -2,25 +2,7 @@
     require "./includes/dbh.inc.php";
     include('./functions/functions.php');
     session_start();
-    if (isset($_GET['add_cart'])) {
-        $userID = $_SESSION['userId'];
-        $p_id = $_GET['add_cart'];
-          $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
-          $run_product = mysqli_query($conn, $check_product);
-          $part_qty = 1;
-          if (mysqli_fetch_array($run_product) > 0) {
-               echo"<script>alert('This product has already added in cart')</script>";
-               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-          } else {
-             $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
-             $check = mysqli_query($conn, $query);
-             if($check){
-                  echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
-             }
-             
-        }
-        
-   }
+    
 ?>
 <!DOCTYPE html>
  <html class="no-js">
@@ -94,6 +76,7 @@
         </style>
     </head>
     <body>
+        <!-- Navbar -->
         <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col">
             <div class="w-100 d-flex flex-row white">
                 <div class="container d-flex flex-row">
@@ -112,6 +95,7 @@
                 </div>
                 <div class="container">
                         <?php
+                        
                             loginORnot();
                         ?>
                 </div>
@@ -148,7 +132,9 @@
                 ?>
                 
         </div>
-    </div>
+        <!-- Navbar -->
+        </div>
+        <!-- Content -->
                 <div class="primary bg-color">
                     <div class="d-flex flex-col jcc">
                         <div class="m-0 p-0 w-100">
@@ -201,7 +187,45 @@
                             </div>
                         </div>
                 </div>
+        <!-- Content -->
         
 <?php
     require "footer.php";
+?>
+<?php
+    if (isset($_GET['add_cart'])) {
+        $userID = $_SESSION['userId'];
+        $p_id = $_GET['add_cart'];
+          $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
+          $run_product = mysqli_query($conn, $check_product);
+          $part_qty = 1;
+          if (mysqli_fetch_array($run_product) > 0) {
+               echo"<script>alert('This product has already added in cart')</script>";
+               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+          } else {
+             $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
+             $check = mysqli_query($conn, $query);
+             if($check){
+                  echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
+             }
+             
+        }
+        
+   }
+   if (isset($_GET['addpc_cart'])) {
+    $userID=$_SESSION['userId'];
+    $p_id = $_GET['addpc_cart'];
+    $check_product = "SELECT * FROM pccart WHERE userid='$userID' AND pcid='$p_id';";
+    $run_product = mysqli_query($conn, $check_product);
+    if (mysqli_fetch_array($run_product) > 0) {
+         echo"<script>alert('This product has already added in cart')</script>";
+         echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+    } else {
+    $query = "INSERT INTO pccart VALUES (null, '$p_id', '$userID');";
+    $check = mysqli_query($conn, $query);
+    if($check){
+         echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
+         }
+    }
+}
 ?>

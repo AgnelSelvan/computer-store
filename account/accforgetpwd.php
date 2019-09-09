@@ -1,3 +1,29 @@
+<?php
+    require '../includes/dbh.inc.php';
+    
+    if(isset($_POST['update-submit'])){
+          $password = $_POST['up-pwd'];
+          $passwordCheck = $_POST['up-pwd-repeat'];
+          $userID = $_SESSION['userId'];
+          if($password != $passwordCheck){
+               header("location: myAccount.php?changePassword&error=passwordwrong");
+          }
+          else{
+               $hashedUpdatedPwd = password_hash($password, PASSWORD_DEFAULT);
+               $query = "UPDATE users SET pwdUsers='$hashedUpdatedPwd' WHERE isUsers='$userID';";
+               $connect = mysqli_query($conn, $query);
+               if($connect){
+                    header("LOCATION: myAccount.php?haha");
+               }
+               else{
+                    header("LOCATION: myAccount.php?changePassword&update=unsuccess");
+               }
+        }
+    }
+    else{
+          header("LOCATION: myAccount.php?not");
+    }
+?>
 <style>
      .input-field-f{
           border:1px solid #28AB87;
@@ -21,9 +47,12 @@
      <h1 style="color:#28AB87">Change Password</h1>
      <div style="padding:60px;">
           <form action="" method="POST">
-               <input style="" type="text" placeholder="Enter a password..." class="input-field-f b-rad-2"><br>
-               <input type="text" placeholder="Confirm your password..." class="input-field-f b-rad-2"><br>
-               <button style="padding:10px 14px;margin-top:20px;width:170px;background:#28AB87; border:none; color:white;" class="b-rad-2 shadow-md"><img style="padding-right:5px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAAFTSURBVDgRvcG9TpNhGADQx69pGaxu3ETLPagjDkRJ4RaIWqjsumLD0oRd04hyJ14ACgpVxi4QBq1DCdgjxe9Nf6LEiXPipilZtuPAz/gfFh3JRc5IK8bJbBratabiduQkrZhkE30rspjgjw8xySL67sUlFW0nuppKEYZ+GZiPESVHWIkwq+1C0oxAyyo6CpFYxq7MkmPjuhFaEW7ZRy0SO1iLsOTYuG7krOJtJA5RiUtmtV1IXkVOFZ1I/MCdyKloO9HVVIqcMnqR6KEc13AX3yNxiEpcwxwOIvEejbiiasu+np59W6pxxTq2I7GMj7IIL50bd+5FhII91CJR8g1PZN6Y9lqmjo5ijHiMvvsydaeSU89kHjgzsBCTNNH3VMGMhxoa5s0oqDvDRkyTaRr65LmqsrI56/YwsCGLv/HIV9M6FuLfFNW880VPz2fbaopxw34Dr2y+yb2Py6cAAAAASUVORK5CYII=">Update Now</button>
+               <input style="" name="up-pwd" type="password" placeholder="Enter a password..." class="input-field-f b-rad-2"><br>
+               <input type="password" name="up-pwd-repeat" placeholder="Confirm your password..." class="input-field-f b-rad-2"><br>
+               <button type="submit" name="update-submit" style="padding:10px 14px;margin-top:20px;width:170px;background:#28AB87; border:none; color:white;" class="b-rad-2 shadow-md">
+                    <i class="fa fa-refresh pr-sm"></i>
+                    Update Now
+               </button>
           </form>
      </div>
 </div>

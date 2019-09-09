@@ -84,10 +84,13 @@
                               <form action="cart.php" method="POST" enctype="multipart/form-data">
                                    <?php
                                         $userID = $_SESSION['userId'];
-                                        $ip_add = getRealIpUser();
                                         $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
                                         $runQuery = mysqli_query($conn, $selectQuery);
                                         $count = mysqli_num_rows($runQuery);
+                                        
+                                        $countCart = "SELECT * FROM pccart WHERE userid='$userID'";
+                                        $countQuery = mysqli_query($conn, $countCart);
+                                        $count += mysqli_num_rows($countQuery);
                                    ?>
                                    <h1 style="color:#003426;">Shopping Cart</h1>
                                    <div class="pb-1 mt-1" style="color:gray">You Have currently <?php echo $count; ?> item(s) in your cart</div>
@@ -135,7 +138,42 @@
                                                             }
                                                             session_start();
                                                             $_SESSION['grandtotal'] = $grandTotal;
+                                                            
+                                                            
                                                        }
+                                                       $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
+                                                       $runGetCart = mysqli_query($conn, $getCart);
+                                                       while($row = mysqli_fetch_array($runGetCart)){
+                                                            
+                                                            $productID = $row['pcid'];
+                                                            $quantity = 1;
+                                                            $getproduct = "SELECT * FROM pc_details WHERE pc_id='$productID'";
+                                                            $rungetProduct = mysqli_query($conn, $getproduct);
+                                                            while($productrow = mysqli_fetch_array($rungetProduct)){
+                                                                 $grandTotal = $_SESSION['grandtotal'];
+                                                                 $partTitle = $productrow['pcName'];
+                                                                 $image = $productrow['pc_image'];
+                                                                 $unitprice = $productrow['pcPrice'];
+                                                                 $subTotal = $quantity * $unitprice;
+                                                                 $grandTotal += $subTotal;
+                                                                 echo '
+                                                                 <tr>
+                                                                      <td>
+                                                                           <a class="text-deco-none" href="../details.php?pc_det='?><?php echo $productrow['pc_id']; echo'">
+                                                                           <img class="img1" src="../admin/upload/'.$image.'" alt="amd">'?>
+                                                                                <?php echo $partTitle; echo'
+                                                                           </a>
+                                                                      </td>
+                                                                      <td>'?><?php echo $quantity; echo'</td>
+                                                                      <td>&#8377;'.$unitprice.'</td>
+                                                                      <td><input type="checkbox" name="delete[]" value='?><?php echo $productID; echo'></td>
+                                                                      <td>&#8377;'.$subTotal.'</td>
+                                                                 </tr>
+                                                                 ';
+                                                            }
+                                                            $_SESSION['grandtotal'] = $grandTotal;
+                                                       }
+                                                       
                                                   ?>
                                         </tbody>
                                    </table>
@@ -155,6 +193,14 @@
                                         if(isset($_POST['update'])){
                                              foreach($_POST['remove'] as $remove_id){
                                                   $delete_product = "DELETE FROM cart WHERE productid='$remove_id'";
+                                                  $run_delete = mysqli_query($conn, $delete_product);
+                                                  if($run_delete){
+                                                       echo"<script>window.open('cart.php','_self')</script>";
+                                                  }
+                                             }
+                                             foreach($_POST['delete'] as $delete_id){
+                                                  echo $delete_id;
+                                                  $delete_product = "DELETE FROM pccart WHERE pcid='$delete_id'";
                                                   $run_delete = mysqli_query($conn, $delete_product);
                                                   if($run_delete){
                                                        echo"<script>window.open('cart.php','_self')</script>";
@@ -207,7 +253,7 @@
                     <div style="" class="white mt-1 p-1">
                         <b> Products You may also like</b>
                     </div>
-                    <div class="d-flex flex-wrap jcc">
+                    <div class="d-flex flex-wrap jcsa">
                          <?php
                          $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4;";
                          $check = mysqli_query($conn, $query);
@@ -233,8 +279,8 @@
                                                        <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
                                              </div>
                                              <div class='mb-3 mt-2'>
-                                                       <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
-                                                       <a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
+                                                       <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='../details.php?part_det={$partID}'>Details</a>
+                                                       <a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='../cart.php?add_cart={$partID}'>Add to cart</a>
                                              </div>
                                         </div>
                                    </div>
@@ -245,5 +291,26 @@
           </div>
           <script src="" async defer></script>
           <?php require'../footer.php';?>
+          <?php
+               if (isset($_GET['add_cart'])) {
+                    $userID = $_SESSION['userId'];
+                    $p_id = $_GET['add_cart'];
+                      $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
+                      $run_product = mysqli_query($conn, $check_product);
+                      $part_qty = 1;
+                      if (mysqli_fetch_array($run_product) > 0) {
+                           echo"<script>alert('This product has already added in cart')</script>";
+                           echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+                      } else {
+                         $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
+                         $check = mysqli_query($conn, $query);
+                         if($check){
+                              echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
+                         }
+                         
+                    }
+                    
+               }
+          ?>
      </body>
 </html>

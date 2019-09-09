@@ -1,4 +1,5 @@
 <?php
+    include("./functions/functions.php");
     session_start();
 ?>
 <!DOCTYPE html>
@@ -32,10 +33,15 @@
                         <?php
                             if(isset($_SESSION['userId'])){
                                 echo'<form action="includes/logout.inc.php" method="post">
-                                <div class="d-flex jcfe">
-                                <div><button type="submit" class="text-deco-none signup-button-field mr-2 text-black pr-1 b-0" name="logout-submit">Logout</button></div>
-                                </div>
-                                </form>';
+                                        <div class="d-flex jcfe">
+                                        <div class="cart-btn">
+                                        <div style="font-size:30px;" class="nav-icon"><a href="./cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                        <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                        </div>
+                                        <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                        <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                        </div>
+                                    </form>';
                             }
                             else{
                                 echo'
