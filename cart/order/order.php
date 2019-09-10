@@ -4,42 +4,57 @@
     session_start();
 ?>
 <?php
-     // if(isset($_POST['payment'])){
-     //      $ordernumber = rand();
-     //      $userID = $_SESSION['userId'];
-     //      $cartSelect = "SELECT * FROM cart WHERE userID='$userID'";
-     //      $runQuery = mysqli_query($conn, $cartSelect);
-     //      if($runQuery){
-     //           while($cartrow = mysqli_fetch_array($runQuery)){
-     //                $partID = $cartrow['productid'];
-     //                $partQty = $cartrow['quantity'];
-     //                $paymentMethod = $_POST['paymentmethod'];
-     //                $pcID = 0;
-     //                $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod')";
-     //                $insertcheck = mysqli_query($conn, $insertorder);
-     //                if($insertcheck){
-     //                     $deletecart = "DELETE FROM cart WHERE productid='$partID'";
-     //                     $rundelete = mysqli_query($conn, $deletecart);
-     //                }
-     //           }
-     //      }
-     //      $cartSelect = "SELECT * FROM pccart WHERE userID='$userID'";
-     //      $runQuery = mysqli_query($conn, $cartSelect);
-     //      if($runQuery){
-     //           while($cartrow = mysqli_fetch_array($runQuery)){
-     //                $pcID = $cartrow['pcid'];
-     //                $pcQty = 1;
-     //                $paymentMethod = $_POST['paymentmethod'];
-     //                $partID = 0;
-     //                $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod')";
-     //                $insertcheck = mysqli_query($conn, $insertorder);
-     //                if($insertcheck){
-     //                     $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
-     //                     $rundelete = mysqli_query($conn, $deletecart);
-     //                }
-     //           }
-     //      }
-     //}
+     if(isset($_POST['payment'])){
+          $ordernumber = rand();
+          $subTotal = $_SESSION['grandtotal'];
+          $shippingCharge = $_SESSION['shippingCharge'];
+          $taxCharge = $_SESSION['taxCharge'];
+          $total = $_SESSION['total'];
+          $userID = $_SESSION['userId'];
+          $cartSelect = "SELECT * FROM cart WHERE userID='$userID'";
+          $runQuery = mysqli_query($conn, $cartSelect);
+          if($runQuery){
+               while($cartrow = mysqli_fetch_array($runQuery)){
+                    
+                    $partID = $cartrow['productid'];
+                    $partQty = $cartrow['quantity'];
+                    $paymentMethod = $_POST['paymentmethod'];
+                    $pcID = 0;
+                    if(empty($paymentMethod)){
+                         header("LOCATION: payment.php?payment=false");
+                    }
+                    else{
+                         $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total')";
+                         $insertcheck = mysqli_query($conn, $insertorder);
+                         if($insertcheck){
+                              $deletecart = "DELETE FROM cart WHERE productid='$partID'";
+                              $rundelete = mysqli_query($conn, $deletecart);
+                         }
+                    }
+               }
+          }
+          $cartSelect = "SELECT * FROM pccart WHERE userID='$userID'";
+          $runQuery = mysqli_query($conn, $cartSelect);
+          if($runQuery){
+               while($cartrow = mysqli_fetch_array($runQuery)){
+                    $pcID = $cartrow['pcid'];
+                    $pcQty = 1;
+                    $paymentMethod = $_POST['paymentmethod'];
+                    $partID = 0;
+                    if(empty($paymentMethod)){
+                         header("LOCATION: payment.php?payment=false");
+                    }
+                    else{
+                         $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total')";
+                         $insertcheck = mysqli_query($conn, $insertorder);
+                         if($insertcheck){
+                              $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
+                              $rundelete = mysqli_query($conn, $deletecart);
+                         }
+                    }
+               }
+          }
+     }
 ?>
 
 <!DOCTYPE html>
@@ -186,35 +201,39 @@
                               <div class="p-1">
                                    <div class="d-flex jcsb m-sm">
                                         <div>SubTotal</div>
-                                        <div class="mr-1">&#8377; 1000</div>
+                                        <?php $subtotal = $_SESSION['grandtotal'] ?>
+                                        <div class="mr-1">&#8377;<?php echo $subtotal; ?></div>
                                    </div>
                                    <div class="mx-sm">
                                         <hr>
                                    </div>
                                    <div class="d-flex jcsb m-sm">
                                         <div>Shipping</div>
-                                        <div class="mr-1">&#8377; 1000</div>
+                                        <?php $shipping=$_SESSION['shippingCharge']; ?>
+                                        <div class="mr-1">&#8377; <?php echo $shipping; ?></div>
                                    </div>
                                    <div class="mx-sm">
                                         <hr>
                                    </div>
                                    <div class="d-flex jcsb m-sm">
                                         <div>Discount</div>
-                                        <div class="mr-1">&#8377; 1000</div>
+                                        <div class="mr-1">&#8377; 0</div>
                                    </div>
                                    <div class="mx-sm">
                                         <hr>
                                    </div>
                                    <div class="d-flex jcsb m-sm">
                                         <div> Estimated Tax</div>
-                                        <div class="mr-1">&#8377; 1000</div>
+                                        <?php $taxCharge=$_SESSION['taxCharge']; ?>
+                                        <div class="mr-1">&#8377; <?php echo $taxCharge; ?></div>
                                    </div>
                                    <div class="mx-sm">
                                         <hr>
                                    </div>
                                    <div class="d-flex jcsb m-sm">
                                         <div>Order Total</div>
-                                        <div class="mr-1">&#8377; 1000</div>
+                                        <?php $total=$_SESSION['total'];?>
+                                        <div class="mr-1">&#8377; <?php echo $total ?></div>
                                    </div>
                                    <div class="mx-sm">
                                         <hr>

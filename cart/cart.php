@@ -138,8 +138,6 @@
                                                             }
                                                             session_start();
                                                             $_SESSION['grandtotal'] = $grandTotal;
-                                                            
-                                                            
                                                        }
                                                        $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
                                                        $runGetCart = mysqli_query($conn, $getCart);
@@ -179,12 +177,12 @@
                                    </table>
                                    <div class="text-right mr-4 mb-2"><?php if($count === 0){ echo "No items in your cart";}else{ echo "&#8377;"+$grandTotal;}?></div>
                                    <div class="d-flex jcsb">
-                                        <a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a>
+                                        <a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a>
                                         <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
                                              <i class=" fas fa-refresh pr-sm"></i>
                                              Update Cart
                                         </button>
-                                        <a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i> </a>
+                                        <a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i> </a>
                                    </div>
                               </form>
                               <?php
@@ -209,6 +207,32 @@
                                         }
                                    }
                                    echo @$up_cart = update_cart();
+                                   if($count == 0)
+                                   {
+                                        $shippingCharge = 0;
+                                        $taxCharge = 0;
+                                   }
+                                   else{
+                                        if($grandTotal <= 1000){
+                                             $shippingCharge = 20;
+                                        }
+                                        else{
+                                             $shippingCharge = 0;
+                                        }
+                                        if($grandTotal <= 250){
+                                             $taxCharge = 6;
+                                        }
+                                        elseif($grandTotal <= 500){
+                                             $taxCharge = 16;
+                                        }
+                                        elseif($grandTotal <= 1000){
+                                             $taxCharge = 32;
+                                        }
+                                        elseif($grandTotal >= 1000){
+                                             $taxCharge = 60;
+                                        }
+                                   }
+
                               ?>
                          </div>
                          <div style="min-width:30%" class="ml-1 white b-rad-2">
@@ -232,21 +256,28 @@
                               </div>
                               <div class="d-flex jcsb mx-3 my-1">
                                    <p>Shipping & Handling</p>
-                                   <p>&#8377;0</p>
+                                   <p>&#8377;<?php session_start();$_SESSION['shippingCharge']=$shippingCharge; echo $shippingCharge; ?></p>
                               </div>
                               <div class="mx-2">
                                    <hr>
                               </div>
                               <div class="d-flex jcsb mx-3 my-1">
                                    <p>Tax</p>
-                                   <p>&#8377;0</p>
+                                   <p>&#8377;<?php session_start(); $_SESSION['taxCharge']=$taxCharge; echo $taxCharge; ?></p>
                               </div>
                               <div class="mx-2">
                                    <hr>
                               </div>
                               <div class="d-flex jcsb mx-3 my-1">
                                    <p><b>Total</b></p>
-                                   <p><b>&#8377;<?php echo $grandTotal; ?></b></p>
+                                   <p><b>&#8377;
+                                        <?php
+                                             $total=$shippingCharge+$grandTotal+$taxCharge;
+                                             session_start();
+                                             $_SESSION['total']=$total;
+                                             echo $total;
+                                        ?>
+                                   </b></p>
                               </div>
                          </div>
                     </div>

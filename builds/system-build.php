@@ -75,41 +75,42 @@
                                     <div class="my-1 mx-2 d-flex jcc"> 
                                         <form action="" method="POST" >
                                             <button class="text-deco-none signup-button-field text-black pr-1" name="case" >+ Choose a Case</button>
-                                        </form>                                    
+                                        </form>
                                     </div>
                                     <div class="">
                                         <?php
                                             if(isset($_POST['case'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="1";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td><img class='img1' src='../admin/upload/".$row['image']."' ><a href=''>".$row['partTitle']."</a></td>
+                                                                        <td>".$row['price']."</td>
+                                                                        <td><a href=''>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
                                 <div class="text-left my-1">
                                     <b> CPU:</b> <div class="br-1"></div>
                                     <div class="my-1 mx-2 d-flex jcc"> 

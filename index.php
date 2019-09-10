@@ -195,22 +195,25 @@
 <?php
     if (isset($_GET['add_cart'])) {
         $userID = $_SESSION['userId'];
-        $p_id = $_GET['add_cart'];
-          $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
-          $run_product = mysqli_query($conn, $check_product);
-          $part_qty = 1;
-          if (mysqli_fetch_array($run_product) > 0) {
-               echo"<script>alert('This product has already added in cart')</script>";
-               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-          } else {
-             $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
-             $check = mysqli_query($conn, $query);
-             if($check){
-                  echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
-             }
-             
+        if($userID == 0){
+            echo "<script>window.open('login.php?login=notlogin','_self')</script>";
         }
-        
+        else{
+            $p_id = $_GET['add_cart'];
+            $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
+            $run_product = mysqli_query($conn, $check_product);
+            $part_qty = 1;
+            if (mysqli_fetch_array($run_product) > 0) {
+                echo"<script>alert('This product has already added in cart')</script>";
+                echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+            } else {
+                $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
+                $check = mysqli_query($conn, $query);
+                if($check){
+                    echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
+                }
+            }
+        }
    }
    if (isset($_GET['addpc_cart'])) {
     $userID=$_SESSION['userId'];

@@ -83,6 +83,7 @@
                     <div class="d-flex jcc">
                          <div class="container white text-center mb-1">
                               <div style="background:#eee" class="p-1"><h1>Payment option</h1></div>
+                              <div style="font-size:16px;color:red" class="mt-sm">Select a payment method</div>
                               <div class="mt-1">
                                    <div class="container text-left">
                                         <div class="container">
