@@ -72,7 +72,26 @@
                     </div>
                     <div class="container">
                          <?php
-                              loginORnot();
+                              if(isset($_SESSION['userId'])){
+                                   echo'<form action="includes/logout.inc.php" method="post">
+                                   <div class="d-flex jcfe">
+                                   <div class="cart-btn">
+                                   <div style="font-size:30px;" class="nav-icon"><a href="../cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                   <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                   </div>
+                                   <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                   <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../.../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                   </div>
+                                   </form>';
+                               }
+                               else{
+                                   echo'
+                                   <div class="container d-flex flex-row jcfe">
+                                       <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
+                                       <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="login.php">Login</a></div>
+                                   </div>
+                                   ';
+                               }
                           ?>
                     </div>
                </div>
@@ -83,19 +102,46 @@
                     <div class="d-flex jcc">
                          <div class="container white text-center mb-1">
                               <div style="background:#eee" class="p-1"><h1>Payment option</h1></div>
-                              <div style="font-size:16px;color:red" class="mt-sm">Select a payment method</div>
+                              <?php
+                                   if(isset($_GET['payment'])){
+                                        if(isset($_GET['payment']) == "false"){
+                                             echo'<div style="font-size:16px;color:red" class="mt-sm">Select a payment method</div>';
+                                        }
+                                   }
+                              ?>
+                              
                               <div class="mt-1">
                                    <div class="container text-left">
                                         <div class="container">
-                                        <form action="order.php" method="POST">
-                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="credit">Credit</div><hr>
-                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="phonepe">PhonePe</div><hr>
-                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="netbanking">Net Banking</div><hr>
-                                             <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
-                                             <div class="text-center my-1">
-                                                  <button name="payment" style='background:#28AB87'  class='button-field text-deco-none shadow-md' type="submit">Place order</button>
-                                             </div>
-                                        </form>
+                                        <?php 
+                                             if(isset($_GET['sb'])){
+                                                  echo'
+                                                  <form action="order.php?sb" method="POST">
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="credit">Credit</div><hr>
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="phonepe">PhonePe</div><hr>
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="netbanking">Net Banking</div><hr>
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
+                                                  <div class="text-center my-1">
+                                                       <button name="payment" style="background:#28AB87"  class="button-field text-deco-none shadow-md" type="submit">Place order</button>
+                                                  </div>
+                                             </form>
+                                                  ';
+                                             }
+                                             else{
+                                                  echo'
+                                                  <form action="order.php" method="POST">
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="credit">Credit</div><hr>
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="phonepe">PhonePe</div><hr>
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="netbanking">Net Banking</div><hr>
+                                                  <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
+                                                  <div class="text-center my-1">
+                                                       <button name="payment" style="background:#28AB87"  class="button-field text-deco-none shadow-md" type="submit">Place order</button>
+                                                  </div>
+                                             </form>
+                                                  ';
+                                             }
+                                        ?>
+                                        
                                         </div>
                                    </div>
                               </div>

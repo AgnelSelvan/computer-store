@@ -36,42 +36,78 @@
      <div class="mt-3">
           <center>
                <table class="content-table">
-                    <thead>
-                         <tr style="">
-                              <th>ON:</th>
-                              <th>Things:</th>
-                              <th>Quantity:</th>
-                              <th>Due Amount:</th>
-                              <th>Order Date:</th>
-                              <th>Paid/Unpaid</th>
-                         </tr>
-                    </thead>
-                    <tbody>
-                         <tr>
-                              <td>#1</td>
-                              <td>Mouse</td>
-                              <td>6</td>
-                              <td>2000</td>
-                              <td>24/05/2019</td>
-                              <td>Unpaid</td>
-                         </tr>
-                         <tr>
-                              <td>#2</td>
-                              <td>Keyboard</td>
-                              <td>7</td>
-                              <td>2000</td>
-                              <td>24/05/2019</td>
-                              <td>Unpaid</td>
-                         </tr>
-                         <tr>
-                              <td>#3</td>
-                              <td>Mouse</td>
-                              <td>6</td>
-                              <td>2000</td>
-                              <td>24/05/2019</td>
-                              <td>Paid</td>
-                         </tr>
-                    </tbody>
+                         <?php
+                              
+                              echo"<thead>
+                              <tr>
+                                   <th>ON:</th>
+                                   <th>Things:</th>
+                                   <th>Quantity:</th>
+                                   <th>Amount:</th>
+                                   <th>Order Date:</th>
+                                   <th>Paid/Unpaid</th>
+                                   <th>Status</th>
+                              </tr>
+                              </thead>
+                              <tbody>";
+                              $i=1;
+                              $userID = $_SESSION['userId'];
+                              $selectorder = "SELECT * FROM orders WHERE userID='$userID'";
+                              $orderquery = mysqli_query($conn, $selectorder);
+                              while ($orderrow = mysqli_fetch_array($orderquery)) {
+                                   $quantity = $orderrow['partQty'];
+                                   $partID = $orderrow['partID'];
+                                   $pcID = $orderrow['pcID'];
+                                   if($partID !== 0){
+                                        $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+                                        $partquery = mysqli_query($conn, $selectpart);
+                                        while($partrow = mysqli_fetch_array($partquery)){
+                                             $dob = $orderrow['date'];
+                                             $paymentMethod = $orderrow['paymentMethod'];
+                                             if($paymentMethod === "cod"){
+                                                  $payment ="Unpaid";
+                                             }
+                                             else{
+                                                  $payment = "Paid";
+                                             }
+                                             $result = explode('-',$dob);
+                                             $date = $result[2];
+                                             $month = $result[1];
+                                             $year = $result[0];
+                                             $new = $date.'/'.$month.'/'.$year;
+                                             $partKeyword = $partrow['partKeyword'];
+                                             $partPrice = $partrow['price'];
+                                             $selectcomp = "SELECT * FROM pcpartcomp WHERE pcPartID='$partKeyword'";
+                                             $compquery = mysqli_query($conn, $selectcomp);
+                                             while($comprow = mysqli_fetch_array($compquery)){
+                                                  $compName = $comprow['pcPartComponents'];
+                                                  
+                                                  echo"
+                                                  <tr>
+                                                       <td>".$i."</td>
+                                                       <td>".$compName."</td>
+                                                       <td>".$quantity."</td>
+                                                       <td>".$partPrice."</td>
+                                                       
+                                                       <td>$new</td>
+                                                       <td>$payment</td>
+                                                       <td>Dispatched</td>
+                                                  </tr>
+                                                  
+                                                  ";
+                                             }
+                                        }
+                                   }
+                                   elseif($pcID !== 0){
+                                        
+                                   }
+                                   else{
+                                        echo"No items to display";
+                                   }
+                                   $i += 1;
+                              }
+                              echo "</body>";
+                         ?>
                </table>
           </center>
      </div>

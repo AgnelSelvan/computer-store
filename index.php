@@ -2,7 +2,17 @@
     require "./includes/dbh.inc.php";
     include('./functions/functions.php');
     session_start();
-    
+    $userID = $_SESSION['UserId'];
+    $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
+    $check = mysqli_query($conn, $selectQuery);
+    while ($row = mysqli_fetch_array($check)) {
+        $partID = $row['productid'];
+        $partquery = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+        $checkpart = mysqli_query($conn, $partquery);
+        while($partrow = mysqli_fetch_array($checkpart)){
+            $grandTotal += $partrow['price'];
+        }
+    }
 ?>
 <!DOCTYPE html>
  <html class="no-js">
@@ -16,95 +26,74 @@
         <link rel="stylesheet" href="./customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <style>
-            .cart-btn{
-                position:relative;
-                cursor: pointer;
-            }
-            .cart-items{
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: #28AB87;
-                padding: 0 10px;
-                border-radius: 30%;
-                color: white;
-            }
-            .navactive{
-                background: black;
-                color: white;
-            }
-            .card-hover{
-                margin-top: 32px;
-                margin-right: 32px;
-
-            }
-            .card-hover:hover{
-                border: 1px solid #28AB87;
-            }
-            label{
-                margin: 0 0 0 20px;
-                font-size: 24px;
-                line-height: 45px;
-                float: left;
-                display: none;
-            }
-            #toggle{
-                float: left;
-                display: none;
-            }
-            .close{
-                display:none;
-            }
-            @media screen and (max-width:988px){
-                label{
-                    display: block;
-                    cursor: pointer;
+            @media screen and (max-width:600px){
+                .responsive-container{
+                    display:flex;
+                    justify-content: center;
+                    margin-left: 9%;
+                    padding: auto;
+                    min-width: 80vw;
                 }
-                ul {
-                    text-align: center;
-                    width: 100%;
-                    display: none;
+                .responsive-card{
+                    min-width: 80vw;
                 }
-                ul a{
-                    display: block;
-                    margin: 0;
-                }
-                #toggle:checked + ul{
-                    display: block;
+                .img2{
+                    min-width: 300px;
+                    height: auto;
                 }
             }
         </style>
+        
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+            jQuery('.toggle-nav').click(function(e) {
+                jQuery(this).toggleClass('active');
+                jQuery('.menu ul').toggleClass('active');
+
+                e.preventDefault();
+            });
+            });
+        </script>
     </head>
     <body>
         <!-- Navbar -->
-        <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col">
-            <div class="w-100 d-flex flex-row white">
-                <div class="container d-flex flex-row">
-                    <a href="index.php">
-                        <img class="img1" src="./img/cpu.png" alt="logo">
-                    </a>
-                    <label for="toggle">&#9776</label>
-                    <input type="checkbox" id="toggle"/>
-                    <ul class="d-flex flex-row ls-none">
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php?home">Home</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="container">
+            <div style="position:sticky;top:0px;z-index:1;height:7vh;" class="d-flex flex-col w-100 white">
+                <div class="d-flex jcsb">
+                    <div class="d-flex flex-row">
+                        <div>
+                            <img class="img1" src="img/cpu.png" alt="">
+                        </div>
+                        <div class="hamburger">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="menu">
+                            <ul class="ls-none active current-item">
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a class="toggle-nav" href="#">&#9776;</a>
+                        </div>
+                    </div>
+                    <div class="mt-sm">
                         <?php
-                        
                             loginORnot();
                         ?>
+                    </div>
                 </div>
             </div>
             <div style=" background:gray">
                 <?php
-                    $grandTotal = $_SESSION['grandtotal'];
                     $userName = $_SESSION['userUid'];
                     if(isset($_SESSION['userId'])){
+                        if(isset($_SESSION['start'])){
                         echo'
                             <div class="'?><?php if(isset($_GET["close"])){echo "close";} echo'">
                                 <div style="margin:10px;">
@@ -128,52 +117,50 @@
                                 </div>
                             </div>
                         ';
-                    }
+                    }}
                 ?>
-                
-        </div>
+            </div>
         <!-- Navbar -->
-        </div>
+        
         <!-- Content -->
-                <div class="primary bg-color">
-                    <div class="d-flex flex-col jcc">
+                <div class="primary bg-color md-m-0 md-p-0 sm-p-0">
+                    <div class="d-flex flex-col jcc ">
                         <div class="m-0 p-0 w-100">
-                        <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-3 ">System Parts</h1>
-                        <div class="b-1 text-white mr-3 ml-2"></div>
-                            <div class="d-flex flex-wrap jcc">
-                                    <?php
-                                        $query = "SELECT * FROM pcpart;";
-                                        $check = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_assoc($check)) {
-                                             $partname = $row['partKeyword'];
-                                             $partID = $row['pcPartID'];
-                                             echo "
-                                                <div style='width:220px;'  class='shadow-md white b-rad-2 card-hover'>
+                            <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2">System Parts</h1>
+                            <div class="b-1 text-white mr-3 ml-2"></div>
+                            <div class="d-flex flex-wrap jcc responsive-container">
+                                <?php
+                                    $query = "SELECT * FROM pcpart;";
+                                    $check = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_assoc($check)) {
+                                            $partname = $row['partKeyword'];
+                                            $partID = $row['pcPartID'];
+                                            echo "
+                                            <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
+                                                <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                                <div class='single-img'>
                                                     <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
-                                                    <div style='font-size:20px;' class='text-center'>";
-                                                        $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
-                                                        $connect = mysqli_query($conn, $q);
-                                                        if($connect){
-                                                            while($partrow = mysqli_fetch_row($connect)){
-                                                                    
-                                                            }
-                                                            
-                                                        }
-                                                        echo"<a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'><h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
-                                                        echo"<div class='text-primary'>
-                                                                    <b></b>
-                                                                    <p>Quantity:{$row['qty']}</p>
-                                                                    <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
-                                                            </div>
-                                                            <div class='mb-3 mt-2'>
-                                                                    <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a>
-                                                                    <a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>Add to cart</a>
-                                                            </div>
-                                                    </div>
                                                 </div>
-                                             ";
-                                        }
-                                    ?>
+                                                <div style='font-size:20px;' class='text-center'>";
+                                                    echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                                    echo"<div class='text-primary'>
+                                                                <b></b>
+                                                                <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                        </div>
+                                                        <div class='mx-sm'>
+                                                        <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                                <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
+                                                                <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            ";
+                                    }
+                                    echo'
+                                    
+                                    ';
+                                ?>
                             </div>
                         </div>
                         <div class="ml-1 mr-1 p-0 w-100">
@@ -188,7 +175,6 @@
                         </div>
                 </div>
         <!-- Content -->
-        
 <?php
     require "footer.php";
 ?>

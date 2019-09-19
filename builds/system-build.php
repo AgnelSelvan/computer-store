@@ -3,6 +3,40 @@
     include("../functions/functions.php");
     session_start();
 ?>
+<?php
+    if(isset($_GET['addPart'])){
+        $partID = $_GET['addPart'];
+        $partPrice = $_GET['price'];
+        $partKeyword = $_GET['keyword'];
+        $userID = $_SESSION['userId'];
+        $discount = $partPrice * 0.25;
+        $insert = "INSERT INTO systembuild VALUES(NULL, '$userID', '$partKeyword', '$partID', '$partPrice', '$discount')";
+        $check = mysqli_query($conn, $insert);
+        if($check){
+            header("LOCATION: system-build.php");
+        }
+    }
+    
+    if(isset($_GET['delPart'])){
+        $partID = $_GET['delPart'];
+        print($partID);
+        $partKeyword = $_GET['keyword'];
+        $userID = $_SESSION['userId'];
+        $delete = "DELETE FROM systembuild WHERE partID='$partID'";
+        $check = mysqli_query($conn, $delete);
+        if($check){
+            header("LOCATION: system-build.php");
+        }
+    }
+    if(isset($_GET['delsb'])){
+        $userID = $_SESSION['userId'];
+        $deletesb = "DELETE FROM systembuild WHERE userID='$userID'";
+        $deletequery = mysqli_query($conn, $deletesb);
+        if($deletequery){
+            header("LOCATION: system-build.php");
+        }
+    }
+?>
 
 <!DOCTYPE html>
  <html class="no-js">
@@ -15,45 +49,60 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
+        <style>
+            @media screen and (max-width:600px){
+                .responsive-container{
+                    display:flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    min-width: 85vw;
+                }
+            }
+        </style>
+
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+            jQuery('.toggle-nav').click(function(e) {
+                jQuery(this).toggleClass('active');
+                jQuery('.menu ul').toggleClass('active');
+
+                e.preventDefault();
+            });
+            });
+        </script>
     </head>
     <body>
-        <div style="position:sticky;top:0px;z-index:1;" class="w-100 d-flex flex-row white">
-            <div class="container d-flex flex-row">
-                <a href="index.php">
-                    <img class="img1" src="../img/cpu.png" alt="logo">
-                </a>
-                <ul class="d-flex flex-row ls-none ">
-                    <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
-                    <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="system-build.php">SystemBuild</a></li>
-                    <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="completed_build.php">CompletedBuild</a></li>
-                    <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
-                    <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
-                </ul>
-            </div>
-            <div class="container">
+    <div style="position:sticky;top:0px;z-index:1;height:7vh;" class="d-flex flex-col w-100 white">
+            <div class="d-flex jcsb">
+                <div class="d-flex flex-row">
+                    <div>
+                        <img class="img1" src="../img/cpu.png" alt="">
+                    </div>
+                    <div class="hamburger">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="menu">
+                        <ul class="ls-none active current-item">
+                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
+                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="system-build.php">SystemBuild</a></li>
+                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="completed_build.php">CompletedBuild</a></li>
+                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
+                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <a class="toggle-nav" href="#">&#9776;</a>
+                    </div>
+                </div>
+                <div class="mt-1">
                     <?php
-                        if(isset($_SESSION['userId'])){
-                            echo'<form action="includes/logout.inc.php" method="post">
-                            <div class="d-flex jcfe">
-                            <div class="cart-btn">
-                            <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-                            <div class="cart-items">'?><?php cartcount(); echo'</div>
-                            </div>
-                            <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                            <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
-                            </div>
-                            </form>';
-                        }
-                        else{
-                            echo'
-                            <div class="container d-flex flex-row jcfe">
-                                <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
-                                <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
-                            </div>
-                            ';
-                        }
+                        loginORnot();
                     ?>
                 </div>
+            </div>
         </div>
 
 
@@ -63,20 +112,68 @@
                     <div class="container">
                         <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > System Builds</div>
                     </div>
-                    <div class="container white p-3 b-rad-2 shadow-md">
+                    <div class="container responsive-container white p-3 b-rad-2 shadow-md">
                         <div class="">
                             <h1 style="font-size:30px;" class="text-black pb-0.5 ">System Parts</h1>
-                            <div class="b-1"></div>
                         </div>
                         <div class="">
                             <div class="d-flex text-black flex-col mt-2">
+                                <table style="color:gray" style='width:100%'>
+                                    <tr>
+                                        <td style='width:70%'>Selection</td>
+                                        <td class="text-center">Price</td>
+                                        <td class="text-right">Discount</td>
+                                        <td class="text-center">Remove</td>
+                                    </tr>
+                                </table>
+                                <hr>
+                                <!-- CASE -->
                                 <div class="my-1">
                                     <b> Case: </b>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="case" >+ Choose a Case</button>
-                                        </form>
-                                    </div>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=1";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                                <div class="my-1 mx-2 d-flex jcc">
+                                                    <form action="" method="POST" >
+                                                        <button class="text-deco-none signup-button-field text-black pr-1 b-0" name="case" >+ Choose a Case</button>
+                                                    </form>
+                                                </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
                                         <?php
                                             if(isset($_POST['case'])){
@@ -97,9 +194,13 @@
                                                     while($row = mysqli_fetch_array($check)){
                                                         echo"
                                                                     <tr>
-                                                                        <td><img class='img1' src='../admin/upload/".$row['image']."' ><a href=''>".$row['partTitle']."</a></td>
-                                                                        <td>".$row['price']."</td>
-                                                                        <td><a href=''>Add</a></td>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=1&price=".$row['price']."'>Add</a></td>
                                                                     </tr>
                                                         ";
                                                     }
@@ -111,323 +212,750 @@
                                         ?>
                                     </div>
                                 </div>
+                                <hr>
+                                <!-- CPU -->
                                 <div class="text-left my-1">
-                                    <b> CPU:</b> <div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="cpu" >+ Choose a CPU</button>
-                                        </form>
-                                    </div>
+                                    <b> CPU:</b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=2";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1 text-right'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
+                                                <form action="" method="POST" >
+                                                    <button class="text-deco-none signup-button-field text-black pr-1" name="cpu" >+ Choose a CPU</button>
+                                                </form>
+                                            </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['cpu'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="2";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'>
+                                                                            <a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=2&price=".$row['price']."'>
+                                                                                Add
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                <!-- MOTHERBOARD -->
                                 <div class="text-left my-1">
-                                    <b> Motherboard: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="motherboard" >+ Choose a Motherboard</button>
-                                        </form>                                    
-                                    </div>
+                                    <b> Motherboard: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=3";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
+                                                <form action="" method="POST" >
+                                                    <button class="text-deco-none signup-button-field text-black pr-1" name="motherboard" >+ Choose a Motherboard</button>
+                                                </form>
+                                            </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['motherboard'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="3";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=3&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                <!-- RAM -->
                                 <div class="text-left my-1">
-                                    <b> RAM: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="ram" >+ Choose a RAM</button>
-                                        </form>                                    
-                                    </div>
+                                    <b> RAM: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=5";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $check = mysqli_query($conn, $select);
+                                                while($rowpart = mysqli_fetch_array($check)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$rowpart['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$rowpart['pcPartID']."'>".$rowpart['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$rowpart['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$rowpart['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                            echo"
+                                            <div class='my-1 mx-2 d-flex jcc'> 
+                                                <form action='' method='POST' >
+                                                        <button class='text-deco-none signup-button-field text-black pr-1' name='ram' >+ Choose a additional</button>
+                                                </form>
+                                            </div>
+                                            ";
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
+                                                <form action="" method="POST" >
+                                                        <button class="text-deco-none signup-button-field text-black pr-1" name="ram" >+ Choose a RAM</button>
+                                                </form>
+                                            </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['ram'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="5";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=5&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                <!-- GRAPHICS CARD -->
                                 <div class="text-left my-1">
-                                    <b>  GraphicsCard: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="graphics" >+ Choose a GraphicsCard</button>
-                                        </form>                                    
-                                    </div>
+                                    <b>  GraphicsCard: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=6";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                        <div class="my-1 mx-2 d-flex jcc"> 
+                                            <form action="" method="POST" >
+                                                <button class="text-deco-none signup-button-field text-black pr-1" name="graphics" >+ Choose a GraphicsCard</button>
+                                            </form>
+                                        </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['graphics'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="6";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=6&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                    <!-- HRAD Disk -->
                                 <div class="text-left my-1">
-                                    <b> HardDisk: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="harddisk" >+ Choose a HardDisk</button>
-                                        </form>                                    
-                                    </div>
+                                    <b> HardDisk: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=9";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
+                                            <form action="" method="POST" >
+                                                <button class="text-deco-none signup-button-field text-black pr-1" name="harddisk" >+ Choose a HardDisk</button>
+                                            </form>                                    
+                                            </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['harddisk'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="9";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=9&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                    <!-- MONITOR -->
                                 <div class="text-left my-1">
-                                    <b>Monitor: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
+                                    <b>Monitor: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=4";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td  style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-sm'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-sm'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
                                         <form action="" method="POST" >
                                             <button class="text-deco-none signup-button-field text-black pr-1" name="monitor" >+ Choose a Monitor</button>
-                                        </form>                                    
+                                        </form>
                                     </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['monitor'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="4";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=4&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                            <!-- MOUSE -->
                                 <div class="text-left my-1">
-                                    <b>Mouse: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="mouse" >+ Choose a Mouse</button>
-                                        </form>                                    
-                                    </div>
+                                    <b>Mouse: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=7";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
+                                                                </div>
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
+                                            <form action="" method="POST" >
+                                                <button class="text-deco-none signup-button-field text-black pr-1" name="mouse" >+ Choose a Mouse</button>
+                                            </form>                                    
+                                        </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
                                     <div class="">
-                                        <?php
+                                    <?php
                                             if(isset($_POST['mouse'])){
                                                 echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                 ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="7";';
                                                 $check = mysqli_query($conn, $query);
                                                 if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
+                                                    while($row = mysqli_fetch_array($check)){
                                                         echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
-                                                                </div>
-                                                            </div>
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=7&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
                                                         ";
-                                                    }echo"</div>";
+                                                    }
                                                 }
+                                                echo"
+                                                </tbody>
+                                            </table>";
                                             }
                                         ?>
                                     </div>
                                 </div>
-
+                                <hr>
+                                            <!-- KEYBOARD -->
                                 <div class="text-left my-1">
-                                    <b>Keyboard: </b><div class="br-1"></div>
-                                    <div class="my-1 mx-2 d-flex jcc"> 
-                                        <form action="" method="POST" >
-                                            <button class="text-deco-none signup-button-field text-black pr-1" name="keyboard" >+ Choose a Keyboard</button>
-                                        </form>                                    
-                                    </div>
-                                    <div class="">
-                                        <?php
-                                            if(isset($_POST['keyboard'])){
-                                                echo"
-                                                            <div class='d-flex jcsb m-1'>
-                                                                <div></div>
-                                                                <div>Description</div>
-                                                                <div>Price</div>
-                                                                <div></div>
-                                                            </div>
-                                                ";
-                                                $query = 'SELECT * FROM pcpart WHERE partName="1";';
-                                                $check = mysqli_query($conn, $query);
-                                                if($check){
-                                                    echo"<div class=''>";
-                                                    while($row = mysqli_fetch_row($check)){
-                                                        echo"
-                                                            <div class='white m-1 p-sm d-flex jcsb'>
-                                                                <img class='img1' src='../admin/upload/".$row[1]."'/>
-                                                                <div>$row[3]</div>
-                                                                <div>$row[5]</div>
-                                                                <div>
-                                                                    <form method='POST'><a href='system-build.php?id={$row[0]}'>Add</a></form>
+                                    <b>Keyboard: </b>
+                                    <?php
+                                        $query = "SELECT * FROM systembuild WHERE partKeyword=8";
+                                        $connect = mysqli_query($conn, $query);
+                                        if(mysqli_num_rows($connect) > 0){
+                                            while($row = mysqli_fetch_array($connect)){
+                                                $discount = $row['partDiscount'];
+                                                $pcpartID = $row['partID'];
+                                                $select = "SELECT * FROM pcpart WHERE pcPartID='$pcpartID'";
+                                                $connect = mysqli_query($conn, $select);
+                                                while($row = mysqli_fetch_array($connect)){
+                                                    echo"
+                                                        <table style='width:100%'>
+                                                        <tr>
+                                                            <td style='width:70%'>
+                                                            <div  class='d-flex md-flex-col'>
+                                                                <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                </a>
                                                                 </div>
-                                                            </div>
-                                                        ";
-                                                    }echo"</div>";
+                                                            </td>
+                                                            <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                            <td class='p-1'>&#8377; $discount</td>
+                                                            <td class='p-1'>
+                                                                <a style='background:red; color:white;' class='px-1 py-sm text-deco-none b-rad-1 shadow-md' href='system-build.php?delPart=".$row['pcPartID']."&keyword=1'>
+                                                                    <i class='fa fa-trash'></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    ";
                                                 }
                                             }
+                                        }
+                                        else{
+                                            echo'
+                                            <div class="my-1 mx-2 d-flex jcc"> 
+                                        <form action="" method="POST" >
+                                            <button class="text-deco-none signup-button-field text-black pr-1" name="keyboard" >+ Choose a Keyboard</button>
+                                        </form>
+                                    </div>
+                                            ';
+                                        }
+                                    ?>
+                                    
+                                    <div class="">
+                                    <?php
+                                            if(isset($_POST['keyboard'])){
+                                                echo"
+                                                    <table style='width:90%' class='text-left'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Add</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                ";
+                                                $query = 'SELECT * FROM pcpart WHERE partKeyword="8";';
+                                                $check = mysqli_query($conn, $query);
+                                                if($check){
+                                                    while($row = mysqli_fetch_array($check)){
+                                                        echo"
+                                                                    <tr>
+                                                                        <td class='p-1'>
+                                                                            <img class='img1' src='../admin/upload/".$row['image']."' >
+                                                                            <a style='color:#28AB87;font-size:16px;' class='text-deco-none' href='../details.php?part_det=".$row['pcPartID']."'>".$row['partTitle']."
+                                                                            </a>
+                                                                        </td>
+                                                                        <td class='p-1'>&#8377; ".$row['price']."</td>
+                                                                        <td class='p-1'><a style='padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;' class='text-deco-none b-rad-2 shadow-md' href='system-build.php?addPart=".$row['pcPartID']."&keyword=8&price=".$row['price']."'>Add</a></td>
+                                                                    </tr>
+                                                        ";
+                                                    }
+                                                }
+                                                echo"
+                                                </tbody>
+                                            </table>";
+                                            }
                                         ?>
+                                    </div>
+                                </div>
+                                <hr>
+                                <?php
+                                    $baseTotal = 0;
+                                    $userID = $_SESSION['userId'];
+                                    $priceQuery = "SELECT * FROM systembuild WHERE userID='$userID'";
+                                    $priceCheck = mysqli_query($conn, $priceQuery);
+                                    while($row = mysqli_fetch_array($priceCheck)){
+                                        $baseTotal += $row['partPrice'];
+                                        $discount += $row['partDiscount'];
+                                    }
+                                ?>
+                                <table style='width:100%' class="my-1">
+                                    <tr>
+                                        <td style='width:72%'>Base Total:</td>
+                                        <td><?php echo "&#8377;".$baseTotal; ?></td>
+                                        <td><?php echo "&#8377;".$discount; ?></td>
+                                        <td style='width:12%'></td>
+                                    </tr>
+                                </table>
+                                <div class="container">
+                                    <div class="container">
+                                        <div class="d-flex jcc">
+                                            <?php
+                                                $Total = $baseTotal-$discount;
+                                            ?>
+                                            Total Price:&#8377; <?php echo $Total; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                    <div class="d-flex jcsb sm-flex-col sm-d-flex sm-jcc sm-m-1">
+                                        <div class="sm-ml-3 sm-my-1">
+                                            <a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md">
+                                                <i class="fas fa-step-backward pr-sm"></i>ContinueShopping
+                                            </a>
+                                        </div>
+                                        <div class="sm-ml-lg sm-my-1">
+                                            <a href="system-build.php?delsb" style="padding:10px 14px;margin-top:20px;background:red; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
+                                                DeleteAll
+                                            </a>
+                                        </div>
+                                        <div class="sm-my-1 sm-ml-3">
+                                            <a href="../cart/order/proceedcheckout.php?sb" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
+                                                ProceedCheckout <i class="fas fa-fast-forward"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -475,129 +1003,3 @@
           </div>
     </body>
 </html>
- <!-- 
- class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full
-class="py-1 pl-1 my-1 b-rad-2 white w-max-full -->
-<!-- <div class="d-flex flex-row jcsa mt-2 text-black">
-                                <div class="">Components</div>
-                                <div>Selection</div>
-                                <div>Price</div>
-                                <div>Discount</div>
-                                <div>Total Price</div>
-                            </div>
-                            <div class="b-1 mb-2 ml-4 mr-3"></div> 
-                            <div class="m-1 d-flex flex-row jcsa text-black">
-                                <div>Case</div>
-                                <a> + Choose a Case</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="d-flex flex-row jcsa text-black">
-                                <div>Motherboard</div>
-                                <a> + Choose a Motherboard</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="m-1 d-flex flex-row jcsa text-black">
-                                <div>CPU</div>
-                                <a> + Choose a CPU</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="d-flex m-1  flex-row jcsa text-black">
-                                <div>Monitor</div>
-                                <a> + Choose a Monitor</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="d-flex flex-row m-1 jcsa text-black">
-                                <div>Mouse</div>
-                                <a> + Choose a Mouse</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="d-flex m-1 flex-row jcsa text-black">
-                                <div>Keyboard</div>
-                                <a> + Choose a Keyboard</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="d-flex m-1 flex-row jcsa text-black">
-                                <div>Hard Disk</div>
-                                <a> + Choose a Hard Disk</a>
-                                <div>&#8377;1000</div>
-                                <div>&#8377;100</div>
-                                <div>&#8377;900</div>
-                            </div>
-                            <div class="text-black d-flex flex-row jcsb mb-4 mx-2">
-                                <div style="" class="">
-                                    <div class="mt-2 mb-1">Components</div>
-                                    <div class="py-sm" >Case</div>
-                                    <div class="py-sm" >CPU</div>
-                                    <div class="py-sm" >Motherboard</div>
-                                    <div class="py-sm" >HardDisk</div>
-                                    <div class="py-sm" >Monitor</div>
-                                    <div class="py-sm" >Mouse</div>
-                                    <div class="py-sm" >Keyboard</div>
-                                </div>
-                                <div class="">
-                                    <div class="mt-2 mb-1">Selection</div>
-                                    <form action="" method="POST">
-                                    <div class="py-sm" ><button type="submit" name="case"> + Choose a Case</button></div>
-                                    <?php
-                                        // if(isset($_POST['case'])){
-                                        //     echo"case";
-                                        // }
-                                    ?>
-                                    <div  class="py-sm" ><button type="submit"name=""  > + Choose a CPU</button></div>
-                                    <div class="py-sm" ><button type="submit" name=""> + Choose a Motherboard</button></div>
-                                    <div class="py-sm" ><button type="submit" name=""> + Choose a Hard Disk</button></div>
-                                    <div class="py-sm" ><button type="submit" name=""> + Choose a Monitor</button></div>
-                                    <div class="py-sm" ><button type="submit" name=""> + Choose a Mouse</button></div>
-                                    <div class="py-sm" ><button type="submit" name=""> + Choose a Keyboard</button></div>
-                                    </form>
-                                </div>
-                                <div class="">
-                                    <div class="mt-2 mb-1">Price</div>
-                                    <div class="py-sm">&#8377;1000</div>
-                                    <div class="py-sm" >&#8377;1000</div>
-                                    <div class="py-sm" >&#8377;1000</div>
-                                    <div class="py-sm" >&#8377;1000</div>
-                                    <div class="py-sm" >&#8377;1000</div>
-                                    <div class="py-sm" >&#8377;1000</div>
-                                    <div class="py-sm" >&#8377;1000</div>
-                                </div>
-                                <div class="">
-                                    <div class="mt-2 mb-1">Discount</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                    <div class="py-sm" >&#8377;100</div>
-                                </div>
-                                <div class="">
-                                    <div class="mt-2 mb-1">Total Price</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                    <div class="py-sm" >&#8377;900</div>
-                                </div>
-                            </div> -->

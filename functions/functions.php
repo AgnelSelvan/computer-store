@@ -65,9 +65,12 @@ function getCompleteBuilts(){
      while ($row = mysqli_fetch_assoc($check)) {
           $p_id = $row['pc_id'];
           echo "
-          <div style='width:240px;' class='fade-in shadow-md text-center white m-1 p-1 b-rad-2 card-hover'>
+          <div style='width:240px;' class='shadow-md responsive-card text-center white m-1 p-1 b-rad-2 card-hover'>
+          <a style='color:#28AB87' class='text-deco-none' href='details.php?pc_det=".$p_id."'>
+               <div class='single-img'>
                <img class='img2 mt-1' src='./admin/upload/".$row['pc_image']."'/><br>
-               <a style='color:#28AB87' class='text-deco-none' href='details.php?pc_det=".$p_id."'><h3 class='m-1'>{$row['pcName']}</h3></a>
+               </div>
+               <h3 class='m-1'>{$row['pcName']}</h3></a>
                <div style='font-size:24px;'  class='text-black p-1'>
                     <b>&#8377;  {$row['pcPrice']}</b>
                </div>
@@ -87,15 +90,15 @@ function loginORnot(){
           <div class="cart-items">'?><?php cartcount(); echo'</div>
           </div>
           <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-          <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="includes/logout.inc.php" name="logout-submit">Logout</a></div>
+          <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="includes/logout.inc.php" name="logout-submit">Logout</a></div>
           </div>
           </form>';
       }
       else{
           echo'
           <div class="container d-flex flex-row jcfe">
-              <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
-              <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="login.php">Login</a></div>
+              <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
+              <div style="margin-top:10px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="login.php">Login</a></div>
           </div>
           ';
       }

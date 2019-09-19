@@ -71,7 +71,26 @@
                     </div>
                     <div class="container">
                          <?php
-                              loginORnot();
+                              if(isset($_SESSION['userId'])){
+                                   echo'<form action="includes/logout.inc.php" method="post">
+                                   <div class="d-flex jcfe">
+                                   <div class="cart-btn">
+                                   <div style="font-size:30px;" class="nav-icon"><a href="cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                   <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                   </div>
+                                   <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                   <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                   </div>
+                                   </form>';
+                               }
+                               else{
+                                   echo'
+                                   <div class="container d-flex flex-row jcfe">
+                                       <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
+                                       <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="login.php">Login</a></div>
+                                   </div>
+                                   ';
+                               }
                           ?>
                     </div>
                </div>
@@ -99,9 +118,10 @@
                                              <tr>
                                                   <th>Product</th>
                                                   <th>Quantity</th>
-                                                  <th>Price</th>
+                                                  <th>Unit Price</th>
+                                                  <th>Discount</th>
                                                   <th>Delete</th>
-                                                  <th>SubToatal</th>
+                                                  <th>Total</th>
                                              </tr>
                                         </thead>
                                         <tbody>
@@ -119,8 +139,10 @@
                                                                  $partTitle = $productrow['partTitle'];
                                                                  $image = $productrow['image'];
                                                                  $unitprice = $productrow['price'];
-                                                                 $subTotal = $quantity * $unitprice;
+                                                                 $haha = $quantity * $unitprice;
+                                                                 $subTotal = $haha - $discount;
                                                                  $grandTotal += $subTotal;
+                                                                 $discount = $unitprice * $quantity * 0.25;
                                                                  echo '
                                                                  <tr>
                                                                       <td>
@@ -131,6 +153,7 @@
                                                                       </td>
                                                                       <td>'?><?php echo $quantity; echo'</td>
                                                                       <td>&#8377;'.$unitprice.'</td>
+                                                                      <td>&#8377;'.$discount.'</td>
                                                                       <td><input type="checkbox" name="remove[]" value='?><?php echo $productID; echo'></td>
                                                                       <td>&#8377;'.$subTotal.'</td>
                                                                  </tr>
@@ -139,6 +162,7 @@
                                                             session_start();
                                                             $_SESSION['grandtotal'] = $grandTotal;
                                                        }
+
                                                        $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
                                                        $runGetCart = mysqli_query($conn, $getCart);
                                                        while($row = mysqli_fetch_array($runGetCart)){
@@ -171,11 +195,15 @@
                                                             }
                                                             $_SESSION['grandtotal'] = $grandTotal;
                                                        }
-                                                       
                                                   ?>
                                         </tbody>
                                    </table>
-                                   <div class="text-right mr-4 mb-2"><?php if($count === 0){ echo "No items in your cart";}else{ echo "&#8377;"+$grandTotal;}?></div>
+                                   <div class="text-right mr-4 mb-2"><?php 
+                                        if($count === 0){ echo "<p style='font-size:14px;'>No items in your cart</p>";}
+                                        else{
+                                             echo"<b>Total: </b> "; 
+                                             echo "&#8377;"+$grandTotal;}?>
+                                        </div>
                                    <div class="d-flex jcsb">
                                         <a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a>
                                         <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
@@ -235,7 +263,7 @@
 
                               ?>
                          </div>
-                         <div style="min-width:30%" class="ml-1 white b-rad-2">
+                         <div style="width:40%" class="ml-1 white b-rad-2">
                               <div style="background:#eee" class="b-rad-2">
                                    <h1 class="py-1">Order Summary</h1>
                               </div>
@@ -255,7 +283,7 @@
                                    <hr>
                               </div>
                               <div class="d-flex jcsb mx-3 my-1">
-                                   <p>Shipping & Handling</p>
+                                   <p>Shipping</p>
                                    <p>&#8377;<?php session_start();$_SESSION['shippingCharge']=$shippingCharge; echo $shippingCharge; ?></p>
                               </div>
                               <div class="mx-2">

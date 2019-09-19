@@ -11,24 +11,6 @@ error_reporting(0);
         $folder = "uploadedimages/".$fileName;
         move_uploaded_file($fileTmpName, $folder);
 
-        // $partTitle = $_POST['productTitle'];
-        // $description = $_POST['description'];
-        // $quantity = $_POST['qty'];
-        // $partKeyword = $_POST['ComponentName'];
-        // $price = $_POST['price'];
-        // if (empty($partTitle) || empty($description) || empty($quantity) || empty($price)) {
-        //     header("LOCATION: upload_pc_part.php?error=emptyfield");
-        // }
-        // else{
-        //     $insertQuery = "INSERT INTO pcpart VALUES(NULL, '$partTitle', '$folder', '$partKeyword', '$description', '$quantity', '$price')";
-        //     $checkInsert = mysqli_query($conn, $insertQuery);
-        //     if($checkInsert){
-        //         header('location: upload_pc_part.php?data=success');
-        //     }
-        //     else{
-        //         header('location: upload_pc_part.php?data=unsuccess');
-        //     }
-        // }
         $partTitle = $_POST['productTitle'];
         $partKeyword = $_POST['ComponentName'];
         $partDesc = $_POST['description'];
@@ -56,7 +38,6 @@ error_reporting(0);
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
-        <!-- <script src="https://cdn.tiny.cloud/1/g7o4z05jsgoapee04981d3pi0xxyrcayr0uvx8ksuj65krhm/tinymce/5/tinymce.min.js"></script>        <script>tinymce.init({selector:'textarea'});</script> -->
     </head>
     <body class="bg-color">
         <div class="w-100 mb-1 d-flex flex-row white">

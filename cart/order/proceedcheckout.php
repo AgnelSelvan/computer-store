@@ -105,7 +105,14 @@
                                              <?php echo $address;?>
                                         </div>
                                         <div class="container text-center mb-1">
-                                             <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href="payment.php">Deliver to this address</a>
+                                             <?php 
+                                                  if(isset($_GET['sb'])){
+                                                       echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php?sb'>Deliver to this address</a>";
+                                                  }
+                                                  else{
+                                                       echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php'>Deliver to this address</a>";
+                                                  }
+                                             ?>
                                         </div>
                                         <div class="mb-1"></div>
                                    </div>

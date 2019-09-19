@@ -1,6 +1,7 @@
 <?php
     require "header.php";
 ?>
+
 <body class="bg-color">
     <style>
         .section{
@@ -75,7 +76,7 @@
                     ?>
                 </div>
 
-                <form action="includes/signup.inc.php" method="post">
+                <form action="./includes/signup.inc.php" method="post">
                     <div class="text-center">
                         <div>
                             <input class="input-field" type="text" name="uid" placeholder="Username"/>
@@ -107,9 +108,14 @@
                                 <option value="japan">Japan</option>
                             </select>
                         </div>
-                        <div style="font-size:16px;" class="pl-sm">Your image</div><input type="file" name="file" class="pl-sm" >
+                        <div>
+                            <input type="file" name="image">
+                        </div>
+                        <div class="text-center my-1">
+                            <button style="width:150px; font-size:20px;background:#28AB87" class="btn button-field text-deco-none" type="submit" name="signup-submit">
+                                Signup
+                            </button>
                     </div>
-                    <div class="text-center my-1"><button style="width:150px; font-size:20px;background:#28AB87" class="btn button-field text-deco-none" type="submit" name="signup-submit">Signup</button></div>
                 </form>
             </div>
         </div>

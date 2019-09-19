@@ -39,7 +39,7 @@
                     echo"<script>alert('This product has already added in cart')</script>";
                     echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
                } else {
-               $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
+               $query = "INSERT INTO cart VALUES (null, '$userID', '$p_id','$part_qty');";
                $check = mysqli_query($conn, $query);
                if($check){
                     echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
@@ -88,35 +88,12 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+     <link rel="stylesheet" type="text/css" href="js/jquery.exzoom.css" >
      <title>Details</title>
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="./customstyle.css">
-</head>
-<body>
-     <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col">
-               <div class="w-100 d-flex flex-row white">
-                    <div class="container d-flex flex-row">
-                         <a href="index.php">
-                         <img class="img1" src="./img/cpu.png" alt="logo">
-                         </a>
-                         <ul class="d-flex flex-row ls-none ">
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./index.php">Home</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./builds/system-build.php">SystemBuild</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./builds/completed_build.php">CompletedBuild</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./about.php">About</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="  ./contact.php">Contact</a></li>
-                         </ul>
-                    </div>
-                    <div class="container">
-                         <?php
-                              loginORnot();
-                          ?>
-                    </div>
-               </div>
-     </div>
-     <div class="container">
-          <style>
+        <style>
                .content-table{
                   border-collapse: collapse;
                   font-size: 0.9rem;
@@ -143,69 +120,70 @@
              .content-table tbody tr:last-of-type{
                border-bottom: 2px solid #009879;
              }
+          #exzoom{
+               position: relative;
+               top: 50%;
+               left: 45%;
+               transform: translate(-50%, -50%);
+          }
           </style>
+</head>
+<body>
+     <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col shadow-md">
+               <div class="w-100 d-flex flex-row white">
+                    <div class="container d-flex flex-row">
+                         <a href="index.php">
+                         <img class="img1" src="./img/cpu.png" alt="logo">
+                         </a>
+                         <ul class="d-flex flex-row ls-none ">
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./index.php">Home</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./builds/system-build.php">SystemBuild</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./builds/completed_build.php">CompletedBuild</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="./about.php">About</a></li>
+                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="  ./contact.php">Contact</a></li>
+                         </ul>
+                    </div>
+                    <div class="container">
+                         <?php
+                              loginORnot();
+                          ?>
+                    </div>
+               </div>
+     </div>
+     <div class="container">
+         
           <div class="w-min-100">
                <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="./index.php">Home</a> > Details > <a href="" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['part_det'])){ echo $compName ;} ?></a><a href="./builds/completed_build.php" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){ echo "Completed Builds" ;} ?></a>   > <?php echo $partTitle;  ?></div>
           </div>
           <div class="container">
-                    <div class="w-min-100 d-flex mb-1">
-                         <div class="text-left mr-1">
-                              <img width="400px" src="admin/upload/<?php echo $image ; ?>" alt="">
-                         </div>
-                         <div style="width:100%" class="white p-1 shadow-md aic">
-                              <?php
-                                   if(isset($_GET['qty'])){
-                                        echo"Enter some quantity";
-                                   }
-                              ?>
-                              <div class=" white pt-1">
-                                   <h3 class=""><b><?php echo $partTitle; ?></b></h3>
-                              </div>
-                              <div class="white p-sm">
-                                   <?php
-                                   if(isset($_GET['part_det']) || isset($_GET['add_cart']) || isset($_GET['qty'])){
-                                   echo'
-                                        <div>
-                                             <form action="details.php?add_cart='?><?php echo $productID; echo'" method="POST">
-                                                  <input class="input-field" type="number" style="" name="quantity" placeholder="Enter quantity...">
-                                                  <div><button style="background:#28AB87; color:white" class="px-1 py-sm mt-1 b-0 b-rad-1 fas fa-cart-plus">Add to cart</button></div>
-                                             </form>
-                                        </div>
-                                        
-                                        ';
-                                        
-                                   }
-                                   if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
-                                        echo'
-                                                  <div class="pt-sm">
-                                                       &#8377; ';
-                                             echo $price;
-                                             echo'
-                                                  </div>
-                                                  <div class="m-1">
-                                                       <a href="details.php?addpc_cart='.$productID.'" style="background:#28AB87; color:white" class="text-deco-none p-sm b-rad-1 shadow-md">
-                                                            <i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>
-                                                            Add to cart
-                                                       </a>
-                                                  </div>
-                                             ';
-                                             
-                                        }
-                                   ?>
+                    <div class="w-min-100 d-flex mb-1 jcc">
+                         <div style="max-width:100%;" class="text-left">
+                              <div class="exzoom" id="exzoom">
+                                   <div class="exzoom_img_box">
+                                        <ul class='exzoom_img_ul'>    
+                                             <li><img src="admin/upload/<?php echo $image ; ?>" alt=""></li>
+                                        </ul>
+                                   </div>
                               </div>
                          </div>
+                         
                     </div>
                     <div class="white shadow-md ">
-                         <div class="pt-1 px-1">
-                              <h3 class="p-sm" style="background:#28AB87; color:white;">Products Details</h3>
+                         
+                         <div class=" white pt-1">
+                                   <h3 class=""><b><?php echo $partTitle; ?></b></h3>
                          </div>
                          <div class="mx-1 pb-1" style="font-size:18px;">
-                              <p><?php if(isset($_GET['part_det']) || isset($_GET['add_cart'])){ echo "<div class='container p-2'>$desc</div>"; }?></p>
+                              <p><?php if(isset($_GET['part_det']) || isset($_GET['add_cart'])){ echo "
+                                   <div class='text-left p-2'>$desc</div>"; }?></p>
                               <p class="text-left">
                                    <?php
                                         if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
                                              echo"
-                                                  <table class='w-min-100 content-table'>
+                                                  <div class='pt-1 px-1'>
+                                                       <h3 class='p-sm' style='background:#28AB87; color:white;'>Products Details</h3>
+                                                  </div>
+                                                  <table class='w-min-100 content-table text-left'>
                                                        <tr>
                                                             <th class='p-sm'>PC Type</th>
                                                             <th>{$row['PC_Type']}</th>
@@ -269,44 +247,89 @@
                                         }
                                    ?>
                               </p>
+                              <div class="p-1 aic">
+                              <?php
+                                   if(isset($_GET['qty'])){
+                                        echo"Enter some quantity";
+                                   }
+                              ?>
+                              <div class="white p-sm">
+                                   <div class="mb-1">
+                                        <div class="container">
+                                             <h3>Add to cart</h3>
+                                        </div>
+                                   </div>
+                                   <?php
+                                   if(isset($_GET['part_det']) || isset($_GET['add_cart']) || isset($_GET['qty'])){
+                                   echo'
+                                        <div>
+                                             <form action="details.php?add_cart='?><?php echo $productID; echo'" method="POST">
+                                                  <input class="input-field" type="number" name="quantity" placeholder="Enter quantity...">
+                                                  <div><button style="background:#28AB87; color:white" class="px-1 py-sm mt-1 b-0 b-rad-1 fas fa-cart-plus">Add to cart</button></div>
+                                             </form>
+                                        </div>
+                                        
+                                        ';
+                                        
+                                   }
+                                   if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
+                                        echo'
+                                                  <div class="pt-sm">
+                                                       &#8377; ';
+                                                       echo $price;
+                                                       echo'
+                                                  </div>
+                                                  <div class="m-1">
+                                                       <a href="details.php?addpc_cart='.$productID.'" style="background:#28AB87; color:white" class="text-deco-none p-sm b-rad-1 shadow-md">
+                                                            <i style="padding-right:10px;color:white;" class="fas fa-cart-plus"></i>
+                                                            Add to cart
+                                                       </a>
+                                                  </div>
+                                             ';
+                                             
+                                        }
+                                   ?>
+                              </div>
+                         </div>
                          </div>
                     </div>
                <div style="" class="white mt-1 p-1">
                         <b> Products You may also like</b>
                </div>
-               <div class="d-flex jcc">
-                    <?php
-                         if(isset($_GET['part_det']) || isset($_GET['add_cart'])){
-                              $selectQuery = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3";
-                              $runQuery = mysqli_query($conn, $selectQuery);
-                              while($row = mysqli_fetch_array($runQuery)){
-                                   $pcPartID = $row['pcPartID'];
-                                   $partTitle = $row['partTitle'];
-                                   $image = $row['image'];
-                                   $partKeyword = $row['partKeyword'];
-                                   $query = "SELECT * FROM pcpartcomp WHERE pcPartID='$partKeyword'";
-                                   $check = mysqli_query($conn, $query);
-                                   $partName = $check;
-                                   echo"
-                                   <div class='d-flex flex-wrap jcc'>
-                                   <div class='mt-1 mr-2 shadow-md white b-rad-2'>
-                                        <img class='img2 m-1' src='admin/upload/$image'/>
-                                        <div style='font-size:20px;' class='text-center'>
-                                             <h3 class='m-sm'>$partTitle</h3><br>
-                                             <div class='text-primary'>
-                                                  <div class=''><b style='color:#28AB87'>&#8377;1000/-</b></div>
-                                             </div>
-                                             <div class='mb-3 mt-2'>
-                                                  <a class='button-field text-deco-none shadow-md' href='details.php?part_det={$pcPartID}'>Details</a>
-                                                  <a class='button-field text-deco-none shadow-md' href='index.php?add_cart={$pcPartID}'>Add to cart</a>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                              ";
-                         }
-                         }
-                    ?>
+               <div class="mt-1">
+                    <div class="d-flex flex-wrap jcsa">
+                                    <?php
+                                        $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3";
+                                        $check = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_assoc($check)) {
+                                             $partname = $row['partKeyword'];
+                                             $partID = $row['pcPartID'];
+                                             echo "
+                                                <div style='width:220px;' class='shadow-md white b-rad-2 card-hover'>
+                                                <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                                <div class='single-img'>
+                                                    <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                                    </div>
+                                                    <div style='font-size:20px;' class='text-center'>";
+                                                        echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                                        echo"<div class='text-primary'>
+                                                                    <b></b>
+                                                                    <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                            </div>
+                                                            <div class='mx-sm'>
+                                                            <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                                    <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
+                                                                    <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                             ";
+                                        }
+                                        echo'
+                                        
+                                        ';
+                                    ?>
                     <?php
                          if(isset($_GET['pc_det'])){
                               $query = "SELECT * FROM pc_details ORDER BY RAND() LIMIT 0,3;";
@@ -328,8 +351,26 @@
                          }
                     ?>
                </div>
+               </div>
           </div>
      </div>
+     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+     <script src="js/jquery.exzoom.js"></script>
+     <script>
+     $(function(){
+
+$("#exzoom").exzoom({
+  "autoPlay":true,
+  "navWidth": 60,
+    "navHeight": 60,
+    "navItemNum": 5,
+    "navItemMargin": 7,
+    "navBorder": 1,
+    "autoPlayTimeout": 2000
+
+});
+
+});</script>
 <?php
      require"footer.php";
 ?>

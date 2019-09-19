@@ -38,7 +38,26 @@
                 </div>
                 <div class="container">
                         <?php
-                            loginORnot();
+                            if(isset($_SESSION['userId'])){
+                              echo'<form action="includes/logout.inc.php" method="post">
+                              <div class="d-flex jcfe">
+                              <div class="cart-btn">
+                              <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                              <div class="cart-items">'?><?php cartcount(); echo'</div>
+                              </div>
+                              <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                              <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                              </div>
+                              </form>';
+                          }
+                          else{
+                              echo'
+                              <div class="container d-flex flex-row jcfe">
+                                  <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                  <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                              </div>
+                              ';
+                          }
                         ?>
                 </div>
           </div>
@@ -108,6 +127,9 @@
                                         }
                                         if(isset($_GET['changePassword'])){
                                              include('./accforgetpwd.php');
+                                        }
+                                        if(isset($_GET['deleteAccount'])){
+                                             include('./deleteAccount.php');
                                         }
                                    ?>
                               </div>

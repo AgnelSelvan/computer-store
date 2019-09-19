@@ -4,52 +4,85 @@
     session_start();
 ?>
 <?php
-     if(isset($_POST['payment'])){
-          $ordernumber = rand();
-          $subTotal = $_SESSION['grandtotal'];
-          $shippingCharge = $_SESSION['shippingCharge'];
-          $taxCharge = $_SESSION['taxCharge'];
-          $total = $_SESSION['total'];
-          $userID = $_SESSION['userId'];
-          $cartSelect = "SELECT * FROM cart WHERE userID='$userID'";
-          $runQuery = mysqli_query($conn, $cartSelect);
-          if($runQuery){
-               while($cartrow = mysqli_fetch_array($runQuery)){
-                    
-                    $partID = $cartrow['productid'];
-                    $partQty = $cartrow['quantity'];
-                    $paymentMethod = $_POST['paymentmethod'];
-                    $pcID = 0;
-                    if(empty($paymentMethod)){
-                         header("LOCATION: payment.php?payment=false");
-                    }
-                    else{
-                         $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total')";
-                         $insertcheck = mysqli_query($conn, $insertorder);
-                         if($insertcheck){
-                              $deletecart = "DELETE FROM cart WHERE productid='$partID'";
-                              $rundelete = mysqli_query($conn, $deletecart);
+     if (isset($_GET['sb'])) {
+          if(isset($_POST['payment'])){
+               $ordernumber = rand();
+               $shippingCharge = $_SESSION['shippingCharge'];
+               $taxCharge = $_SESSION['taxCharge'];
+               $userID = $_SESSION['userId'];
+               $cartSelect = "SELECT * FROM systembuild WHERE userID='$userID'";
+               $runQuery = mysqli_query($conn, $cartSelect);
+               if($runQuery){
+                    while($cartrow = mysqli_fetch_array($runQuery)){
+                         $subTotal = $cartrow['partPrice'];
+                         $total = $taxCharge + $subTotal + $shippingCharge;
+                         $partID = $cartrow['partID'];
+                         $partQty = 1;
+                         $paymentMethod = $_POST['paymentmethod'];
+                         $pcID = 0;
+                         if(empty($paymentMethod)){
+                              header("LOCATION: payment.php?payment=false");
+                         }
+                         else{
+                              $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW())";
+                              $insertcheck = mysqli_query($conn, $insertorder);
+                              if($insertcheck){
+                                   $deletecart = "DELETE FROM systembuild WHERE partID='$partID'";
+                                   $rundelete = mysqli_query($conn, $deletecart);
+                              }
                          }
                     }
                }
           }
-          $cartSelect = "SELECT * FROM pccart WHERE userID='$userID'";
-          $runQuery = mysqli_query($conn, $cartSelect);
-          if($runQuery){
-               while($cartrow = mysqli_fetch_array($runQuery)){
-                    $pcID = $cartrow['pcid'];
-                    $pcQty = 1;
-                    $paymentMethod = $_POST['paymentmethod'];
-                    $partID = 0;
-                    if(empty($paymentMethod)){
-                         header("LOCATION: payment.php?payment=false");
+     }
+     else{
+          if(isset($_POST['payment'])){
+               $ordernumber = rand();
+               $subTotal = $_SESSION['grandtotal'];
+               $shippingCharge = $_SESSION['shippingCharge'];
+               $taxCharge = $_SESSION['taxCharge'];
+               $total = $_SESSION['total'];
+               $userID = $_SESSION['userId'];
+               $cartSelect = "SELECT * FROM cart WHERE userID='$userID'";
+               $runQuery = mysqli_query($conn, $cartSelect);
+               if($runQuery){
+                    while($cartrow = mysqli_fetch_array($runQuery)){
+                         
+                         $partID = $cartrow['productid'];
+                         $partQty = $cartrow['quantity'];
+                         $paymentMethod = $_POST['paymentmethod'];
+                         $pcID = 0;
+                         if(empty($paymentMethod)){
+                              header("LOCATION: payment.php?payment=false");
+                         }
+                         else{
+                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW())";
+                              $insertcheck = mysqli_query($conn, $insertorder);
+                              if($insertcheck){
+                                   $deletecart = "DELETE FROM cart WHERE productid='$partID'";
+                                   $rundelete = mysqli_query($conn, $deletecart);
+                              }
+                         }
                     }
-                    else{
-                         $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total')";
-                         $insertcheck = mysqli_query($conn, $insertorder);
-                         if($insertcheck){
-                              $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
-                              $rundelete = mysqli_query($conn, $deletecart);
+               }
+               $cartSelect = "SELECT * FROM pccart WHERE userID='$userID'";
+               $runQuery = mysqli_query($conn, $cartSelect);
+               if($runQuery){
+                    while($cartrow = mysqli_fetch_array($runQuery)){
+                         $pcID = $cartrow['pcid'];
+                         $pcQty = 1;
+                         $paymentMethod = $_POST['paymentmethod'];
+                         $partID = 0;
+                         if(empty($paymentMethod)){
+                              header("LOCATION: payment.php?payment=false");
+                         }
+                         else{
+                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW())";
+                              $insertcheck = mysqli_query($conn, $insertorder);
+                              if($insertcheck){
+                                   $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
+                                   $rundelete = mysqli_query($conn, $deletecart);
+                              }
                          }
                     }
                }
@@ -201,7 +234,14 @@
                               <div class="p-1">
                                    <div class="d-flex jcsb m-sm">
                                         <div>SubTotal</div>
-                                        <?php $subtotal = $_SESSION['grandtotal'] ?>
+                                        <?php
+                                             if(isset($_GET['sb'])){
+                                                  $subtotal = $subTotal;
+                                             }
+                                             else{
+                                                  $subtotal = $_SESSION['grandtotal'];
+                                             }
+                                        ?>
                                         <div class="mr-1">&#8377;<?php echo $subtotal; ?></div>
                                    </div>
                                    <div class="mx-sm">
@@ -217,7 +257,19 @@
                                    </div>
                                    <div class="d-flex jcsb m-sm">
                                         <div>Discount</div>
-                                        <div class="mr-1">&#8377; 0</div>
+                                        <div class="mr-1">
+                                             <?php
+                                                  if(isset($_GET['sb'])){
+                                                       $discount = $discount;
+                                                       echo $discount;
+                                                  }
+                                                  else{
+                                                       $discount = 0;
+                                                       echo $discount;
+                                                  }
+                                             ?>
+                                                                                          
+                                        </div>
                                    </div>
                                    <div class="mx-sm">
                                         <hr>
@@ -232,7 +284,14 @@
                                    </div>
                                    <div class="d-flex jcsb m-sm">
                                         <div>Order Total</div>
-                                        <?php $total=$_SESSION['total'];?>
+                                        <?php
+                                             if(isset($_GET['sb'])){
+                                                  $total = $total;
+                                             }
+                                             else{
+                                                  $total=$_SESSION['total'];
+                                             }
+                                        ?>
                                         <div class="mr-1">&#8377; <?php echo $total ?></div>
                                    </div>
                                    <div class="mx-sm">

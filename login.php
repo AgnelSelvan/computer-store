@@ -20,7 +20,6 @@
             box-sizing: border-box;
         }
         .content{
-            
             width: calc(50% + 100px);
             height: 100%;
             background: #fff;
@@ -28,6 +27,7 @@
             border-left: 200px solid #E0E0E0;
             border-bottom: 900px solid transparent;
         }
+        
     </style>
     <main class=" bg-color h-min-100">
         <div class="d-flex section">
@@ -46,36 +46,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container text-center">
-                        <?php
-                            if (isset($_GET["error"])){
-                                if($_GET["error"] == "emptyfields"){
-                                    echo'<p class="pt-1" style="font-size:12px; color:red">Please fill in all the details. </p>';
+                    <div class="login-card">
+                        <div class="container text-center">
+                            <?php
+                                if (isset($_GET["error"])){
+                                    if($_GET["error"] == "emptyfields"){
+                                        echo'<p class="pt-1" style="font-size:12px; color:red">Please fill in all the details. </p>';
+                                    }
+                                    if($_GET["error"] == "nouser"){
+                                        echo"<p class='pt-1' style='font-size:12px; color:red'>No user exists!</p>";
+                                    }
+                                    if($_GET["error"] == "wrongpassword"){
+                                        echo"<p class='pt-1' style='font-size:12px; color:red'>Wrong password!</p>";
+                                    }
                                 }
-                                if($_GET["error"] == "nouser"){
-                                    echo"<p class='pt-1' style='font-size:12px; color:red'>No user exists!</p>";
+                                if(isset($_GET["login"])){
+                                    if($_GET["login"] == 'notlogin'){
+                                        echo"<p class='pt-1' style='font-size:12px; color:red'>Please login first</p>";
+                                    }
                                 }
-                                if($_GET["error"] == "wrongpassword"){
-                                    echo"<p class='pt-1' style='font-size:12px; color:red'>Wrong password!</p>";
-                                }
-                            }
-                            if(isset($_GET["login"])){
-                                if($_GET["login"] == 'notlogin'){
-                                    echo"<p class='pt-1' style='font-size:12px; color:red'>Please login first</p>";
-                                }
-                            }
-                        ?>
-                        <div>
-                            <form action="includes/login.inc.php" method="post">
-                                <input class="input-field" type="text" name="mailuid" placeholder="Username/E-mail..."><br>
-                                <input class="input-field" type="password" name="pwd" placeholder="Password..."><br>
-                                <div class="container">
+                            ?>
+                            <div>
+                                <form action="includes/login.inc.php" method="post">
+                                    <input class="input-field" type="text" name="mailuid" placeholder="Username/E-mail..."><br>
+                                    <input class="input-field" type="password" name="pwd" placeholder="Password..."><br>
                                     <div class="container">
-                                        <div class="text-right m-1"><a href="forget-pwd.php" class=" text-deco-none forgetpass" >Forget Password?</a></div>
+                                        <div class="container">
+                                            <div class="text-right m-1"><a href="forget-pwd.php" class=" text-deco-none forgetpass" >Forget Password?</a></div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="text-center my-1"> <button type='submit' style="width:150px; font-size:20px;background:#28AB87" class="btn button-field text-deco-none" name='login-submit'>Login</button></div>
-                            </form>
+                                    <div class="text-center my-1"> <button type='submit' style="width:150px; font-size:20px;background:#28AB87" class="btn button-field text-deco-none" name='login-submit'>Login</button></div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

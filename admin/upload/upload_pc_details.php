@@ -4,11 +4,10 @@ error_reporting(0);
     include('../../functions/functions.php');
     if(isset($_POST['upload'])){
         global    $conn;
+
         $file = $_FILES['file'];
-        //print_r($file);
         $fileName = $_FILES['file']['name'];
         $fileTmpName = $_FILES['file']['tmp_name'];
-
         $folder = "uploadedimages/".$fileName;
         move_uploaded_file($fileTmpName, $folder);
 
@@ -59,8 +58,6 @@ error_reporting(0);
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
-        <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-        <script>tinymce.init({selector:'textarea'});</script> -->
     </head>
     <body class="bg-color">
         <div class="w-100 d-flex flex-row white">

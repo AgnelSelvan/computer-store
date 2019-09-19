@@ -1274,7 +1274,7 @@ hr {
 }
 
 .container {
-  width: 70%;
+  width: 85%;
   margin: auto;
 }
 
@@ -2226,7 +2226,7 @@ h1 {
 
 @media screen and (max-width: 767.98px) {
   .container {
-    width: 90%;
+    width: 99%;
   }
   .sm-w-full {
     width: 100vw;

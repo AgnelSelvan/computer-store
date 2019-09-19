@@ -4,7 +4,6 @@ if(isset($_POST['signup-submit'])){
     require 'dbh.inc.php';
     require_once 'emailController.inc.php';
 
-    $ipAddr = getRealIpUser();
     $username = $_POST['uid'];
     $email = $_POST['mail'];
     $password = $_POST['pwd'];
@@ -14,12 +13,9 @@ if(isset($_POST['signup-submit'])){
     $state = $_POST['state'];
     $country = $_POST['country'];
 
-    $file = $_FILES['file'];
-    $fileName = $_FILES['file']['name'];
-    $fileTmpName = $_FILES['file']['tmp_name'];
-    $folder = "userimages/".$fileName;
-    
-    move_uploaded_file($fileTmpName, $folder);
+    $target = "user/userimages/".basename($_FILES['image']['name']);
+    $image = $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], $target);
 
     function validate_phone_number($phone)
     {
@@ -79,22 +75,13 @@ if(isset($_POST['signup-submit'])){
                 exit();
             }
             else{
-
-                $sql = "INSERT INTO users (uidUsers, emailUsers, pwdUsers, mobNumber, address, country, state, userImage, ipAddr ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $stmt = mysqli_stmt_init($conn);
-                if( !mysqli_stmt_prepare($stmt, $sql) ){
-                    header("Location: ../signup.php?error=sqlerror");
-                    exit();
-                }
-                else{
-                    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
-                    mysqli_stmt_bind_param($stmt, "sssssssss", $username, $email, $hashedPwd, $mobNumber, $address, $state, $country, $folder, $ipAddr);
-                    mysqli_stmt_execute($stmt);
+                $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO users VALUES (NULL ,'$username', '$email', '$hashedPwd', '$mobNumber', '$address', '$state', '$country', '$target')";
+                $check = mysqli_query($conn, $sql);
+                if($check){
                     header("Location: ../signup.php?signup=success");
-                    exit();
-                    
                 }
-            
+                            
             }
         }
 
