@@ -38,37 +38,37 @@
         </script>
     </head>
     <body>
-        <div style="position:sticky;top:0px;z-index:1;height:7vh;" class="d-flex flex-col w-100 white">
-            <div class="d-flex jcsb">
-                <div class="d-flex flex-row">
-                    <div>
-                        <img class="img1" src="img/cpu.png" alt="">
+    <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+                <div class="d-flex jcsb">
+                    <div class="d-flex flex-row">
+                        <div>
+                            <img class="img1" src="img/cpu.png" alt="">
+                        </div>
+                        <div class="hamburger">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="menu">
+                            <ul class="ls-none active current-item">
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a class="toggle-nav" href="#">&#9776;</a>
+                        </div>
                     </div>
-                    <div class="hamburger">
-                        <div class="line"></div>
-                        <div class="line"></div>
-                        <div class="line"></div>
+                    <div class="mt-sm">
+                        <?php
+                            loginORnot();
+                        ?>
                     </div>
-                    <div class="menu">
-                        <ul class="ls-none active current-item">
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <a class="toggle-nav" href="#">&#9776;</a>
-                    </div>
-                </div>
-                <div class="mt-1">
-                    <?php
-                        loginORnot();
-                    ?>
                 </div>
             </div>
-        </div>
                 <div class="slide-in container responsive-container">
                     <div class="container  responsive-container">
                         <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > Contact Us</div>

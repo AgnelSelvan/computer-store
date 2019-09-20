@@ -52,54 +52,121 @@
                 border-radius: 30%;
                 color: white;
             }
+            @media screen and (max-width:767.98px){
+               .acc-table{
+                    max-width: 100%;
+               }
+               .content-table{
+                    border-collapse: collapse;
+                    margin: 0;
+                    font-size: 0.56rem;
+                    min-width: 40%;
+                    height:50%;
+               }
+               .content-table thead tr{
+                  background: #009879;
+                  color: white;
+                  text-align: left;
+                  font-weight: bold;
+             }
+             .content-table th,
+             .content-table td{
+                    padding: 12px 15px;
+             }
+             .content-table tbody tr{
+                  border-bottom: 1px solid #dddddd;
+             }
+             .content-table tbody tr:nth-last-of-type(even){
+                  background: #f3f3f3;
+             }
+             .content-table tbody tr:last-of-type{
+               border-bottom: 2px solid #009879;
+             }
+             .acc-container{
+                    margin: 3px;
+                    padding: 0px;
+                    min-width: 98%;
+               }
+               .acc-container2{
+                    margin: 3px;
+                    padding: 20px;
+                    min-width: 98%;
+
+               }
+          }
         </style>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script>
+            jQuery(document).ready(function() {
+            jQuery('.toggle-nav').click(function(e) {
+                jQuery(this).toggleClass('active');
+                jQuery('.menu ul').toggleClass('active');
+
+                e.preventDefault();
+            });
+            });
+        </script>
      </head>
      <body>
-          <div style="position:sticky;top:0px;z-index:1;" class="d-flex flex-col">
-               <div class="w-100 d-flex flex-row white">
-                    <div class="container d-flex flex-row">
-                         <a href="index.php">
-                         <img class="img1" src="../img/cpu.png" alt="logo">
-                         </a>
-                         <ul class="d-flex flex-row ls-none ">
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/system-build.php">SystemBuild</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/completed_build.php">CompletedBuild</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
-                         <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
+          <!-- NavBar Starts -->
+          <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+               <div class="d-flex jcsb">
+                    <div class="d-flex flex-row">
+                         <div>
+                         <img class="img1" src="../img/cpu.png" alt="">
+                         </div>
+                         <div class="hamburger">
+                         <div class="line"></div>
+                         <div class="line"></div>
+                         <div class="line"></div>
+                         </div>
+                         <div class="menu">
+                         <ul class="ls-none active current-item">
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="system-build.php">SystemBuild</a></li>
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="completed_build.php">CompletedBuild</a></li>
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
                          </ul>
+                         </div>
+                         <div>
+                         <a class="toggle-nav" href="#">&#9776;</a>
+                         </div>
                     </div>
-                    <div class="container">
+                    <div class="mt-1">
                          <?php
-                              if(isset($_SESSION['userId'])){
-                                   echo'<form action="includes/logout.inc.php" method="post">
-                                   <div class="d-flex jcfe">
-                                   <div class="cart-btn">
-                                   <div style="font-size:30px;" class="nav-icon"><a href="cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-                                   <div class="cart-items">'?><?php cartcount(); echo'</div>
-                                   </div>
-                                   <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                                   <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
-                                   </div>
-                                   </form>';
-                               }
-                               else{
-                                   echo'
-                                   <div class="container d-flex flex-row jcfe">
-                                       <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
-                                       <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="login.php">Login</a></div>
-                                   </div>
-                                   ';
-                               }
-                          ?>
+                         if(isset($_SESSION['userId'])){
+                              echo'<form action="includes/logout.inc.php" method="post">
+                              <div class="d-flex jcfe">
+                              <div class="cart-btn">
+                              <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                              <div class="cart-items">'?><?php cartcount(); echo'</div>
+                              </div>
+                              <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                              <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                              </div>
+                              </form>';
+                         }
+                         else{
+                              echo'
+                              <div class="container d-flex flex-row jcfe">
+                                   <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                   <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                              </div>
+                              ';
+                         }
+                         ?>
                     </div>
                </div>
           </div>
+          <!-- Navbar Ends -->
+
           <div class="primary bg-color">
-               <div class="container pt-1">
+               <div class="container acc-container pt-1">
                     <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a>  > My Cart</div>
-                    <div class="d-flex">
-                         <div class="w-100 b-rad-2 shadow-md white text-left p-3" >
+                    <div class="d-flex md-d-flex md-flex-col">
+                         <!-- Cart Table Starts -->
+                         <div class="w-100 b-rad-2 shadow-md white text-left p-3 md-p-1 sm-p-sm" >
                               <form action="cart.php" method="POST" enctype="multipart/form-data">
                                    <?php
                                         $userID = $_SESSION['userId'];
@@ -111,9 +178,9 @@
                                         $countQuery = mysqli_query($conn, $countCart);
                                         $count += mysqli_num_rows($countQuery);
                                    ?>
-                                   <h1 style="color:#003426;">Shopping Cart</h1>
-                                   <div class="pb-1 mt-1" style="color:gray">You Have currently <?php echo $count; ?> item(s) in your cart</div>
-                                   <table style="width:100%;" class="content-table">
+                                   <h1 style="color:#003426;" class=" md-m-sm sm-md-0 md-p-sm sm-m-0">Shopping Cart</h1>
+                                   <div class="pb-1 mt-1 md-m-sm sm-md-0 md-p-sm sm-m-0" style="color:gray">You Have currently <?php echo $count; ?> item(s) in your cart</div>
+                                   <table style="width:100%" class="content-table">
                                         <thead>
                                              <tr>
                                                   <th>Product</th>
@@ -204,13 +271,18 @@
                                              echo"<b>Total: </b> "; 
                                              echo "&#8377;"+$grandTotal;}?>
                                         </div>
-                                   <div class="d-flex jcsb">
-                                        <a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a>
-                                        <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
-                                             <i class=" fas fa-refresh pr-sm"></i>
-                                             Update Cart
-                                        </button>
-                                        <a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i> </a>
+                                   <div class="d-flex jcsb md-d-flex md-flex-col text-center">
+                                        <div><pre><a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a></pre></div>
+                                        <div class="md-mb-1">
+                                             <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
+                                                  <i class=" fas fa-refresh pr-sm"></i>
+                                                  Update Cart
+                                             </button>
+                                        </div>
+                                        <div>
+                                             <a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i></a>
+
+                                        </div>
                                    </div>
                               </form>
                               <?php
@@ -263,8 +335,11 @@
 
                               ?>
                          </div>
-                         <div style="width:40%" class="ml-1 white b-rad-2">
-                              <div style="background:#eee" class="b-rad-2">
+                         <!-- Cart Table Ends -->
+                         
+                         <!-- Order Summary Starts-->
+                         <div class="ml-1 white b-rad-2 sm-w-100 md-mt-2">
+                              <div style="background:#e0e0e0" class="b-rad-1">
                                    <h1 class="py-1">Order Summary</h1>
                               </div>
                               <div style="color:gray;" class="py-2 container">
@@ -308,46 +383,46 @@
                                    </b></p>
                               </div>
                          </div>
+                         <!-- Order Summary Ends-->
                     </div>
-                    <div style="" class="white mt-1 p-1">
-                        <b> Products You may also like</b>
+                    <div class="mt-1">
+                         <div style="" class="container acc-container2 white p-1">
+                              <b> Products You may also like</b>
+                         </div>
                     </div>
-                    <div class="d-flex flex-wrap jcsa">
+                    <div class="d-flex flex-wrap jcc">
                          <?php
-                         $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4;";
+                         $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3;";
                          $check = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($check)) {
                               $partname = $row['partKeyword'];
                               $partID = $row['pcPartID'];
                               echo "
-                                   <div style='width:220px;'  class='shadow-md mx-sm my-1  white b-rad-2 card-hover'>
-                                        <img class='img2 mt-1' src='../admin/upload/".$row['image']."'/>
-                                        <div style='font-size:20px;' class='text-center'>";
-                                             $q = "SELECT * FROM pcpartcomp WHERE pcPartID = '$partname';";
-                                             $connect = mysqli_query($conn, $q);
-                                             if($connect){
-                                             while($partrow = mysqli_fetch_row($connect)){
-                                                       
-                                             }
-                                             
-                                             }
-                                             echo"<a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'><h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
-                                             echo"<div class='text-primary'>
-                                                       <b></b>
-                                                       <p>Quantity:{$row['qty']}</p>
-                                                       <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
-                                             </div>
-                                             <div class='mb-3 mt-2'>
-                                                       <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='../details.php?part_det={$partID}'>Details</a>
-                                                       <a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='../cart.php?add_cart={$partID}'>Add to cart</a>
-                                             </div>
-                                        </div>
-                                   </div>
+                              <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
+                                  <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                  <div class='single-img'>
+                                      <img class='img2 mt-1' src='../admin/upload/".$row['image']."'/>
+                                  </div>
+                                  <div style='font-size:20px;' class='text-center'>";
+                                      echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                      echo"<div class='text-primary'>
+                                                  <b></b>
+                                                  <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                          </div>
+                                          <div class='mx-sm'>
+                                          <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                  <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
+                                                  <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                          </div>
+                                          </div>
+                                  </div>
+                              </div>
                               ";
-                         }
+                      }
                          ?>
                     </div>
           </div>
+
           <script src="" async defer></script>
           <?php require'../footer.php';?>
           <?php

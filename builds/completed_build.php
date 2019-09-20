@@ -125,7 +125,8 @@
         </script>
     </head>
     <body>
-    <div style="position:sticky;top:0px;z-index:1;height:7vh;" class="d-flex flex-col w-100 white">
+        <!-- NavBar Starts -->
+        <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
             <div class="d-flex jcsb">
                 <div class="d-flex flex-row">
                     <div>
@@ -151,11 +152,31 @@
                 </div>
                 <div class="mt-1">
                     <?php
-                        loginORnot();
+                        if(isset($_SESSION['userId'])){
+                            echo'<form action="includes/logout.inc.php" method="post">
+                            <div class="d-flex jcfe">
+                            <div class="cart-btn">
+                            <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                            <div class="cart-items">'?><?php cartcount(); echo'</div>
+                            </div>
+                            <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                            <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                            </div>
+                            </form>';
+                        }
+                        else{
+                            echo'
+                            <div class="container d-flex flex-row jcfe">
+                                <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                            </div>
+                            ';
+                        }
                     ?>
                 </div>
             </div>
         </div>
+        <!-- Navbar Ends -->
                 <div class="bg-color">
                     <div class="container pt-sm">
                         <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > Completed Builds</div>
