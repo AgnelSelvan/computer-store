@@ -49,17 +49,6 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
-        <style>
-            @media screen and (max-width:600px){
-                .responsive-container{
-                    display:flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    min-width: 85vw;
-                }
-            }
-        </style>
-
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
             jQuery(document).ready(function() {
@@ -73,7 +62,8 @@
         </script>
     </head>
     <body>
-    <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+        <!-- Navbar Starts -->
+        <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
             <div class="d-flex jcsb">
                 <div class="d-flex flex-row">
                     <div>
@@ -123,8 +113,9 @@
                 </div>
             </div>
         </div>
+        <!-- Navbar Ends -->
 
-
+                        <!-- Content Starts -->
         <div class="primary bg-color pb-lg">
             <div class="d-flex flex-row jcs">
                 <div class="m-0 p-0 w-min-100">
@@ -983,6 +974,7 @@
                 </div>
             </div>
         </div>
+        <!-- Content Ends -->
 
 
                 <div class=" text-center">

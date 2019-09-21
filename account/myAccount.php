@@ -14,17 +14,7 @@
         <link rel="stylesheet" href="../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <style>
-          @media screen and (max-width:767.98px){
-               .acc-container{
-                    margin: 3px;
-                    padding: 0px;
-                    min-width: 98%;
-               }
-               .font-change{
-                    font-size: 16px;
-                    font-weight:bold;
-               }
-          }
+          
         </style>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>

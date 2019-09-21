@@ -14,59 +14,6 @@
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
-        <style>
-             .content-table{
-                  border-collapse: collapse;
-                  margin: 25px 0;
-                  font-size: 0.9rem;
-                  min-width: 400px;
-             }
-             .content-table thead tr{
-                  background: #009879;
-                  color: white;
-                  text-align: left;
-                  font-weight: bold;
-             }
-             .content-table th,
-             .content-table td{
-                    padding: 12px 15px;
-             }
-             .content-table tbody tr{
-                  border-bottom: 1px solid #dddddd;
-             }
-             .content-table tbody tr:nth-last-of-type(even){
-                  background: #f3f3f3;
-             }
-             .content-table tbody tr:last-of-type{
-               border-bottom: 2px solid #009879;
-             }
-             .cart-btn{
-                position:relative;
-                cursor: pointer;
-            }
-            .cart-items{
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: #28AB87;
-                padding: 0 5px;
-                border-radius: 30%;
-                color: white;
-            }
-            @media screen and (max-width:767.98px){
-               .acc-container{
-                    margin: 3px;
-                    padding: 0px;
-                    min-width: 98%;
-               }
-               .acc-container2{
-                    margin: 3px;
-                    padding: 20px;
-                    min-width: 98%;
-
-               }
-          }
-        </style>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
             jQuery(document).ready(function() {
@@ -169,7 +116,7 @@
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="onlinePayment">Online Payment(Payu)</div><hr>
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
                                                   <div class="text-center my-1">
-                                                       <button name="payment" style="background:#28AB87"  class="button-field text-deco-none shadow-md" type="submit">Place order</button>
+                                                       <button name="payment" style="background:#28AB87;width:200px;"  class="button-field text-deco-none shadow-md" type="submit">PlaceOrder</button>
                                                   </div>
                                              </form>
                                                   ';
@@ -181,8 +128,8 @@
                               </div>
                          </div>
                     </div>
-                    <div class="mt-1">
-                         <div style="" class="container acc-container2 white p-1">
+                    <div class="mt-2">
+                         <div style="" class="acc-container2 white p-1">
                               <b> Products You may also like</b>
                          </div>
                     </div>
@@ -220,6 +167,6 @@
           </div>
           <!-- Content Ends -->
           <script src="" async defer></script>
-          <?php require'../footer.php';?>
+          <?php require'../../footer.php'?>
      </body>
 </html>

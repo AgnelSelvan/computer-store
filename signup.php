@@ -3,33 +3,6 @@
 ?>
 
 <body class="bg-color">
-    <style>
-        .section{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            height:100%;
-            width: 100%;
-            background: #E0E0E0;
-            box-shadow: 0 25px 30px rgba(0, 0, 0, 0.5)
-        }
-        .imagebox{
-            width: calc(50% - 100px);
-            height: 100%;
-            background: #E0E0E0;
-            box-sizing: border-box;
-        }
-        .content{
-            
-            width: calc(50% + 100px);
-            height: 100%;
-            background: #fff;
-            box-sizing: border-box;
-            border-left: 200px solid #E0E0E0;
-            border-bottom: 900px solid transparent;
-        }
-    </style>
     <div class="d-flex section">
         <div class="imagebox">
             <div class=" container">

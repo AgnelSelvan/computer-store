@@ -16,25 +16,6 @@
           header("LOCATION: myAccount.php?not");
     }
 ?>
-<style>
-     .input-field-f{
-          border:1px solid #28AB87;
-          padding: 15px;
-          margin: 10px;
-          width: 400px;
-          outline: none;
-     }
-     .input-field-f:hover{
-          border:2px solid #28AB87;
-          outline: none;
-     transition: ease-in-out, width .35s ease-in-out;
-     }
-     .input-field-f:focus{
-          width: 450px;
-          border:2px solid #28AB87;
-          outline: none;
-     }
-</style>
 <div>
      <h1>Are you sure want to delete your account?</h1>
      <div class="mt-1">

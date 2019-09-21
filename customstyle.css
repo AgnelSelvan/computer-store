@@ -15,6 +15,54 @@ body{
 .ml-50{   
      margin-left: 25%
 }
+.section{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height:100%;
+    width: 100%;
+    background: #E0E0E0;
+    box-shadow: 0 25px 30px rgba(0, 0, 0, 0.5)
+}
+.imagebox{
+    width: calc(50% - 100px);
+    height: 100%;
+    background: #E0E0E0;
+    box-sizing: border-box;
+}
+.content{
+    
+    width: calc(50% + 100px);
+    height: 100%;
+    background: #fff;
+    box-sizing: border-box;
+    border-left: 200px solid #E0E0E0;
+    border-bottom: 900px solid transparent;
+}
+/* edit account */
+.editsubmit{
+    padding:5px 7px;width:120px;background:#28AB87; border:none; color:white;
+    text-align: center;
+    }
+/* edit account */
+.input-field-f{
+    border:1px solid #28AB87;
+    padding: 15px;
+    margin: 10px;
+    width: 400px;
+    outline: none;
+}
+.input-field-f:hover{
+    border:2px solid #28AB87;
+    outline: none;
+transition: ease-in-out, width .35s ease-in-out;
+}
+.input-field-f:focus{
+    width: 450px;
+    border:2px solid #28AB87;
+    outline: none;
+}
 .input-field{
      padding: 15px;
      border: 1px solid #E0e0e0;
@@ -190,6 +238,58 @@ body{
      margin-right: 32px;
 
  }
+ .content-table{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9rem;
+    min-width: 400px;
+}
+.content-table thead tr{
+    background: #009879;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+.content-table th,
+.content-table td{
+      padding: 12px 15px;
+}
+.content-table tbody tr{
+    border-bottom: 1px solid #dddddd;
+}
+.content-table tbody tr:nth-last-of-type(even){
+    background: #f3f3f3;
+}
+.content-table tbody tr:last-of-type{
+ border-bottom: 2px solid #009879;
+}
+.cart-btn{
+  position:relative;
+  cursor: pointer;
+}
+.min-w-30{
+    width: 30%;
+}
+.min-width-70{
+    width: 70%;
+}
+/* details.php */
+#exzoom{
+    position: relative;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+/* details.php */
+.cart-items{
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #28AB87;
+  padding: 0 5px;
+  border-radius: 30%;
+  color: white;
+}
  .card-hover:hover{
      transition: 0.5s;
      transform: scale(1.1);
@@ -225,8 +325,8 @@ body{
         min-width: 80vw;
     }
     .img2{
-        min-width: 300px;
-        height: auto;
+        min-width: 250px;
+        min-height: 250px;
     }
 }
 /*----- Menu -----*/
@@ -334,4 +434,23 @@ body{
      .img2{
          width: 100px;
      }
- }
+    .acc-container{
+            margin: 3px;
+            padding: 0px;
+            min-width: 98%;
+    }
+    .font-change{
+            font-size: 16px;
+            font-weight:bold;
+    }
+    .acc-container2{
+        margin: 3px;
+        padding: 20px;
+        min-width: 98%;
+
+   }
+   .button-field{
+        width: 20px;
+        margin-top: 10px;
+   }
+}

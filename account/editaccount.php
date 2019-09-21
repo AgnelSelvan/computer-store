@@ -10,49 +10,6 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <style>
-          .input-field-f{
-               border: 1px solid #eee;
-               padding: 15px;
-               margin: 10px;
-               width: 400px;
-               outline: none;
-          }
-          .input-field-f:hover{
-               border:2px solid #28AB87;
-               outline: none;
-               transition: ease-in-out, width .35s ease-in-out;
-          }
-          .input-field-f:focus{
-               width: 450px;
-               border:2px solid #28AB87;
-               outline: none;
-          }
-          .editsubmit{
-               padding:10px 14px;width:170px;background:#28AB87; border:none; color:white;
-          }
-          @media screen and (max-width:767.98px){
-               .input-field-f{
-               border: 1px solid #eee;
-                    padding: 15px;
-                    margin: 10px;
-                    width: 200px;
-                    outline: none;
-               }
-               .input-field-f:hover{
-                    border:2px solid gray;
-                    outline: none;
-                    transition: ease-in-out, width .35s ease-in-out;
-               }
-               .input-field-f:focus{
-                    width: 250px;
-                    border:2px solid gray;
-                    outline: none;
-               }
-               .editsubmit{
-               padding:5px 7px;width:120px;background:#28AB87; border:none; color:white;
-               text-align: center;
-               }
-          }
      </style>
      <link rel="stylesheet" href="../style.css">
      <link rel="stylesheet" href="../customstyle.css">

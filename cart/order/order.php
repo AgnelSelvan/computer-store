@@ -100,40 +100,6 @@
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
-        <style>
-             .min-w-30{
-                  width: 30%;
-             }
-             .min-width-70{
-                  width: 70%;
-             }
-             .cart-btn{
-                position:relative;
-                cursor: pointer;
-            }
-            .cart-items{
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: #28AB87;
-                padding: 0 5px;
-                border-radius: 30%;
-                color: white;
-            }
-            @media screen and (max-width:767.98px){
-               .acc-container{
-                    margin: 3px;
-                    padding: 0px;
-                    min-width: 98%;
-               }
-               .acc-container2{
-                    margin: 3px;
-                    padding: 20px;
-                    min-width: 98%;
-
-               }
-          }
-        </style>
         <script>
              function printPage(){
                   window.print();
@@ -396,6 +362,6 @@
                });
                });
           </script>
-          <?php require'../footer.php';?>
+          <?php require'../../footer.php';?>
      </body>
 </html>

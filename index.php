@@ -25,25 +25,6 @@
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="./customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
-        <style>
-            @media screen and (max-width:600px){
-                .responsive-container{
-                    display:flex;
-                    justify-content: center;
-                    margin-left: 9%;
-                    padding: auto;
-                    min-width: 80vw;
-                }
-                .responsive-card{
-                    min-width: 80vw;
-                }
-                .img2{
-                    min-width: 300px;
-                    height: auto;
-                }
-            }
-        </style>
-        
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
             jQuery(document).ready(function() {
@@ -58,7 +39,7 @@
     </head>
     <body>
         <!-- Navbar -->
-            <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+            <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
                 <div class="d-flex jcsb">
                     <div class="d-flex flex-row">
                         <div>
@@ -123,57 +104,57 @@
         <!-- Navbar -->
         
         <!-- Content -->
-                <div class="primary bg-color md-m-0 md-p-0 sm-p-0">
-                    <div class="d-flex flex-col jcc ">
-                        <div class="m-0 p-0 w-100">
-                            <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2">System Parts</h1>
-                            <div class="b-1 text-white mr-3 ml-2"></div>
-                            <div class="d-flex flex-wrap jcc responsive-container">
-                                <?php
-                                    $query = "SELECT * FROM pcpart;";
-                                    $check = mysqli_query($conn, $query);
-                                    while ($row = mysqli_fetch_assoc($check)) {
-                                            $partname = $row['partKeyword'];
-                                            $partID = $row['pcPartID'];
-                                            echo "
-                                            <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
-                                                <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
-                                                <div class='single-img'>
-                                                    <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
-                                                </div>
-                                                <div style='font-size:20px;' class='text-center'>";
-                                                    echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
-                                                    echo"<div class='text-primary'>
-                                                                <b></b>
-                                                                <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
-                                                        </div>
-                                                        <div class='mx-sm'>
-                                                        <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
-                                                                <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
-                                                                <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
-                                                        </div>
-                                                        </div>
-                                                </div>
+            <div class="primary bg-color md-m-0 md-p-0 sm-p-0">
+                <div class="d-flex flex-col jcc ">
+                    <div class="m-0 p-0 w-100">
+                        <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2">System Parts</h1>
+                        <div class="b-1 text-white mr-3 ml-2"></div>
+                        <div class="d-flex flex-wrap jcc responsive-container">
+                            <?php
+                                $query = "SELECT * FROM pcpart;";
+                                $check = mysqli_query($conn, $query);
+                                while ($row = mysqli_fetch_assoc($check)) {
+                                        $partname = $row['partKeyword'];
+                                        $partID = $row['pcPartID'];
+                                        echo "
+                                        <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
+                                            <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                            <div class='single-img'>
+                                                <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
                                             </div>
-                                            ";
-                                    }
-                                    echo'
-                                    
-                                    ';
-                                ?>
-                            </div>
+                                            <div style='font-size:20px;' class='text-center'>";
+                                                echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                                echo"<div class='text-primary'>
+                                                            <b></b>
+                                                            <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                    </div>
+                                                    <div class='mx-sm'>
+                                                    <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
+                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        ";
+                                }
+                                echo'
+                                
+                                ';
+                            ?>
                         </div>
-                        <div class="ml-1 mr-1 p-0 w-100">
-                            <h1 align="left" style="font-size:30px;" class="text-black px-3 pt-3 ">Completed Builds</h1>
-                            <div class="b-1 text-white mr-3 ml-2"></div>
-                                <div class="d-flex flex-wrap jcc">
-                                        <?php
-                                            getCompleteBuilts();
-                                        ?>
-                                 </div>
-                            </div>
+                    </div>
+                    <div class="ml-1 mr-1 p-0 w-100">
+                        <h1 align="left" style="font-size:30px;" class="text-black px-3 pt-3 ">Completed Builds</h1>
+                        <div class="b-1 text-white mr-3 ml-2"></div>
+                            <div class="d-flex flex-wrap jcc">
+                                    <?php
+                                        getCompleteBuilts();
+                                    ?>
+                                </div>
                         </div>
-                </div>
+                    </div>
+            </div>
         <!-- Content -->
 <?php
     require "footer.php";

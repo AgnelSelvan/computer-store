@@ -13,88 +13,6 @@
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
-        <style>
-             .content-table{
-                  border-collapse: collapse;
-                  margin: 25px 0;
-                  font-size: 0.9rem;
-                  min-width: 400px;
-             }
-             .content-table thead tr{
-                  background: #009879;
-                  color: white;
-                  text-align: left;
-                  font-weight: bold;
-             }
-             .content-table th,
-             .content-table td{
-                    padding: 12px 15px;
-             }
-             .content-table tbody tr{
-                  border-bottom: 1px solid #dddddd;
-             }
-             .content-table tbody tr:nth-last-of-type(even){
-                  background: #f3f3f3;
-             }
-             .content-table tbody tr:last-of-type{
-               border-bottom: 2px solid #009879;
-             }
-             .cart-btn{
-                position:relative;
-                cursor: pointer;
-            }
-            .cart-items{
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: #28AB87;
-                padding: 0 5px;
-                border-radius: 30%;
-                color: white;
-            }
-            @media screen and (max-width:767.98px){
-               .acc-table{
-                    max-width: 100%;
-               }
-               .content-table{
-                    border-collapse: collapse;
-                    margin: 0;
-                    font-size: 0.56rem;
-                    min-width: 40%;
-                    height:50%;
-               }
-               .content-table thead tr{
-                  background: #009879;
-                  color: white;
-                  text-align: left;
-                  font-weight: bold;
-             }
-             .content-table th,
-             .content-table td{
-                    padding: 12px 15px;
-             }
-             .content-table tbody tr{
-                  border-bottom: 1px solid #dddddd;
-             }
-             .content-table tbody tr:nth-last-of-type(even){
-                  background: #f3f3f3;
-             }
-             .content-table tbody tr:last-of-type{
-               border-bottom: 2px solid #009879;
-             }
-             .acc-container{
-                    margin: 3px;
-                    padding: 0px;
-                    min-width: 98%;
-               }
-               .acc-container2{
-                    margin: 3px;
-                    padding: 20px;
-                    min-width: 98%;
-
-               }
-          }
-        </style>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
             jQuery(document).ready(function() {
@@ -243,8 +161,10 @@
                                                                  $partTitle = $productrow['pcName'];
                                                                  $image = $productrow['pc_image'];
                                                                  $unitprice = $productrow['pcPrice'];
-                                                                 $subTotal = $quantity * $unitprice;
+                                                                 $haha = $quantity * $unitprice;
+                                                                 $subTotal = $haha - $discount;
                                                                  $grandTotal += $subTotal;
+                                                                 $discount = $unitprice * $quantity * 0.25;
                                                                  echo '
                                                                  <tr>
                                                                       <td>
@@ -255,6 +175,7 @@
                                                                       </td>
                                                                       <td>'?><?php echo $quantity; echo'</td>
                                                                       <td>&#8377;'.$unitprice.'</td>
+                                                                      <td>&#8377;'.$discount.'</td>
                                                                       <td><input type="checkbox" name="delete[]" value='?><?php echo $productID; echo'></td>
                                                                       <td>&#8377;'.$subTotal.'</td>
                                                                  </tr>
@@ -272,16 +193,15 @@
                                              echo "&#8377;"+$grandTotal;}?>
                                         </div>
                                    <div class="d-flex jcsb md-d-flex md-flex-col text-center">
-                                        <div><pre><a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a></pre></div>
+                                        <div>
+                                             <pre><a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a></pre></div>
                                         <div class="md-mb-1">
                                              <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
-                                                  <i class=" fas fa-refresh pr-sm"></i>
-                                                  Update Cart
+                                                  <pre><i class=" fas fa-refresh pr-sm"></i>Update Cart</pre>
                                              </button>
                                         </div>
                                         <div>
-                                             <a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="ml-2 text-deco-none b-rad-2 shadow-md">Proceed Checkout <i class="pl-sm fas fa-fast-forward"></i></a>
-
+                                             <pre><a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md">Proceed Checkout<i class="pl-sm fas fa-fast-forward"></i></a></pre>
                                         </div>
                                    </div>
                               </form>
