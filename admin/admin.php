@@ -8,55 +8,101 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
-        
+        <style> 
+            .flex-container{
+                height:100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .g-bg-color{
+                background: #28AB87;
+            }
+            .admin-input{
+                width: 250px;
+                height: 45px;
+                margin: 10px;
+                outline: none;
+                border-radius: 10px;
+                border: 1px solid gray;
+                padding: 10px;
+                transition: ease-in-out, width .35s ease-in-out;
+            }
+            .admin-input:focus{
+                width: 270px;
+                border: 2px solid #696969;
+            }
+            #submit{
+                margin: 20px;
+                width: 100px;
+                padding: 10px;
+                outline: none;
+                background: #28AB87;
+                color: white;
+                border: none;
+                border-radius: 10px;
+            }
+        </style>
     </head>
-    <body class="bg-color">
-        <div class="w-100 d-flex flex-row white">
-                <div class="container d-flex flex-row">
-                    <a href="index.php">
-                        <img class="img1" src="../img/cpu.png" alt="logo">
-                    </a>
-                    <ul class="d-flex flex-row ls-none ">
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
-                        <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
-                    </ul>
+    <body class="g-bg-color">
+        <div class="flex-container">
+            <div class="d-flex md-d-flex md-flex-col white  b-rad-2">
+                <div class="p-2 text-center b-rad-2" style="background:#e0e0e0;">
+                    <img width="300" src="../user/userimages/HAHA.jpeg" alt="">
                 </div>
-                <div class="container">
-                        <?php
-                            if(isset($_SESSION['userId'])){
-                                echo'<form action="includes/logout.inc.php" method="post">
-                                <div class="d-flex jcfe">
-                                <div><button type="submit" class="text-deco-none signup-button-field mr-2 text-black pr-1 b-0" name="logout-submit">Logout</button></div>
+                <!-- Login Form -->
+                <div class="min-h-100 white b-rad-2 p-2">
+                    <div style="width:400px;">
+                        <div class="text-center">
+                            <h4 style="color:gray" >Welcome Back!</h4>
+                        </div>
+                        <div class="mt-2">
+                            <form id="login-form">
+                                <div class="text-center">
+                                    <input id="login-email" class="admin-input" type="email" placeholder="Enter Email Address...">
                                 </div>
-                                </form>';
-                            }
-                            else{
-                                echo'
-                                <div class="container d-flex flex-row jcfe">
-                                    <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="signup.php">Signup</a></div>
-                                    <div><a class="text-deco-none text-black pr-1 mr-2 nav" href="login.php" class="loginphp">Login</a></div>
+                                <div class="text-center">
+                                    <input id="login-password" class="admin-input" type="password" placeholder="Password...">
                                 </div>
-                                ';
-                            }
-                        ?>
+                                <div class="text-center">
+                                    <input id="submit" type="submit">
+                                </div>
+                            </form>
+                            <hr>
+                            <div class="text-center mt-1">
+                                <a style="color:gray;" class="text-deco-none" href="">Forget Password?</a>
+                            </div>
+                            <p style="color:red" class="error text-center"></p>
+                        </div>
                     </div>
-                    </div>
-                
-        <main>
-            <div class="container d-flex flex-col jcc">
-                <div class="container d-flex flex-row">
-                   <div class="m-2 p-3"><a class=" b-rad-4 pl-1 text-deco-none text-black nav" href="./upload/upload_pc_part.php">Upload Pc-Part Details</a></div>
-                    <div class="m-2 p-3"><a class=" b-rad-4 pl-1 text-deco-none text-black nav" href="./upload/upload_pc_details.php">Upload Pc Details</a></div>
                 </div>
-                <div class="container d-flex flex-row">
-                <div class="m-2 p-3"><a class="pl-1 b-rad-4 text-deco-none text-black nav" href="#">Update Pc-Part Details</a></div>
-                <div class="m-2 p-3"><a class="pl-1 b-rad-4 text-deco-none text-black nav" href="#">Update Pc Details</a></div>
-                </div>
+                <!-- Login Ends -->
             </div>
-            
-    </main>
+        </div>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/6.6.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-auth.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+
+        <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyC5BzwjPQ9z6y1WpcNtha0Xh3NLpTh7V5w",
+                authDomain: "computer-store-73c89.firebaseapp.com",
+                databaseURL: "https://computer-store-73c89.firebaseio.com",
+                projectId: "computer-store-73c89",
+                storageBucket: "",
+                messagingSenderId: "669609836548",
+                appId: "1:669609836548:web:3a0ced9c1d413fd475b551"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            //make auth & firestore refereneces
+            const auth = firebase.auth();
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="js/auth.js"></script>
     </body>
  </html>

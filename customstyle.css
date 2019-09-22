@@ -232,11 +232,14 @@ transition: ease-in-out, width .35s ease-in-out;
      background: black;
      color: white;
  }
+ 
+ .card-hover:hover{
+     border: 1px solid #009879;
+}
  .card-hover{
      width:220px;
      margin-top: 32px;
      margin-right: 32px;
-
  }
  .content-table{
     border-collapse: collapse;
@@ -290,12 +293,6 @@ transition: ease-in-out, width .35s ease-in-out;
   border-radius: 30%;
   color: white;
 }
- .card-hover:hover{
-     transition: 0.5s;
-     transform: scale(1.1);
-     z-index: 0;
-     border: 1px solid #28AB87;
- }
   .single-img:hover img{
       width: auto;
       transition: 0.5s;
@@ -418,18 +415,6 @@ transition: ease-in-out, width .35s ease-in-out;
     }
 
 }
- @media screen and (max-width: 991.98px) {
-     
-     .card-hover{
-     width:180px;
-     margin-top: 32px;
-     margin-right: 32px;
-
-     }
-     .card-hover:hover{
-         border: 1px solid #28AB87;
-     }
- }
  @media screen and (max-width: 767.98px) {
      .img2{
          width: 100px;

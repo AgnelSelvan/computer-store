@@ -13,9 +13,6 @@
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
-        <style>
-          
-        </style>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
             jQuery(document).ready(function() {
@@ -97,40 +94,44 @@
                <div class="container acc-container">
                     <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > My Account</div>
                     <div class="d-flex sm-d-flex sm-flex-col ">
-                         <div style="width:100%;" class="white d-flex acc-container mr-1 b-rad-2 shadow-sm ">
-                              <div style="width:40%;" style="background:#eeeeee; font-size:16px;" class="b-rad-2 pb-1"> 
-                                   <div class="pt-1"><img style="width:90%;" class="b-rad-2" src="../user/<?php echo $userImage; ?>" alt="My photo"/></div>
-                                   <div class="text-left pl-1">
-                                        <div class="m-1 "><i style="padding-right:10px;" class="fas fa-user"></i>Name: <?php echo $name; ?> </div>
-                                        <div class="m-1"><i style="padding-right:10px;" class="fas fa-envelope"></i>Email: <?php echo $userEmail; ?></div>
-                                        <div class="m-1 "><i style="padding-right:10px;" class="fas fa-mobile"></i>Mobile: <?php echo $userMobile; ?> </div>
+                         <div class="acc-container mr-1 ">
+                              <div style="width:100%;" class="container d-flex md-flex md-flex-col acc-container b-rad-2 shadow-sm ">
+                                   <div style="background:#eeeeee; font-size:16px;" class="b-rad-2 pb-1"> 
+                                        <div class="pt-1  text-center"><img style="width:90%;" class="b-rad-2 text-center" src="../user/<?php echo $userImage; ?>" alt="My photo"/></div>
+                                        <div class="text-left text-black pl-1">
+                                             <div class="m-1 "><i style="padding-right:10px;" class="fas fa-user"></i>Name: <?php echo $name; ?> </div>
+                                             <div class="m-1"><i style="padding-right:10px;" class="fas fa-envelope"></i>Email: <?php echo $userEmail; ?></div>
+                                             <div class="m-1 "><i style="padding-right:10px;" class="fas fa-mobile"></i>Mobile: <?php echo $userMobile; ?> </div>
+                                        </div>
                                    </div>
-                              </div>
-                              <div style="font-size:24px;" class="text-left pl-3 d-flex flex-col jcc">
-                                   <div class="mt-2 mb-sm">
-                                        <a style="color:#28AB87" class="text-deco-none  font-change" href="myorders.php">
-                                             <i style="padding-right:20px; color:#28AB87" class="fas fa-list"></i> MyOrders
-                                        </a>
-                                   </div>
-                                   <div class="mt-2 mb-sm">
-                                        <a style="color:#28AB87" class="text-deco-none  font-change" href= "editaccount.php">
-                                             <i style="padding-right:20px; color:#28AB87" class="fas fa-edit"></i>Edit Account
-                                        </a>
-                                   </div>
-                                   <div class="mt-2 mb-sm">
-                                        <a style="color:#28AB87" class="text-deco-none  font-change" href="myAccount.php?changePassword">
-                                             <i style="padding-right:20px; color:#28AB87" class="fa fa-lock"></i>Change password
-                                        </a>
-                                   </div>
-                                   <div class="mt-2 mb-sm">
-                                        <a style="color:#28AB87" class="text-deco-none font-change" href="myAccount.php?deleteAccount">
-                                             <i style="padding-right:20px; color:#28AB87" style="padding-right:24px;" class="fas fa-trash"></i>Delete account
-                                        </a>
-                                   </div>
-                                   <div class="mt-2 mb-2">
-                                        <a style="color:#28AB87" class="text-deco-none font-change" href="../includes/logout.inc.php">
-                                             <i style="padding-right:20px; color:#28AB87" class="fa fa-sign-out"></i> Logout
-                                        </a>
+                                   <div style="font-size:24px;" class="white w-100 text-left p-lg">
+                                        <div class="d-flex flex-col jcc">
+                                             <div class="mt-2 mb-sm">
+                                                  <a style="color:#28AB87" class="text-deco-none  font-change" href="myorders.php?order">
+                                                       <i style="padding-right:20px; color:#28AB87" class="fas fa-list"></i> MyOrders
+                                                  </a>
+                                             </div>
+                                             <div class="mt-2 mb-sm">
+                                                  <a style="color:#28AB87" class="text-deco-none  font-change" href= "editaccount.php">
+                                                       <i style="padding-right:20px; color:#28AB87" class="fas fa-edit"></i>Edit Account
+                                                  </a>
+                                             </div>
+                                             <div class="mt-2 mb-sm">
+                                                  <a style="color:#28AB87" class="text-deco-none  font-change" href="myAccount.php?changePassword">
+                                                       <i style="padding-right:20px; color:#28AB87" class="fa fa-lock"></i>Change password
+                                                  </a>
+                                             </div>
+                                             <div class="mt-2 mb-sm">
+                                                  <a style="color:#28AB87" class="text-deco-none font-change" href="myAccount.php?deleteAccount">
+                                                       <i style="padding-right:20px; color:#28AB87" style="padding-right:24px;" class="fas fa-trash"></i>Delete account
+                                                  </a>
+                                             </div>
+                                             <div class="mt-2 mb-2">
+                                                  <a style="color:#28AB87" class="text-deco-none font-change" href="../includes/logout.inc.php">
+                                                       <i style="padding-right:20px; color:#28AB87" class="fa fa-sign-out"></i> Logout
+                                                  </a>
+                                             </div>
+                                        </div>
                                    </div>
                               </div>
                           </div>

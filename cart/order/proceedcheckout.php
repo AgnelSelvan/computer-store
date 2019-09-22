@@ -132,7 +132,17 @@
                                         <div class="container text-center mb-1">
                                              <?php 
                                                   if(isset($_GET['sb'])){
-                                                       echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php?sb'>Deliver</a>";
+                                                  //echo'
+                                                       // <div class="mt-1">
+                                                       //      <label for="">Enter your System Build PC name:</label>
+                                                       //      <input type="text" name="sbname" class="input-field-f" placeholder="Enter your PC name...">
+                                                       // </div>
+                                                       echo'
+                                                            <form action="payment.php?sb" method="POST">
+                                                                 <input type="text" name="sbname" class="input-field-f" placeholder="Enter your PC name...">
+                                                                 <input style="background:#28AB87" class="button-field text-deco-none shadow-md" type="submit" value="Deliver"/> 
+                                                            </form>
+                                                       ';
                                                   }
                                                   else{
                                                        echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php'>Deliver</a>";

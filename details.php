@@ -136,7 +136,7 @@
                <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="./index.php">Home</a> > Details > <a href="" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['part_det'])){ echo $compName ;} ?></a><a href="./builds/completed_build.php" style="color:#28AB87;" class="text-deco-none"><?php if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){ echo "Completed Builds" ;} ?></a>   > <?php echo $partTitle;  ?></div>
           </div>
           <div class=" acc-container">
-                    <div class="d-flex flex-row md-d-flex md-flex-col">
+                    <div style="width:100%" class="d-flex flex-row md-d-flex md-flex-col">
                          <div class="d-flex mb-1 jcc">
                               <div style="max-width:100%;" class="text-left">
                                    <div class="exzoom" id="exzoom">
@@ -149,7 +149,7 @@
                               </div>
                               
                          </div>
-                         <div class="white shadow-md">
+                         <div style="width:100%" class="white shadow-md">
                               <div class=" white pt-1">
                                         <h3 class=""><b><?php echo $partTitle; ?></b></h3>
                               </div>
@@ -163,7 +163,7 @@
                                                        <div class='pt-1 px-1'>
                                                             <h3 class='p-sm' style='background:#28AB87; color:white;'>Products Details</h3>
                                                        </div>
-                                                       <table class='w-min-100 content-table text-left'>
+                                                       <table class='w-100 content-table text-left'>
                                                             <tr>
                                                                  <th class='p-sm'>PC Type</th>
                                                                  <th>{$row['PC_Type']}</th>
@@ -280,22 +280,21 @@
                <div class="mt-1">
                     <div class="d-flex flex-wrap jcsa">
                                     <?php
-                                        $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3";
+                                        $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4";
                                         $check = mysqli_query($conn, $query);
                                         while ($row = mysqli_fetch_assoc($check)) {
                                              $partname = $row['partKeyword'];
                                              $partID = $row['pcPartID'];
                                              echo "
-                                                <div style='width:220px;' class='shadow-md white b-rad-2 card-hover'>
-                                                <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
-                                                <div class='single-img'>
-                                                    <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
-                                                    </div>
-                                                    <div style='font-size:20px;' class='text-center'>";
-                                                        echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
-                                                        echo"<div class='text-primary'>
-                                                                    <b></b>
-                                                                    <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                  <div style='width:220px;' class='shadow-md white b-rad-2 card-hover'>
+                                                       <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                                       <div class='single-img'>
+                                                            <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                                       </div>
+                                                       <div style='font-size:20px;' class='text-center'>
+                                                            <h4 class='m-1'>{$row['partTitle']}</h4></a><br>
+                                                            <div class='text-primary'>
+                                                                 <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
                                                             </div>
                                                             <div class='mx-sm'>
                                                             <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
@@ -304,7 +303,7 @@
                                                             </div>
                                                             </div>
                                                     </div>
-                                                </div>
+                                                  </div>
                                              ";
                                         }
                                         echo'

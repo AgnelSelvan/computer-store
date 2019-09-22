@@ -2,6 +2,7 @@
     require "../../includes/dbh.inc.php";
     include('../../functions/functions.php');
     session_start();
+    
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +28,9 @@
         </script>
      </head>
      <body>
+<!--           
+    ';
+    echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php?sb'>Deliver</a>"; -->
           <!-- NavBar Starts -->
           <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
                <div class="d-flex jcsb">
@@ -100,8 +104,10 @@
                                         <div class="container">
                                         <?php 
                                              if(isset($_GET['sb'])){
+                                                  $sbname = $_POST['sbname'];
+                                                  print($sbname);
                                                   echo'
-                                                  <form action="order.php?sb" method="POST">
+                                                  <form action="order.php?sb&sbname='.$sbname.'" method="POST">
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="onlinePayment">Online Payment(Payu)</div><hr>
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
                                                   <div class="text-center my-1">

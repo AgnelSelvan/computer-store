@@ -6,10 +6,14 @@
 <?php
      if (isset($_GET['sb'])) {
           if(isset($_POST['payment'])){
+               $grandTotal = 0;
                $ordernumber = rand();
+               $sbName = $_GET['sbname'];
+               //print($sbName);
                $shippingCharge = $_SESSION['shippingCharge'];
                $taxCharge = $_SESSION['taxCharge'];
                $userID = $_SESSION['userId'];
+               $paymentMethod = $_POST['paymentmethod'];
                $cartSelect = "SELECT * FROM systembuild WHERE userID='$userID'";
                $runQuery = mysqli_query($conn, $cartSelect);
                if($runQuery){
@@ -17,6 +21,7 @@
                          $subTotal = $cartrow['partPrice'];
                          $total = $taxCharge + $subTotal + $shippingCharge;
                          $partID = $cartrow['partID'];
+                         $grandTotal = $grandTotal + $subTotal;
                          $partQty = 1;
                          $paymentMethod = $_POST['paymentmethod'];
                          $pcID = 0;
@@ -24,7 +29,7 @@
                               header("LOCATION: payment.php?payment=false");
                          }
                          else{
-                              $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW())";
+                              $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$sbName', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                               $insertcheck = mysqli_query($conn, $insertorder);
                               if($insertcheck){
                                    $deletecart = "DELETE FROM systembuild WHERE partID='$partID'";
@@ -32,6 +37,9 @@
                               }
                          }
                     }
+                    // print($grandTotal);
+                    $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
+                    $inserCheck = mysqli_query($conn, $insertquery);
                }
           }
      }
@@ -56,7 +64,7 @@
                               header("LOCATION: payment.php?payment=false");
                          }
                          else{
-                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW())";
+                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                               $insertcheck = mysqli_query($conn, $insertorder);
                               if($insertcheck){
                                    $deletecart = "DELETE FROM cart WHERE productid='$partID'";
@@ -77,7 +85,7 @@
                               header("LOCATION: payment.php?payment=false");
                          }
                          else{
-                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW())";
+                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                               $insertcheck = mysqli_query($conn, $insertorder);
                               if($insertcheck){
                                    $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
@@ -293,22 +301,6 @@
                          </div>
                     </div>
                     <div class="d-flex md-d-flex md-flex-col">
-                         <div class="mt-1 ml-1 min-w-30 acc-container mr-1">
-                              <div class="white text-deco-none shadow-md b-rad-1">
-                                   <div style="background:#eee;" class="p-1 b-rad-1">
-                                        Need Help?
-                                   </div>
-                                   <div class="container">
-                                        <div class="p-1">
-                                             <ul class="ls-none">
-                                                  <li class="p-sm"><a class="text-deco-none" href="../../contact.php">Send feedback</a></li>
-                                                  <li class="p-sm"><a class="text-deco-none" href="">Ordering Information</a></li>
-                                                  <li class="p-sm"><a class="text-deco-none" href="">Chat with us</a></li>
-                                             </ul>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
                          <div class="min-w-70 acc-container">
                               <div class="mt-1">
                                    <div style="" class="white b-rad-1 shadow-sm p-1  acc-container2">
@@ -345,6 +337,23 @@
                                         ";
                               }
                                    ?>
+                              </div>
+                         </div>
+                         
+                         <div class="mt-1 ml-1 min-w-30 acc-container mr-1">
+                              <div class="white text-deco-none shadow-md b-rad-1">
+                                   <div style="background:#eee;" class="p-1 b-rad-1">
+                                        Need Help?
+                                   </div>
+                                   <div class="container">
+                                        <div class="p-1">
+                                             <ul class="ls-none">
+                                                  <li class="p-sm"><a class="text-deco-none" href="../../contact.php">Send feedback</a></li>
+                                                  <li class="p-sm"><a class="text-deco-none" href="">Ordering Information</a></li>
+                                                  <li class="p-sm"><a class="text-deco-none" href="">Chat with us</a></li>
+                                             </ul>
+                                        </div>
+                                   </div>
                               </div>
                          </div>
                     </div>

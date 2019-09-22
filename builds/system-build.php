@@ -16,10 +16,8 @@
             header("LOCATION: system-build.php");
         }
     }
-    
     if(isset($_GET['delPart'])){
         $partID = $_GET['delPart'];
-        print($partID);
         $partKeyword = $_GET['keyword'];
         $userID = $_SESSION['userId'];
         $delete = "DELETE FROM systembuild WHERE partID='$partID'";
@@ -115,7 +113,7 @@
         </div>
         <!-- Navbar Ends -->
 
-                        <!-- Content Starts -->
+        <!-- Content Starts -->
         <div class="primary bg-color pb-lg">
             <div class="d-flex flex-row jcs">
                 <div class="m-0 p-0 w-min-100">
@@ -126,8 +124,9 @@
                         <div class="">
                             <h1 style="font-size:30px;" class="text-black pb-0.5 ">System Parts</h1>
                         </div>
+                        
                         <div class="">
-                            <div class="d-flex text-black flex-col mt-2">
+                            <div class="d-flex text-black flex-col mt-1">
                                 <table style="color:gray" style='width:100%'>
                                     <tr>
                                         <td style='width:70%'>Selection</td>
@@ -962,9 +961,9 @@
                                             </a>
                                         </div>
                                         <div class="sm-my-1 sm-ml-3">
-                                            <a href="../cart/order/proceedcheckout.php?sb" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
-                                                ProceedCheckout <i class="fas fa-fast-forward"></i>
-                                            </a>
+                                                    <a href="../cart/order/proceedcheckout.php?sb" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
+                                                        ProceedCheckout <i class="fas fa-fast-forward"></i>
+                                                    </a>
                                         </div>
                                     </div>
                                 </div>
@@ -976,7 +975,7 @@
         </div>
         <!-- Content Ends -->
 
-
+            <!-- Footer -->
                 <div class=" text-center">
                     <div style="background:gray" class=" pt-3 pb-3 d-flex flex-col">
                     <div class="d-flex jcc">

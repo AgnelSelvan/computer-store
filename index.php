@@ -130,8 +130,8 @@
                                                     </div>
                                                     <div class='mx-sm'>
                                                     <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
-                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
-                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-sm' href='details.php?part_det={$partID}'>Details</a></div>
+                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-sm' href='index.php?add_cart={$partID}'>AddToCart</a></div>
                                                     </div>
                                                     </div>
                                             </div>
