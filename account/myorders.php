@@ -89,7 +89,7 @@
 </head>
 <body>
      <!-- Navbar Starts -->
-     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
           <div class="d-flex jcsb">
                <div class="d-flex flex-row">
                     <div>
@@ -143,193 +143,238 @@
 
      <!-- Content Starts -->
      <div style="" class="bg-color py-3">
-          <div class="sm-d-flex sm-flex-col sm-jcc">
-               <div class="sm-ml-lg text-center sm-mt-2"><h1 style="font-size:30px;color:#003426;">My Orders</h1> </div>
-               <p style="color:gray; margin:30px;" class=" text-center">If u have any question, feel free to <a href="../contact.php">Contact us</a>. Our Customer service work <strong>24 &#10006; 7</strong> </p>
-               <div class="mx-4">
-                    <hr>
+          <div class="container">
+               <div class="sm-d-flex sm-flex-col sm-jcc white b-rad-2">
+                    <div class="sm-ml-lg text-center sm-mt-2 pt-1"><h1 style="font-size:30px;color:#003426;">My Orders</h1> </div>
+                    <p style="color:gray; margin:30px;" class=" text-center">If u have any question, feel free to <a href="../contact.php">Contact us</a>. Our Customer service work <strong>24 &#10006; 7</strong> </p>
+                    <div class="mx-4">
+                         <hr>
+                    </div>
                </div>
-          </div>
-          <div>
-               <div class="mt-2 ml-3">
-                    <div class="acc-table">
-                         <div class=" container">
-                              <div><b> Part Order(s)</b></div>
-                              <div class="mr-4 mt-sm">
-                                   <hr>
-                              </div>
-                              <!-- Part Orders Starts-->
-                              <table class="content-table">
-                                   <thead>
-                                        <tr>
-                                             <th>Order Number:</th>
-                                             <th>Part Name:</th>
-                                             <th>Quantity:</th>
-                                             <th>Amount:</th>
-                                             <th>Order Date:</th>
-                                             <th>Payment</th>
-                                             <th>Status</th>
-                                        </tr>
-                                   </thead>
-                                   <tbody class="text-left">
+               <div>
+                    <div class="pt-2 pl-3 white  b-rad-2  ">
+                         <div class="acc-table p-1">
+                              <div class="container">
+                                   <?php
+                                        $query = "SELECT * FROM orders WHERE userID='$userID'";
+                                        $checkall = mysqli_query($conn, $query);
+                                        $count = mysqli_num_rows($checkall);
+                                        $query = "SELECT * FROM sbpc WHERE userID='$userID'";
+                                        $checkall = mysqli_query($conn, $query);
+                                        $countall += $count;
+                                        // print($countall);
+                                        if($countall > 0){
+                                   ?>
+                                        
                                         <?php
-                                             $order = "SELECT * FROM orders WHERE userID='$userID'";
-                                             $check = mysqli_query($conn, $order);
-                                             if($check){
-                                                  while($orderrow = mysqli_fetch_array(($check))){
-                                                       if($orderrow['partID'] != 0){
-                                                            $orderNumber = $orderrow['ordernumber'];
-                                                            $userID = $orderrow['userID'];
-                                                            $partID = $orderrow['partID'];
-                                                            $partQty = $orderrow['partQty'];
-                                                            $payment = $orderrow['paymentMethod'];
-                                                            $totalAmount = $orderrow['totalAmount'];
-                                                            $orderDate = $orderrow['date'];
-                                                            $date = strtotime($orderDate);
-                                                            $date = date("d/m/Y", $date);
-                                                            $status = $orderrow['sttus'];
-
-                                                            $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
-                                                            $checkselect = mysqli_query($conn, $selectpart);
-                                                            while($order = mysqli_fetch_array($checkselect)){
-                                                                 $partName = $order["partTitle"];
-                                                                 echo'
-                                                                      <tr>
-                                                                           <th>'.$orderNumber.'</th>
-                                                                           <th>'.$partName.'</th>
-                                                                           <th>'.$partQty.'</th>
-                                                                           <th>'.$totalAmount.'</th>
-                                                                           <th>'.$date.'</th>
-                                                                           <th>'.$payment.'</th>
-                                                                           <th>'.$status.'</th>
-                                                                      </tr>
-                                                                 ';
-                                                            }
-                                                       }
-                                                  }
-                                             }
-                                             else{
-                                                  echo"Sql Connection problem";
-                                             }
+                                             $countquery = "SELECT * FROM orders WHERE userID='$userID' and partID!=0;";
+                                             $check = mysqli_query($conn, $countquery);
+                                             $countpartorder = mysqli_num_rows($check);
+                                             //print($countpartorder);
                                         ?>
-                                   </tbody>
-                              </table>
-                              <!-- Part Orders Ends-->
-                              <div><b>PC Order(s)</b></div>
-                              <div class="mr-4 mt-sm">
-                                   <hr>
-                              </div>
-                              <!-- PC Orders Starts -->
-                              <table class="content-table">
-                                   <thead>
-                                        <tr>
-                                             <th>Order Number:</th>
-                                             <th>PC Name:</th>
-                                             <th>Quantity:</th>
-                                             <th>Amount:</th>
-                                             <th>Order Date:</th>
-                                             <th>Payment</th>
-                                             <th>Status</th>
-                                        </tr>
-                                   </thead>
-                                   <tbody class="text-left">
+                                        <?php if($countpartorder != 0){?>
+                                             <div><b> Part Order(s) </b></div>
+                                             <div class="mr-4 mt-sm">
+                                                  <hr>
+                                             </div>
+                                             <!-- Part Orders Starts-->
+                                             <table class="content-table w-100 shadow-sm">
+                                                  <thead>
+                                                       <tr>
+                                                            <th>Order Number:</th>
+                                                            <th>Part Name:</th>
+                                                            <th>Quantity:</th>
+                                                            <th>Amount:</th>
+                                                            <th>Order Date:</th>
+                                                            <th>Payment</th>
+                                                            <th>Status</th>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody class="text-left">
+                                                       <?php
+                                                            $order = "SELECT * FROM orders WHERE userID='$userID'";
+                                                            $check = mysqli_query($conn, $order);
+                                                            if($check){
+                                                                 while($orderrow = mysqli_fetch_array(($check))){
+                                                                      if($orderrow['partID'] != 0){
+                                                                           $orderNumber = $orderrow['ordernumber'];
+                                                                           $userID = $orderrow['userID'];
+                                                                           $partID = $orderrow['partID'];
+                                                                           $partQty = $orderrow['partQty'];
+                                                                           $payment = $orderrow['paymentMethod'];
+                                                                           $totalAmount = $orderrow['totalAmount'];
+                                                                           $orderDate = $orderrow['date'];
+                                                                           $date = strtotime($orderDate);
+                                                                           $date = date("d/m/Y", $date);
+                                                                           $status = $orderrow['sttus'];
+
+                                                                           $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+                                                                           $checkselect = mysqli_query($conn, $selectpart);
+                                                                           while($order = mysqli_fetch_array($checkselect)){
+                                                                                $partName = $order["partTitle"];
+                                                                                echo'
+                                                                                     <tr>
+                                                                                          <th>'.$orderNumber.'</th>
+                                                                                          <th>'.$partName.'</th>
+                                                                                          <th>'.$partQty.'</th>
+                                                                                          <th>'.$totalAmount.'</th>
+                                                                                          <th>'.$date.'</th>
+                                                                                          <th>'.$payment.'</th>
+                                                                                          <th>'.$status.'</th>
+                                                                                     </tr>
+                                                                                ';
+                                                                           }
+                                                                      }
+                                                                 }
+                                                            }
+                                                            else{
+                                                                 echo"Sql Connection problem";
+                                                            }
+                                                       ?>
+                                                  </tbody>
+                                             </table>
+                                        <?php }?>
+
                                         <?php
-                                             $order = "SELECT * FROM orders WHERE userID='$userID'";
-                                             $check = mysqli_query($conn, $order);
-                                             if($check){
-                                                  while($orderrow = mysqli_fetch_array(($check))){
-                                                       if($orderrow['pcID'] != 0){
-                                                            $orderNumber = $orderrow['ordernumber'];
-                                                            $userID = $orderrow['userID'];
-                                                            $pcID = $orderrow['pcID'];
-                                                            $partQty = $orderrow['partQty'];
-                                                            $payment = $orderrow['paymentMethod'];
-                                                            $totalAmount = $orderrow['totalAmount'];
-                                                            $orderDate = $orderrow['date'];
-                                                            $date = strtotime($orderDate);
-                                                            $date = date("d/m/Y", $date);
-                                                            $pcstatus = $orderrow['sttus'];
-
-                                                            $selectpc = "SELECT * FROM pc_details WHERE pc_id='$pcID'";
-                                                            $checkselect = mysqli_query($conn, $selectpc);
-                                                            while($order = mysqli_fetch_array($checkselect)){
-                                                                 $pcName = $order["pcName"];
-                                                                 echo'
-                                                                      <tr>
-                                                                           <th>'.$orderNumber.'</th>
-                                                                           <th>'.$pcName.'</th>
-                                                                           <th>'.$partQty.'</th>
-                                                                           <th>'.$totalAmount.'</th>
-                                                                           <th>'.$date.'</th>
-                                                                           <th>'.$payment.'</th>
-                                                                           <th>'.$pcstatus.'</th>
-                                                                      </tr>
-                                                                 ';
-                                                            }
-                                                       }
-                                                  }
-                                             }
-                                             else{
-                                                  echo"Sql Connection problem";
-                                             }
-
+                                             $countquery = "SELECT * FROM orders WHERE userID='$userID' and pcID!=0;";
+                                             $check = mysqli_query($conn, $countquery);
+                                             $countpcorder = mysqli_num_rows($check);
+                                             //print($countpcorder);
                                         ?>
-                                   </tbody>
-                              </table>
-                              <!-- PC Orders Ends-->
-                              <div><b>System Builds Order(s)</b></div>
-                              <div class="mr-4 mt-sm">
-                                   <hr>
-                              </div>
-                              <!-- Systembuild Order List -->
-                              <table class="content-table">
-                                        <thead>
-                                             <tr>
-                                                  <th>Order Number:</th>
-                                                  <th>User ID</th>
-                                                  <th>PC Name:</th>
-                                                  <th>Amount:</th>
-                                                  <th>Order Date:</th>
-                                                  <th>Payment:</th>
-                                                  <th>Status:</th>
-                                             </tr>
-                                        </thead>
-                                        <tbody class="text-left">
-                                             <?php
-                                                  $order = "SELECT * FROM sbpc";
-                                                  $check = mysqli_query($conn, $order);
-                                                  if($check){
-                                                       while($orderrow = mysqli_fetch_array(($check))){
-                                                            $sbpcID = $orderrow['sbPCID'];
-                                                            $orderNumber = $orderrow['orderNumber'];
-                                                            $userID = $orderrow['userID'];
-                                                            $pcName = $orderrow['pcName'];
-                                                            $payment = $orderrow['paymentMethod'];
-                                                            $orderDate = $orderrow['date'];
-                                                            $status = $orderrow['sttus'];
-                                                            $grandTotal = $orderrow['amount'];
-                                                            echo"
-                                                                 <tr>
-                                                                      <th>".$orderNumber."</th>
-                                                                      <th>".$userID."</th>
-                                                                      <th>".$pcName."</th>
-                                                                      <th>".$grandTotal."</th>
-                                                                      <th>".$orderDate."</th>
-                                                                      <th>".$payment."</th>
-                                                                      <th>".$status."</th>
-                                                                 </tr>
-                                                            ";
-                                                       }
-                                                  }
-                                                  else{
-                                                       echo"Sql Connection problem";
-                                                  }
+                                        <?php if($countpcorder != 0){?>
+                                             <!-- Part Orders Ends-->
+                                             <div><b>PC Order(s)</b></div>
+                                             <div class="mr-4 mt-sm">
+                                                  <hr>
+                                             </div>
+                                             <!-- PC Orders Starts -->
+                                             <table class="content-table w-100 shadow-sm">
+                                                  <thead>
+                                                       <tr>
+                                                            <th>Order Number:</th>
+                                                            <th>PC Name:</th>
+                                                            <th>Quantity:</th>
+                                                            <th>Amount:</th>
+                                                            <th>Order Date:</th>
+                                                            <th>Payment</th>
+                                                            <th>Status</th>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody class="text-left">
+                                                       <?php
+                                                            $order = "SELECT * FROM orders WHERE userID='$userID'";
+                                                            $check = mysqli_query($conn, $order);
+                                                            if($check){
+                                                                 while($orderrow = mysqli_fetch_array(($check))){
+                                                                      if($orderrow['pcID'] != 0){
+                                                                           $orderNumber = $orderrow['ordernumber'];
+                                                                           $userID = $orderrow['userID'];
+                                                                           $pcID = $orderrow['pcID'];
+                                                                           $partQty = $orderrow['partQty'];
+                                                                           $payment = $orderrow['paymentMethod'];
+                                                                           $totalAmount = $orderrow['totalAmount'];
+                                                                           $orderDate = $orderrow['date'];
+                                                                           $date = strtotime($orderDate);
+                                                                           $date = date("d/m/Y", $date);
+                                                                           $pcstatus = $orderrow['sttus'];
 
-                                             ?>
-                                        </tbody>
-                              </table>
-                              <!-- Systembuild Order List -->
-                         
+                                                                           $selectpc = "SELECT * FROM pc_details WHERE pc_id='$pcID'";
+                                                                           $checkselect = mysqli_query($conn, $selectpc);
+                                                                           while($order = mysqli_fetch_array($checkselect)){
+                                                                                $pcName = $order["pcName"];
+                                                                                echo'
+                                                                                     <tr>
+                                                                                          <th>'.$orderNumber.'</th>
+                                                                                          <th>'.$pcName.'</th>
+                                                                                          <th>'.$partQty.'</th>
+                                                                                          <th>'.$totalAmount.'</th>
+                                                                                          <th>'.$date.'</th>
+                                                                                          <th>'.$payment.'</th>
+                                                                                          <th>'.$pcstatus.'</th>
+                                                                                     </tr>
+                                                                                ';
+                                                                           }
+                                                                      }
+                                                                 }
+                                                            }
+                                                            else{
+                                                                 echo"Sql Connection problem";
+                                                            }
+
+                                                       ?>
+                                                  </tbody>
+                                             </table>
+                                             <!-- PC Orders Ends-->
+                                        <?php }?>
+
+                                        <?php
+                                             $countquery = "SELECT * FROM sbpc WHERE userID='$userID';";
+                                             $check = mysqli_query($conn, $countquery);
+                                             $countsborder = mysqli_num_rows($check);
+                                             //print($countsborder);
+                                        ?>
+                                        <?php if($countsborder != 0){?>
+                                             <div><b>System Builds Order(s)</b></div>
+                                             <div class="mr-4 mt-sm">
+                                                  <hr>
+                                             </div>
+                                             <!-- Systembuild Order List -->
+                                             <table class="content-table w-100 shadow-sm">
+                                                       <thead>
+                                                            <tr>
+                                                                 <th>Order Number:</th>
+                                                                 <th>User ID</th>
+                                                                 <th>PC Name:</th>
+                                                                 <th>Amount:</th>
+                                                                 <th>Order Date:</th>
+                                                                 <th>Payment:</th>
+                                                                 <th>Status:</th>
+                                                            </tr>
+                                                       </thead>
+                                                       <tbody class="text-left">
+                                                            <?php
+                                                                 $order = "SELECT * FROM sbpc";
+                                                                 $check = mysqli_query($conn, $order);
+                                                                 if($check){
+                                                                      while($orderrow = mysqli_fetch_array(($check))){
+                                                                           $sbpcID = $orderrow['sbPCID'];
+                                                                           $orderNumber = $orderrow['orderNumber'];
+                                                                           $userID = $orderrow['userID'];
+                                                                           $pcName = $orderrow['pcName'];
+                                                                           $payment = $orderrow['paymentMethod'];
+                                                                           $orderDate = $orderrow['date'];
+                                                                           $status = $orderrow['sttus'];
+                                                                           $grandTotal = $orderrow['amount'];
+                                                                           echo"
+                                                                                <tr>
+                                                                                     <th>".$orderNumber."</th>
+                                                                                     <th>".$userID."</th>
+                                                                                     <th>".$pcName."</th>
+                                                                                     <th>".$grandTotal."</th>
+                                                                                     <th>".$orderDate."</th>
+                                                                                     <th>".$payment."</th>
+                                                                                     <th>".$status."</th>
+                                                                                </tr>
+                                                                           ";
+                                                                      }
+                                                                 }
+                                                                 else{
+                                                                      echo"Sql Connection problem";
+                                                                 }
+
+                                                            ?>
+                                                       </tbody>
+                                             </table>
+                                             <!-- Systembuild Order List -->
+                                        <?php }?>
+                                   <?php }else{?>
+                                        <div class="p-1">Not yet ordered</div>
+                                        <div style="color:gray" class="p-1">Click here to start your order,<a style='background:#28AB87'  class='ml-1 button-field text-deco-none shadow-sm' href='../index.php'>Shop Now</a></div>
+                                        <div></div>
+                                        <?php }?>
+                                   
+                              
+                              </div>
                          </div>
                     </div>
                </div>

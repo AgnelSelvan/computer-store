@@ -111,6 +111,14 @@ error_reporting(0);
      <div class=" container">
           <?php
                if(isset($_GET['partorder'])){
+                         $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                         $check = mysqli_query($conn, $checkselect);
+                         $countrow = mysqli_num_rows($check);
+                         // print($countrow);
+                         if($countrow == 0){
+                              echo "<div class='text-center '><b>No items in Your orders List</b></div>";
+                         }
+                         else{
                     ?>
                          <table class="content-table">
                               <thead>
@@ -179,8 +187,16 @@ error_reporting(0);
                                    ?>
                               </tbody>
                          </table>
-                    <?php
-               }elseif(isset($_GET['pcorder'])){
+                    <?php }
+                    }elseif(isset($_GET['pcorder'])){
+                    $checkselect = "SELECT * FROM orders WHERE pcID !=0 ";
+                    $check = mysqli_query($conn, $checkselect);
+                    $countrow = mysqli_num_rows($check);
+                    // print($countrow);
+                    if($countrow == 0){
+                         echo "<div class='text-center '><b>No items in Your orders List</b></div>";
+                    }
+                    else{
                     ?>
                          <table class="content-table">
                               <thead>
@@ -250,8 +266,16 @@ error_reporting(0);
                                    ?>
                               </tbody>
                          </table>
-                    <?php
+                                   <?php }
                }elseif(isset($_GET['sborder'])){
+                    $checkselect = "SELECT * FROM sborders ";
+                    $check = mysqli_query($conn, $checkselect);
+                    $countrow = mysqli_num_rows($check);
+                    // print($countrow);
+                    if($countrow == 0){
+                         echo "<div class='text-center '><b>No items in Your orders List</b></div>";
+                    }
+                    else{
                     ?>
                          <table class="content-table">
                               <thead>
@@ -364,7 +388,7 @@ error_reporting(0);
                                    ?>
                               </tbody>
                          </table>
-                    <?php
+                    <?php }
                }
           ?>
      </div>

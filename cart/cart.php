@@ -41,8 +41,8 @@
                          <div class="menu">
                          <ul class="ls-none active current-item">
                               <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="system-build.php">SystemBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="completed_build.php">CompletedBuild</a></li>
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/system-build.php">SystemBuild</a></li>
+                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/completed_build.php">CompletedBuild</a></li>
                               <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
                               <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
                          </ul>
@@ -85,126 +85,136 @@
                     <div class="d-flex md-d-flex md-flex-col">
                          <!-- Cart Table Starts -->
                          <div class="w-100 b-rad-2 shadow-md white text-left p-3 md-p-1 sm-p-sm" >
-                              <form action="cart.php" method="POST" enctype="multipart/form-data">
+                              <?php
+                                   $userID = $_SESSION['userId'];
+                                   $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
+                                   $runQuery = mysqli_query($conn, $selectQuery);
+                                   $count = mysqli_num_rows($runQuery);
+                                   
+                                   $countCart = "SELECT * FROM pccart WHERE userid='$userID'";
+                                   $countQuery = mysqli_query($conn, $countCart);
+                                   $count += mysqli_num_rows($countQuery);
+                              ?>
+                              <h1 style="color:#003426;" class=" md-m-sm sm-md-0 md-p-sm sm-m-0">Shopping Cart</h1>
+                              <div class="pb-1 mt-1 md-m-sm sm-md-0 md-p-sm sm-m-0" style="color:gray">You Have currently <?php cartcount() ?> item(s) in your cart</div>
                                    <?php
-                                        $userID = $_SESSION['userId'];
-                                        $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
-                                        $runQuery = mysqli_query($conn, $selectQuery);
-                                        $count = mysqli_num_rows($runQuery);
-                                        
-                                        $countCart = "SELECT * FROM pccart WHERE userid='$userID'";
-                                        $countQuery = mysqli_query($conn, $countCart);
-                                        $count += mysqli_num_rows($countQuery);
-                                   ?>
-                                   <h1 style="color:#003426;" class=" md-m-sm sm-md-0 md-p-sm sm-m-0">Shopping Cart</h1>
-                                   <div class="pb-1 mt-1 md-m-sm sm-md-0 md-p-sm sm-m-0" style="color:gray">You Have currently <?php echo $count; ?> item(s) in your cart</div>
-                                   <table style="width:100%" class="content-table">
-                                        <thead>
-                                             <tr>
-                                                  <th>Product</th>
-                                                  <th>Quantity</th>
-                                                  <th>Unit Price</th>
-                                                  <th>Discount</th>
-                                                  <th>Delete</th>
-                                                  <th>Total</th>
-                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                                  <?php
-                                                       $grandTotal = 0;
-                                                       $userID = $_SESSION['userId'];
-                                                       $getCart = "SELECT * FROM cart WHERE userID='$userID'";
-                                                       $runGetCart = mysqli_query($conn, $getCart);
-                                                       while($row = mysqli_fetch_array($runGetCart)){
-                                                            $productID = $row['productid'];
-                                                            $quantity = $row['quantity'];
-                                                            $getproduct = "SELECT * FROM pcpart WHERE pcPartID='$productID'";
-                                                            $rungetProduct = mysqli_query($conn, $getproduct);
-                                                            while($productrow = mysqli_fetch_array($rungetProduct)){
-                                                                 $partTitle = $productrow['partTitle'];
-                                                                 $image = $productrow['image'];
-                                                                 $unitprice = $productrow['price'];
-                                                                 $haha = $quantity * $unitprice;
-                                                                 $discount = $unitprice * $quantity * 0.11;
-                                                                 $subTotal = $haha - $discount;
-                                                                 $grandTotal += $subTotal;
-                                                                 echo '
+                                        if($count != 0){
+                                             ?>
+                                                  <form action="cart.php" method="POST" enctype="multipart/form-data">
+                                                       <table style="width:100%" class="content-table">
+                                                            <thead>
                                                                  <tr>
-                                                                      <td>
-                                                                           <a class="text-deco-none" href="../details.php?part_det='?><?php echo $productrow['pcPartID']; echo'">
-                                                                           <img class="img1" src="../admin/upload/'.$productrow['image'].'" alt="amd">'?>
-                                                                                <?php echo $partTitle; echo'
-                                                                           </a>
-                                                                      </td>
-                                                                      <td>'?><?php echo $quantity; echo'</td>
-                                                                      <td>&#8377;'.$unitprice.'</td>
-                                                                      <td>&#8377;'.$discount.'</td>
-                                                                      <td><input type="checkbox" name="remove[]" value='?><?php echo $productID; echo'></td>
-                                                                      <td>&#8377;'.$subTotal.'</td>
+                                                                      <th>Product</th>
+                                                                      <th>Quantity</th>
+                                                                      <th>Unit Price</th>
+                                                                      <th>Discount</th>
+                                                                      <th>Delete</th>
+                                                                      <th>Total</th>
                                                                  </tr>
-                                                                 ';
-                                                            }
-                                                            session_start();
-                                                            $_SESSION['grandtotal'] = $grandTotal;
-                                                       }
+                                                            </thead>
+                                                            <tbody>
+                                                                      <?php
+                                                                           $grandTotal = 0;
+                                                                           $userID = $_SESSION['userId'];
+                                                                           $getCart = "SELECT * FROM cart WHERE userID='$userID'";
+                                                                           $runGetCart = mysqli_query($conn, $getCart);
+                                                                           while($row = mysqli_fetch_array($runGetCart)){
+                                                                                $productID = $row['productid'];
+                                                                                $quantity = $row['quantity'];
+                                                                                $getproduct = "SELECT * FROM pcpart WHERE pcPartID='$productID'";
+                                                                                $rungetProduct = mysqli_query($conn, $getproduct);
+                                                                                while($productrow = mysqli_fetch_array($rungetProduct)){
+                                                                                     $partTitle = $productrow['partTitle'];
+                                                                                     $image = $productrow['image'];
+                                                                                     $unitprice = $productrow['price'];
+                                                                                     $haha = $quantity * $unitprice;
+                                                                                     $discount = $unitprice * $quantity * 0.11;
+                                                                                     $subTotal = $haha - $discount;
+                                                                                     $grandTotal += $subTotal;
+                                                                                     echo '
+                                                                                     <tr>
+                                                                                          <td>
+                                                                                               <a class="text-deco-none" href="../details.php?part_det='?><?php echo $productrow['pcPartID']; echo'">
+                                                                                               <img class="img1" src="../admin/upload/'.$productrow['image'].'" alt="amd">'?>
+                                                                                                    <?php echo $partTitle; echo'
+                                                                                               </a>
+                                                                                          </td>
+                                                                                          <td>'?><?php echo $quantity; echo'</td>
+                                                                                          <td>&#8377;'.$unitprice.'</td>
+                                                                                          <td>&#8377;'.$discount.'</td>
+                                                                                          <td><input type="checkbox" name="remove[]" value='?><?php echo $productID; echo'></td>
+                                                                                          <td>&#8377;'.$subTotal.'</td>
+                                                                                     </tr>
+                                                                                     ';
+                                                                                }
+                                                                                session_start();
+                                                                                $_SESSION['grandtotal'] = $grandTotal;
+                                                                           }
 
-                                                       $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
-                                                       $runGetCart = mysqli_query($conn, $getCart);
-                                                       while($row = mysqli_fetch_array($runGetCart)){
-                                                            
-                                                            $productID = $row['pcid'];
-                                                            $quantity = 1;
-                                                            $getproduct = "SELECT * FROM pc_details WHERE pc_id='$productID'";
-                                                            $rungetProduct = mysqli_query($conn, $getproduct);
-                                                            while($productrow = mysqli_fetch_array($rungetProduct)){
-                                                                 $grandTotal = $_SESSION['grandtotal'];
-                                                                 $partTitle = $productrow['pcName'];
-                                                                 $image = $productrow['pc_image'];
-                                                                 $unitprice = $productrow['pcPrice'];
-                                                                 $haha = $quantity * $unitprice;
-                                                                 $discount = $unitprice * $quantity * 0.11;
-                                                                 $subTotal = $haha - $discount;
-                                                                 $grandTotal += $subTotal;
-                                                                 echo '
-                                                                 <tr>
-                                                                      <td>
-                                                                           <a class="text-deco-none" href="../details.php?pc_det='?><?php echo $productrow['pc_id']; echo'">
-                                                                           <img class="img1" src="../admin/upload/'.$image.'" alt="amd">'?>
-                                                                                <?php echo $partTitle; echo'
-                                                                           </a>
-                                                                      </td>
-                                                                      <td>'?><?php echo $quantity; echo'</td>
-                                                                      <td>&#8377;'.$unitprice.'</td>
-                                                                      <td>&#8377;'.$discount.'</td>
-                                                                      <td><input type="checkbox" name="delete[]" value='?><?php echo $productID; echo'></td>
-                                                                      <td>&#8377;'.$subTotal.'</td>
-                                                                 </tr>
-                                                                 ';
-                                                            }
-                                                            $_SESSION['grandtotal'] = $grandTotal;
-                                                       }
-                                                  ?>
-                                        </tbody>
-                                   </table>
-                                   <div class="text-right mr-4 mb-2"><?php 
-                                        if($count === 0){ echo "<p style='font-size:14px;'>No items in your cart</p>";}
-                                        else{
-                                             echo"<b>Total: </b> "; 
-                                             echo "&#8377;"+$grandTotal;}?>
-                                        </div>
-                                   <div class="d-flex jcsb md-d-flex md-flex-col text-center">
-                                        <div>
-                                             <pre><a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a></pre></div>
-                                        <div class="md-mb-1">
-                                             <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
-                                                  <pre><i class=" fas fa-refresh pr-sm"></i>Update Cart</pre>
-                                             </button>
-                                        </div>
-                                        <div>
-                                             <pre><a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md">Proceed Checkout<i class="pl-sm fas fa-fast-forward"></i></a></pre>
-                                        </div>
-                                   </div>
-                              </form>
+                                                                           $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
+                                                                           $runGetCart = mysqli_query($conn, $getCart);
+                                                                           while($row = mysqli_fetch_array($runGetCart)){
+                                                                                
+                                                                                $productID = $row['pcid'];
+                                                                                $quantity = 1;
+                                                                                $getproduct = "SELECT * FROM pc_details WHERE pc_id='$productID'";
+                                                                                $rungetProduct = mysqli_query($conn, $getproduct);
+                                                                                while($productrow = mysqli_fetch_array($rungetProduct)){
+                                                                                     $grandTotal = $_SESSION['grandtotal'];
+                                                                                     $partTitle = $productrow['pcName'];
+                                                                                     $image = $productrow['pc_image'];
+                                                                                     $unitprice = $productrow['pcPrice'];
+                                                                                     $haha = $quantity * $unitprice;
+                                                                                     $discount = $unitprice * $quantity * 0.11;
+                                                                                     $subTotal = $haha - $discount;
+                                                                                     $grandTotal += $subTotal;
+                                                                                     echo '
+                                                                                     <tr>
+                                                                                          <td>
+                                                                                               <a class="text-deco-none" href="../details.php?pc_det='?><?php echo $productrow['pc_id']; echo'">
+                                                                                               <img class="img1" src="../admin/upload/'.$image.'" alt="amd">'?>
+                                                                                                    <?php echo $partTitle; echo'
+                                                                                               </a>
+                                                                                          </td>
+                                                                                          <td>'?><?php echo $quantity; echo'</td>
+                                                                                          <td>&#8377;'.$unitprice.'</td>
+                                                                                          <td>&#8377;'.$discount.'</td>
+                                                                                          <td><input type="checkbox" name="delete[]" value='?><?php echo $productID; echo'></td>
+                                                                                          <td>&#8377;'.$subTotal.'</td>
+                                                                                     </tr>
+                                                                                     ';
+                                                                                }
+                                                                                $_SESSION['grandtotal'] = $grandTotal;
+                                                                           }
+                                                                      ?>
+                                                            </tbody>
+                                                       </table>
+                                                       <div class="text-right mr-4 mb-2"><?php 
+                                                            if($count === 0){ echo "<p style='font-size:14px;'>No items in your cart</p>";}
+                                                            else{
+                                                                 echo"<b>Total: </b> "; 
+                                                                 echo "&#8377;"+$grandTotal;}?>
+                                                            </div>
+                                                       <div class="d-flex jcsb md-d-flex md-flex-col text-center">
+                                                            <div>
+                                                                 <pre><a href="../index.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md"><i class="fas fa-step-backward pr-sm"></i>Continue Shopping</a></pre></div>
+                                                            <div class="md-mb-1">
+                                                                 <button type="submit" name="update" value="Update Cart" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;" class="text-deco-none b-rad-2 shadow-md">
+                                                                      <pre><i class=" fas fa-refresh pr-sm"></i>Update Cart</pre>
+                                                                 </button>
+                                                            </div>
+                                                            <div>
+                                                                 <pre><a href="./order/proceedcheckout.php" style="padding:10px 14px;margin-top:20px;background:#28AB87; border:none; color:white;font-size:16px;" class="text-deco-none b-rad-2 shadow-md">Proceed Checkout<i class="pl-sm fas fa-fast-forward"></i></a></pre>
+                                                            </div>
+                                                       </div>
+                                                  </form>
+                                             <?php
+                                        }else{
+                                   ?>
+                                        <div class="p-1">No Items in your cart</div>
+                                        <div style="color:gray" class="p-1">Click here to start your order,<a style='background:#28AB87'  class='ml-1 button-field text-deco-none shadow-sm' href='../index.php'>Shop Now</a></div>
+                                        <div></div>
+                                   <?php }?>
                               <?php
                                    function update_cart(){
                                         global $conn;

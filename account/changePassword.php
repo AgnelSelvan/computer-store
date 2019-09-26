@@ -30,7 +30,7 @@
 </head>
 <body>
      <!-- Navbar Starts -->
-     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
           <div class="d-flex jcsb">
                <div class="d-flex flex-row">
                     <div>
@@ -89,43 +89,42 @@
                     <?php
                          if(isset($_POST['update'])){
                               $userID = $_SESSION['userId'];
-                              $username = $_POST['username'];
-                              $email = $_POST['email'];
-                              $address = $_POST['address'];
-                              $city = $_POST['city'];
-                              $country = $_POST['country'];
-                              $mobnumber = $_POST['mobnumber'];
-                              $state = $_POST['state'];
+                              $pass = $_POST['pass'];
+                              $repPass = $_POST['reppass'];
 
-                              $file = $_FILES['file'];
-                              //print($file);
-                              $fileName = $_FILES['file']['name'];
-                              //print($fileName);
-                              // print($country);
-                              // print($username);
-                              // print($email);
-                              // print($address);
-                              // print($mobnumber);
-                              $fileTmpName = $_FILES['file']['tmp_name'];
-                              $folder = "user/userimages/".$fileName;
-                              move_uploaded_file($fileTmpName, "../".$folder);
-
-                              $update= "UPDATE users SET uidUsers='$username',emailUsers='$email', mobNumber='$mobnumber', address='$address', country='$country',
-                                   state='$state', userImage='$folder' WHERE isUsers='$userID';
-                              ";
-                              $check = mysqli_query($conn, $update);
-                              if($check){
-                                   header("LOCATION: myAccount.php?editAccount?update=success");
+                              if($pass == $repPass){
+                                   $hashedPwd = password_hash($pass, PASSWORD_DEFAULT);
+                                   $update= "UPDATE users SET pwdUsers='$hashedPwd' WHERE isUsers='$userID';";
+                                   $check = mysqli_query($conn, $update);
+                                   if($check){
+                                        header("LOCATION: changePassword.php?update=success");
+                                   }
+                                   else{
+                                        header("LOCATION: changePassword.php?update=unsuccess");
+                                   }
                               }
                               else{
-                                   header("LOCATION: myAccount.php?editAccount?update=unsuccess");
+                                   header("LOCATION: changePassword.php?pass=wrong");
                               }
                          }
                     ?>
                     <div class="p-2">
                          <div class="container">
-                              <h1 style="color:#00342; font-size:20px;"  class="text-center">Edit Your Account</h1>
+                              <h1 style="color:#00342; font-size:20px;"  class="text-center">Change Passowrd?</h1>
                          </div>
+                         <?php
+                              if(isset($_GET['pass'])){
+                                   if($_GET['pass'] == 'wrong'){
+                                        echo'<div style="color:red; font-size:14px;" class="pt-1 text-center">Password incorrect!</div>';
+                                   }
+                              }
+                              elseif(isset($_GET['update'])){
+                                   if($_GET['update'] == 'success'){
+                                        echo'<div style="color:green; font-size:14px;" class="pt-1 text-center">Password update sucessfull!</div>';
+                                   }
+                              }
+
+                         ?>
                          <div style="font-size:18px;" class=" container">
                               <?php
                                    $selectuser = "SELECT * FROM users WHERE isUsers='$userID'";
@@ -134,29 +133,13 @@
                                    $userName = $row['uidUsers'];
                                    // print($userName);
                                    ?>
-                                   <form action="editaccount.php" method="POST" enctype="multipart/form-data">
+                                   <form action="changePassword.php" method="POST" enctype="multipart/form-data">
                                         <div class="mt-2">
-                                             <input type="hidden" name="size" value="1000000">
-                                             <div class="mb-2 text-center">
-                                                  <input type="file" name="file">
+                                             <div class="text-center">
+                                                  <input type="password" name="pass" placeholder="Enter your Password..." class="input-field-f b-rad-2">
                                              </div>
                                              <div class="text-center">
-                                                  <input type="text" name="username" placeholder="Enter your name..." value="<?php echo $userName; ?>" class="input-field-f b-rad-2">
-                                             </div>
-                                             <div class="text-center">
-                                                  <input type="text" name="email" placeholder="Enter your email..." value="<?php echo $row['emailUsers']; ?>" class="input-field-f b-rad-2">
-                                             </div>
-                                             <div class="text-center">
-                                                  <textarea name='address' placeholder="Enter your Address..." class="input-field-f b-rad-2"><?php echo $row['address']; ?></textarea>
-                                             </div>
-                                             <div class="text-center">
-                                                  <input type="text" name="country" placeholder="Enter your Country..." value="<?php echo $row['country']; ?>" class="input-field-f b-rad-2">
-                                             </div>
-                                             <div class="text-center">
-                                                  <input type="text" name="state" placeholder="Enter your State..." value="<?php echo $row['state']; ?>" class="input-field-f b-rad-2">
-                                             </div>
-                                             <div class="text-center">
-                                                  <input type="text" name="mobnumber" placeholder="Enter your Mobile number..." value="<?php echo $row['mobNumber']; ?>" class="input-field-f b-rad-2">
+                                                  <input type="password" name="reppass" placeholder="Confirm your Password..." class="input-field-f b-rad-2">
                                              </div>
                                              <div class="text-center">
                                                   <button type="submit" name="update" class="b-rad-2 shadow-md editsubmit"><pre><img style="padding-right:5px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAAmJLR0QA/4ePzL8AAAFTSURBVDgRvcG9TpNhGADQx69pGaxu3ETLPagjDkRJ4RaIWqjsumLD0oRd04hyJ14ACgpVxi4QBq1DCdgjxe9Nf6LEiXPipilZtuPAz/gfFh3JRc5IK8bJbBratabiduQkrZhkE30rspjgjw8xySL67sUlFW0nuppKEYZ+GZiPESVHWIkwq+1C0oxAyyo6CpFYxq7MkmPjuhFaEW7ZRy0SO1iLsOTYuG7krOJtJA5RiUtmtV1IXkVOFZ1I/MCdyKloO9HVVIqcMnqR6KEc13AX3yNxiEpcwxwOIvEejbiiasu+np59W6pxxTq2I7GMj7IIL50bd+5FhII91CJR8g1PZN6Y9lqmjo5ijHiMvvsydaeSU89kHjgzsBCTNNH3VMGMhxoa5s0oqDvDRkyTaRr65LmqsrI56/YwsCGLv/HIV9M6FuLfFNW880VPz2fbaopxw34Dr2y+yb2Py6cAAAAASUVORK5CYII=">Update Now</pre></button>

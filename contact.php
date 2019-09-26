@@ -38,7 +38,7 @@
         </script>
     </head>
     <body>
-    <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+    <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
                 <div class="d-flex jcsb">
                     <div class="d-flex flex-row">
                         <div>

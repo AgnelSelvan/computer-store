@@ -1,7 +1,73 @@
 <?php
     require "header.php";
 ?>
+<?php
+    if(isset($_POST['signup-submit'])){
+        require './includes/dbh.inc.php';
+        require_once './includes/emailController.inc.php';
+        header("LOCATION: signup.php?hahah");
+        
+        $username = $_POST['uid'];
+        $email = $_POST['mail'];
+        $password = $_POST['pwd'];
+        $passwordRepeat = $_POST['pwd-repeat'];
+        $mobNumber = $_POST['mobnum'];
+        $address = $_POST['address'];
+        $state = $_POST['state'];
+        $country = $_POST['country'];
 
+        $file = $_FILES['file'];
+        //print_r($file);
+        $fileName = $_FILES['file']['name'];
+        $fileTmpName = $_FILES['file']['tmp_name'];
+        //print_r($fileTmpName);
+
+        $folder = "user/userimages/".$fileName;
+        move_uploaded_file($fileTmpName, $folder);
+
+        
+        if(empty($mobNumber) || empty($username) || empty($email) || empty($password) || empty($passwordRepeat) ){
+            header("Location: signup.php?error=emptyfield"); 
+            exit();
+        }
+        
+        elseif($password !== $passwordRepeat ){
+            header("Location: signup.php?error=passwordcheck");
+            exit();
+        }
+        else {
+            $sql = "SELECT uidUsers FROM  users WHERE uidUsers='$username'";
+            $checkusername = mysqli_query($conn, $sql);
+            $countusername = mysqli_num_rows($checkusername);
+
+            $sqlemail = "SELECT uidUsers FROM  users WHERE emailUsers='$email'";
+            $checkemail = mysqli_query($conn, $sqlemail);
+            $countemail = mysqli_num_rows($checkemail);
+
+            if(($countemail && $countusername) > 0){
+                header("Location: signup.php?error=useremailtaken");
+                exit();
+            }
+            
+            elseif($countemail > 0){
+                header("Location: signup.php?error=emailtaken");
+                exit();
+            }
+            elseif($countusername > 0){
+                header("Location: signup.php?error=usertaken");
+                exit();
+            }
+            else{
+                $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO users VALUES (NULL ,'$username', '$email', '$hashedPwd', '$mobNumber', '$address', '$state', '$country', '$folder')";
+                $check = mysqli_query($conn, $sql);
+                if($check){
+                    header("Location: signup.php?signup=success");
+                }
+            }
+        }
+    }
+?>
 <body class="bg-color">
     <div class="d-flex section">
         <div class="imagebox">
@@ -49,7 +115,7 @@
                     ?>
                 </div>
 
-                <form action="./includes/signup.inc.php" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="text-center">
                         <div>
                             <input class="input-field" type="text" name="uid" placeholder="Username"/>
@@ -81,8 +147,9 @@
                                 <option value="japan">Japan</option>
                             </select>
                         </div>
-                        <div>
-                            <input type="file" name="image">
+                        <input type="hidden" name="size" value="1000000">
+                        <div class="p-1">
+                            <input class="chse_file" type="file" name="file">
                         </div>
                         <div class="text-center my-1">
                             <button style="width:150px; font-size:20px;background:#28AB87" class="btn button-field text-deco-none" type="submit" name="signup-submit">

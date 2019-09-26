@@ -1,3 +1,16 @@
+<?php
+    error_reporting(0);
+    include("../includes/dbh.inc.php");
+    if(isset($_POST['admininsert'])){
+        $adminName = $_POST['signup-email'];
+        $adminPassword = $_POST['signup-password'];
+        // print($adminName);
+        $adminPassword = password_hash($adminPassword, PASSWORD_DEFAULT);
+        $adminInsert = "INSERT INTO admin VALUES(NULL, '$adminName','$adminPassword')";
+        $check = mysqli_query($conn, $adminInsert);
+
+    }
+?>
 <!DOCTYPE html>
  <html class="no-js">
     <head>
@@ -48,10 +61,22 @@
                     <h4 style="color:gray">Make Admin</h4>
                 </div>
                 <div>
-                    <input class="admin-input" type="email" placeholder="Enter Email to make Admin...">
-                </div>
-                <div class="text-center">
-                    <input type="submit" name="" id="submit">
+                    <!-- SIGN UP MODAL -->
+                <div id="modal-signup" class="modal">
+                    <div class="modal-content">
+                        <form action="" method="POST">
+                            <div class="">
+                                <input class="admin-input" type="email" name="signup-email" placeholder="Enter Email to make Admin..." required />
+                            </div>
+                            <div class="">
+                                <input class="admin-input" type="password" name="signup-password" placeholder="Enter Password..." required />
+                            </div>
+                            <div class="text-center">
+                                <input id="submit" name="admininsert" type="submit">
+                            </div>
+                            <p class="error pink-text center-align"></p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

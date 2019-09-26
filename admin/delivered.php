@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+     error_reporting(0);
      if(isset($_GET['deliveredpart'])){
           if($_GET['deliveredpart'] == "delivered"){
                $partID = $_GET['partID'];
@@ -101,6 +101,14 @@ error_reporting(0);
      <div class=" container">
           <?php
                if(isset($_GET['deliveredpart'])){
+                    $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                    $check = mysqli_query($conn, $checkselect);
+                    $countrow = mysqli_num_rows($check);
+                    // print($countrow);
+                    if($countrow == 0){
+                         echo "<div class='text-center '><b>No items Delivered Yet!</b></div>";
+                    }
+                    else{
                     ?>
                          <table class="content-table">
                               <thead>
@@ -171,8 +179,16 @@ error_reporting(0);
                                    ?>
                               </tbody>
                          </table>
-                    <?php
+                    <?php }
                }elseif(isset($_GET['deliveredpc'])){
+                    $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                    $check = mysqli_query($conn, $checkselect);
+                    $countrow = mysqli_num_rows($check);
+                    // print($countrow);
+                    if($countrow == 0){
+                         echo "<div class='text-center '><b>No items Delievred Yet!</b></div>";
+                    }
+                    else{
                     ?>
                          <table class="content-table">
                               <thead>
@@ -244,8 +260,16 @@ error_reporting(0);
                                    ?>
                               </tbody>
                          </table>
-                    <?php
+                    <?php }
                }elseif(isset($_GET['deliveredsb'])){
+                    $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                    $check = mysqli_query($conn, $checkselect);
+                    $countrow = mysqli_num_rows($check);
+                    // print($countrow);
+                    if($countrow == 0){
+                         echo "<div class='text-center '><b>No items Delivered yet !</b></div>";
+                    }
+                    else{
                     ?>
                          <table class="content-table">
                               <thead>
@@ -303,7 +327,7 @@ error_reporting(0);
                                    ?>
                               </tbody>
                          </table>
-                    <?php
+                    <?php }
                }
           ?>
      </div>

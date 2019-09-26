@@ -29,20 +29,34 @@
           $userID=$_SESSION['userId'];
           $part_qty = $_POST['quantity'];
           $p_id = $_GET['add_cart'];
-          if($part_qty == 0){
-               header("LOCATION: details.php?qty=no");
-          }
-          else{
-               $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
-               $run_product = mysqli_query($conn, $check_product);
-               if (mysqli_fetch_array($run_product) > 0) {
-                    echo"<script>alert('This product has already added in cart')</script>";
-                    echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-               } else {
-               $query = "INSERT INTO cart VALUES (null, '$userID', '$p_id','$part_qty');";
-               $check = mysqli_query($conn, $query);
-               if($check){
-                    echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+          // print($p_id);
+          $checkqty = "SELECT * FROM pcpart WHERE pcPartID='$p_id'";
+          $checkqtypcpart = mysqli_query($conn, $checkqty);
+          while($qtyrow = mysqli_fetch_array($checkqtypcpart)){
+               if($qtyrow['qty'] < $part_qty){
+                    header("LOCATION: details.php?part_det=$p_id&outofstock");
+               }
+               else{
+                    if($part_qty == 0){
+                         header("LOCATION: details.php?qty=no");
+                    }
+                    else{
+                         $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
+                         $run_product = mysqli_query($conn, $check_product);
+                         if (mysqli_fetch_array($run_product) > 0) {
+                              echo"<script>alert('This product has already added in cart')</script>";
+                              echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+                         } else {
+                         $query = "INSERT INTO cart VALUES (null, '$userID', '$p_id','$part_qty');";
+                         $check = mysqli_query($conn, $query);
+                         if($check){
+                              $updateqty = "UPDATE pcpart SET qty='$part_qty' WHERE pcPartID='$p_id';";
+                              $updatecheck = mysqli_query($conn, $updateqty);
+                              if($updatecheck){
+                                   echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+                                   }
+                              }
+                         }
                     }
                }
           }
@@ -151,7 +165,12 @@
                          </div>
                          <div style="width:100%" class="white shadow-md">
                               <div class=" white pt-1">
-                                        <h3 class=""><b><?php echo $partTitle; ?></b></h3>
+                                   <?php
+                                        if(isset($_GET['outofstock'])){
+                                             echo"<div class='text-center' style='color:red'>Out of Stock!</div>";
+                                        }
+                                   ?>
+                                   <h3 class=""><b><?php echo $partTitle; ?></b></h3>
                               </div>
                               <div class="mx-1 pb-1" style="font-size:18px;">
                                    <p><?php if(isset($_GET['part_det']) || isset($_GET['add_cart'])){ echo "

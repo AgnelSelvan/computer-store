@@ -281,16 +281,6 @@
                                                   </div>
                                              </section>
                                         </div>
-                                        <!-- <a class="white text-deco-none sm-p-0 sm-m-0" href="">
-                                             <div class="d-flex flex-row">
-                                                  <div class="mx-1 mt-sm">
-                                                       <b>Agnel</b>
-                                                  </div>
-                                                  <div class="mx-1 sm-m-0">
-                                                       <img class="b-rad-rnd profile-img" src="../user/userimages/HAHA.jpeg" alt="">
-                                                  </div>
-                                             </div>
-                                        </a> -->
                                    </div>
                               </div>
                          </div>

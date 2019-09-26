@@ -2,11 +2,28 @@
 .bg-color{
      background: #eeeeee;
 }
+.dropdown {
+    display: inline-block;
+}
+.dropdown-content {
+    position: absolute;
+    background-color: #fff;
+    top: 80px;
+    left: 70px;
+    align-items: center;
+}
+.dropdown-content div {
+    color: black;
+    padding: 10px 10px;
+    text-decoration: none;
+}
+
 .img1{
      width: 50px;
 }
 body{
      font-family: Verdana, Geneva, Tahoma, sans-serif;
+     overflow-x: hidden;
 }
 .img2{
      width: 200px;

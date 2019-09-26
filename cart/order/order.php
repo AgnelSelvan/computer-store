@@ -45,7 +45,87 @@
      }
      else{
           if(isset($_POST['payment'])){
+               $paymentMethod = $_POST['paymentmethod'];
                $ordernumber = rand();
+               if($paymentMethod == "cod"){
+                    $subTotal = $_SESSION['grandtotal'];
+                    $shippingCharge = $_SESSION['shippingCharge'];
+                    $taxCharge = $_SESSION['taxCharge'];
+                    $total = $_SESSION['total'];
+                    $userID = $_SESSION['userId'];
+                    $cartSelect = "SELECT * FROM cart WHERE userID='$userID'";
+                    $runQuery = mysqli_query($conn, $cartSelect);
+                    if($runQuery){
+                         while($cartrow = mysqli_fetch_array($runQuery)){
+                              $partID = $cartrow['productid'];
+                              $partQty = $cartrow['quantity'];
+                              $pcID = 0;
+                              if(empty($paymentMethod)){
+                                   header("LOCATION: payment.php?payment=false");
+                              }
+                              else{
+                                   $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
+                                   $insertcheck = mysqli_query($conn, $insertorder);
+                                   if($insertcheck){
+                                        $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+                                        $query = mysqli_query($conn, $selectpart);
+                                        // print($partID);
+                                        while($selectPCpart = mysqli_fetch_array($query)){
+                                             $qty = $selectPCpart['qty'];
+                                             $updateQty = $qty - $partQty;
+                                             $updatecheck = "UPDATE pcpart SET qty='$updateQty' WHERE  pcPartID='$partID'";
+                                             $updatequery = mysqli_query($conn, $updatecheck);
+                                             if($updatequery){
+                                                  $deletecart = "DELETE FROM cart WHERE productid='$partID'";
+                                                  $rundelete = mysqli_query($conn, $deletecart);
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+                    $cartSelect = "SELECT * FROM pccart WHERE userID='$userID'";
+                    $runQuery = mysqli_query($conn, $cartSelect);
+                    if($runQuery){
+                         while($cartrow = mysqli_fetch_array($runQuery)){
+                              $pcID = $cartrow['pcid'];
+                              $pcQty = 1;
+                              $paymentMethod = $_POST['paymentmethod'];
+                              $partID = 0;
+                              if(empty($paymentMethod)){
+                                   header("LOCATION: payment.php?payment=false");
+                              }
+                              else{
+                                   $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
+                                   $insertcheck = mysqli_query($conn, $insertorder);
+                                   if($insertcheck){
+                                        $selectpart = "SELECT * FROM pc_details WHERE pc_id='$pcID'";
+                                        $query = mysqli_query($conn, $selectpart);
+                                        // print($partID);
+                                        while($selectPCpart = mysqli_fetch_array($query)){
+                                             $qty = $selectPCpart['pcQty'];
+                                             $updateQty = $qty - $pcQty;
+                                             $updatecheck = "UPDATE pc_details SET pcQty='$updateQty' WHERE  pc_id='$pcID'";
+                                             $updatequery = mysqli_query($conn, $updatecheck);
+                                             if($updatequery){
+                                                  $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
+                                                  $rundelete = mysqli_query($conn, $deletecart);
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+               else{
+                    header("LOCATION: ../../includes/onlinepayment.inc.php?paymentMethod=online");
+               }
+          }
+     }
+     if(isset($_GET['success'])){
+          $paymentMethod = "online";
+          $ordernumber = rand();
+          if($paymentMethod == "online"){
                $subTotal = $_SESSION['grandtotal'];
                $shippingCharge = $_SESSION['shippingCharge'];
                $taxCharge = $_SESSION['taxCharge'];
@@ -55,20 +135,24 @@
                $runQuery = mysqli_query($conn, $cartSelect);
                if($runQuery){
                     while($cartrow = mysqli_fetch_array($runQuery)){
-                         
                          $partID = $cartrow['productid'];
                          $partQty = $cartrow['quantity'];
-                         $paymentMethod = $_POST['paymentmethod'];
                          $pcID = 0;
-                         if(empty($paymentMethod)){
-                              header("LOCATION: payment.php?payment=false");
-                         }
-                         else{
-                              $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
-                              $insertcheck = mysqli_query($conn, $insertorder);
-                              if($insertcheck){
-                                   $deletecart = "DELETE FROM cart WHERE productid='$partID'";
-                                   $rundelete = mysqli_query($conn, $deletecart);
+                         $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
+                         $insertcheck = mysqli_query($conn, $insertorder);
+                         if($insertcheck){
+                              $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+                              $query = mysqli_query($conn, $selectpart);
+                              // print($partID);
+                              while($selectPCpart = mysqli_fetch_array($query)){
+                                   $qty = $selectPCpart['qty'];
+                                   $updateQty = $qty - $partQty;
+                                   $updatecheck = "UPDATE pcpart SET qty='$updateQty' WHERE  pcPartID='$partID'";
+                                   $updatequery = mysqli_query($conn, $updatecheck);
+                                   if($updatequery){
+                                        $deletecart = "DELETE FROM cart WHERE productid='$partID'";
+                                        $rundelete = mysqli_query($conn, $deletecart);
+                                   }
                               }
                          }
                     }
@@ -88,13 +172,30 @@
                               $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$pcQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                               $insertcheck = mysqli_query($conn, $insertorder);
                               if($insertcheck){
-                                   $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
-                                   $rundelete = mysqli_query($conn, $deletecart);
+                                   $selectpart = "SELECT * FROM pc_details WHERE pc_id='$pcID'";
+                                   $query = mysqli_query($conn, $selectpart);
+                                   // print($partID);
+                                   while($selectPCpart = mysqli_fetch_array($query)){
+                                        $qty = $selectPCpart['pcQty'];
+                                        $updateQty = $qty - $pcQty;
+                                        $updatecheck = "UPDATE pc_details SET pcQty='$updateQty' WHERE  pc_id='$pcID'";
+                                        $updatequery = mysqli_query($conn, $updatecheck);
+                                        if($updatequery){
+                                             $deletecart = "DELETE FROM pccart WHERE pcid='$pcID'";
+                                             $rundelete = mysqli_query($conn, $deletecart);
+                                        }
+                                   }
                               }
                          }
                     }
                }
           }
+          $txnid = $_POST['txnid'];
+          $pid = $_POST['payuMoneyId'];
+          $amount = $_POST['amount'];
+          $productinfo = $_POST['productinfo'];
+          $insert = "INSERT INTO payu VALUES (NULL, '$ordernumber', '$userID', '$txnid', '$amount', '$productinfo', NOW(), '$pid')";
+          $checkpayu = mysqli_query($conn, $insert);
      }
 ?>
 
@@ -109,8 +210,14 @@
         <link rel="stylesheet" href="../../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <script>
-             function printPage(){
-                  window.print();
+             function printlayer(layer){
+                  var generator = window.open(",'name,");
+                  var layetext = document.getElementById(layer);
+                  generator.document.write(layetext.innerHTML.replace("Print Me"));
+
+                  generator.document.close();
+                  generator.print();
+                  generator.close();
              }
         </script>
      </head>
@@ -172,8 +279,14 @@
           <div class="primary bg-color md-pt-1">
                <div class="container acc-container pt-1">
                     <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../../index.php">Home</a>  > My Cart</div>
+                    
                     <div class="d-flex jcc md-d-flex md-flex-col">
                          <div class="p-1 white text-center mb-1 min-w-50">
+                              <div style="vertical-align: middle;">
+                                   <button id="print" onclick="javascript:printlayer('print-order-page')" class="px-1 py-sm"><i class="fa fa-print pr-sm"></i>Print Page</button>
+                              </div>
+                         </div>
+                         <div class="p-1 white text-center mb-1 min-w-50" id="print-order-page">
                               <div class="m-sm"><h1>Thanks for your order</h1></div>
                               <div class="mx-3"><hr></div>
                               <div class="continer">
@@ -195,13 +308,18 @@
                                                                       <td class="text-left">Customer Name</td>
                                                                       <td class="text-right"><?php echo $_SESSION['userUid']; ?></td>
                                                                  </tr>
+                                                                 <?php
+                                                                      if(isset($_GET['success'])){
+                                                                           echo"
+                                                                           <tr>
+                                                                                <td class='text-left'>Transactin ID</td>
+                                                                                <td class='text-right'>"?><?php echo $pid; ?><?php echo"</td>
+                                                                           </tr>
+                                                                           ";
+                                                                      }
+                                                                 ?>
                                                             </tbody>
                                                        </table>
-                                                  </div>
-                                                  <div>
-                                                       <div style="vertical-align: middle;">
-                                                            <button onclick="printPage()" class="px-1 py-sm"><i class="fa fa-print pr-sm"></i>Print Page</button>
-                                                       </div>
                                                   </div>
                                              </div>
                                              <div class="py-1">
@@ -221,7 +339,16 @@
                                                   </div>
                                                   <div>
                                                        <p class="pb-sm"><b>Payment Method</b></p>
-                                                       <p>COD</p>
+                                                       <p>
+                                                            <?php
+                                                                 if(isset($_GET['success'])){
+                                                                      echo"Online payment";
+                                                                 }
+                                                                 else{
+                                                                      echo"COD";
+                                                                 }
+                                                            ?>
+                                                       </p>
                                                   </div>
                                              </div>
                                         </div>

@@ -12,6 +12,13 @@
           <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
+        <style>
+             @media screen and (max-width:1680px){
+               .big-container{
+                    font-size:12px;
+               }
+             }
+        </style>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
@@ -27,7 +34,7 @@
      </head>
      <body>
      <!-- Navbar Starts -->
-     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
           <div class="d-flex jcsb">
                <div class="d-flex flex-row">
                     <div>
@@ -94,10 +101,26 @@
                <div class="container acc-container">
                     <div style=" height:45px; font-size:18px;" class="py-sm pl-2 my-1 b-rad-2 shadow-sm white text-left"><a style="color:#28AB87;" class="text-deco-none" href="../index.php">Home</a> > My Account</div>
                     <div class="d-flex sm-d-flex sm-flex-col ">
-                         <div class="acc-container mr-1 ">
+                         <div class="acc-container big-container container mr-1 ">
+                              <?php
+                                   if(isset($_GET['deleteAccount'])){
+                                        echo'
+                                        <div class="white shadow-sm p-1 mb-1">
+                                             <div class="container">
+                                                  <div style="font-size:16px;">Are you sure want to delete this account?</div>
+                                                  <div class="container">
+                                                       <div class="d-flex jcsa">
+                                                            <div style="background:#28AB87;" class="px-1 py-sm mt-1  b-rad-1 shadow-sm"><a style="color:white;" class=" text-deco-none" href="../index.php?delaccount">Yes</a></div>
+                                                            <div style="background:red;" class="px-1 py-sm mt-1  b-rad-1 shadow-sm"><a style="color:white;" class=" text-deco-none" href="myAccount.php">No</a></div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>';
+                                   }
+                              ?>
                               <div style="width:100%;" class="container d-flex md-flex md-flex-col acc-container b-rad-2 shadow-sm ">
                                    <div style="background:#eeeeee; font-size:16px;" class="b-rad-2 pb-1"> 
-                                        <div class="pt-1  text-center"><img style="width:90%;" class="b-rad-2 text-center" src="../user/<?php echo $userImage; ?>" alt="My photo"/></div>
+                                        <div class="pt-1  text-center"><img style="width:90%;" class="b-rad-2 text-center" src="../<?php echo $userImage; ?>" alt="My photo"/></div>
                                         <div class="text-left text-black pl-1">
                                              <div class="m-1 "><i style="padding-right:10px;" class="fas fa-user"></i>Name: <?php echo $name; ?> </div>
                                              <div class="m-1"><i style="padding-right:10px;" class="fas fa-envelope"></i>Email: <?php echo $userEmail; ?></div>
@@ -117,8 +140,8 @@
                                                   </a>
                                              </div>
                                              <div class="mt-2 mb-sm">
-                                                  <a style="color:#28AB87" class="text-deco-none  font-change" href="myAccount.php?changePassword">
-                                                       <i style="padding-right:20px; color:#28AB87" class="fa fa-lock"></i>Change password
+                                                  <a style="color:#28AB87" class="text-deco-none  font-change" href="changePassword.php">
+                                                       <pre><i style="padding-right:20px; color:#28AB87" class="fa fa-lock"></i>Change password</pre>
                                                   </a>
                                              </div>
                                              <div class="mt-2 mb-sm">
@@ -135,7 +158,6 @@
                                    </div>
                               </div>
                           </div>
-                          
                     </div>
                </div>
           </div>

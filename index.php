@@ -2,7 +2,7 @@
     require "./includes/dbh.inc.php";
     include('./functions/functions.php');
     session_start();
-    $userID = $_SESSION['UserId'];
+    $userID = $_SESSION['userId'];
     $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
     $check = mysqli_query($conn, $selectQuery);
     while ($row = mysqli_fetch_array($check)) {
@@ -11,6 +11,26 @@
         $checkpart = mysqli_query($conn, $partquery);
         while($partrow = mysqli_fetch_array($checkpart)){
             $grandTotal += $partrow['price'];
+        }
+    }
+
+    if(isset($_GET['delaccount'])){
+        $deleteaccount = "DELETE FROM users WHERE isUsers='$userID';";
+        $check = mysqli_query($conn, $deleteaccount);
+
+        $deleteorder = "DELETE FROM orders WHERE userID='$userID';";
+        $checkorder = mysqli_query($conn, $deleteorder);
+
+        $deletecart = "DELETE FROM cart WHERE userID='$userID'";
+        $checkcart = mysqli_query($conn, $deletecart);
+
+        $deletesb = "DELETE FROM sborders WHERE userID='$userID'";
+        $checksb = mysqli_query($conn, $deletesb);
+
+        $deletesbpc = "DELETE FROM sbpc WHERE userID='$userID'";
+        $checksbpc = mysqli_query($conn, $deletesbpc);
+        if($check and $checkorder and $checkcart and $checksb and $checksbpc){
+            header("LOCATION: includes/logout.inc.php");
         }
     }
 ?>
@@ -35,6 +55,32 @@
                 e.preventDefault();
             });
             });
+            function showHide(){
+                var click = document.getElementById("dropdown-content");
+                if(click.style.display === "none"){
+                    click.style.display = "block";
+                }
+                else{
+                    click.style.display = "none";
+                }
+                
+            }
+            function currentDiv(n) {
+                showDivs(slideIndex = n);
+            }
+
+            function showDivs(n) {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                var dots = document.getElementsByClassName("demo");
+                if (n > x.length) {slideIndex = 1}
+                if (n < 1) {slideIndex = x.length}
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                x[slideIndex-1].style.display = "block";
+                dots[slideIndex-1].className += "";
+            }
         </script>
     </head>
     <body>
@@ -55,6 +101,88 @@
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
+                                <li class="p-1">
+                                    <div class="dropdown">
+                                        <a style="cursor:pointer" class="pl-1 text-deco-none text-black nav" onclick="showHide()">Catergories</a>
+                                        <div style="display:none;" id="dropdown-content" class="dropdown-content shadow-sm text-center mr-2">
+                                                <div class="d-flex flex-wrap p-sm">
+                                                    <div style="background:#e0e0e0;" class="m-1" >
+                                                        <a href="index.php?showpart=2">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="./img/nav-cpu.png" alt="cpu">
+                                                                <p class="text-center">CPU</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=1">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="./img/nav-case.png" alt="case">
+                                                                <p class="text-center">Case</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=5">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="./img/nav-memory.png" alt="ram">
+                                                                <p class="text-center">RAM</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=9">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="./img/nav-ssd.png" alt="ssd">
+                                                                <p class="text-center">Harddisk</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=6">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="./img/nav-videocard.png" alt="videocard">
+                                                                <p class="text-center">Graphics Card</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=7">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" height="100" src="./img/nav-mouse.png" alt="mouse">
+                                                                <p class="text-center">Mouse</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=8">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="140" height="100" src="./img/nav-keyboard.png" alt="keyboard">
+                                                                <p class="text-center">Keyboard</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=4">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="140" height="100" src="./img/nav-monitor.png" alt="monitor">
+                                                                <p class="text-center">Monitor</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="index.php?showpart=3">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="140" height="100" src="./img/nav-motherboard.png" alt="motherboard">
+                                                                <p class="text-center">Motherboard</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
                             </ul>
@@ -73,11 +201,10 @@
             <div style=" background:gray">
                 <?php
                     $userName = $_SESSION['userUid'];
-                    if(isset($_SESSION['userId'])){
-                        if(isset($_SESSION['start'])){
+                    if($_SESSION['userId']){
                         echo'
-                            <div class="'?><?php if(isset($_GET["close"])){echo "close";} echo'">
-                                <div style="margin:10px;">
+                            <div class="p-sm '?><?php if(isset($_GET["close"])){echo "close";} echo'">
+                                <div style="">
                                     <div class="container d-flex flex-row jcc">
                                         <div style="background:#28AB87" class="text-white p-sm b-rad-2">
                                             Welcome! &nbsp; '?><?php echo $userName; echo'
@@ -98,20 +225,66 @@
                                 </div>
                             </div>
                         ';
-                    }}
+                    }
                 ?>
             </div>
         <!-- Navbar -->
         
         <!-- Content -->
-            <div class="primary bg-color md-m-0 md-p-0 sm-p-0">
-                <div class="d-flex flex-col jcc ">
+            
+            <div class="primary bg-color md-m-0 md-p-0 pt-1 sm-p-0">
+                <div class="d-flex flex-col jcc">
+                    <div class=" min-w-100 m-auto p-auto">
+                    </div>
                     <div class="m-0 p-0 w-100">
-                        <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2">System Parts</h1>
+                        <?php
+                            if(isset($_GET['showpart'])){
+                                $partKeyword = $_GET['showpart'];
+                                $selectPartName = "SELECT * FROM pcpartcomp WHERE pcPartID='$partKeyword'";
+                                $check = mysqli_query($conn, $selectPartName);
+                                WHILE($row = mysqli_fetch_array($check)){
+                                    $partName = $row['pcPartComponents'];
+                                }
+                                ?>
+                        <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2"><b><?php echo $partName?></b></h1>
                         <div class="b-1 text-white mr-3 ml-2"></div>
                         <div class="d-flex flex-wrap jcc responsive-container">
                             <?php
-                                $query = "SELECT * FROM pcpart;";
+                                $showpart = "SELECT * FROM pcpart WHERE partKeyword='$partKeyword'";
+                                $check = mysqli_query($conn, $showpart);
+                                while($row = mysqli_fetch_array($check)){
+                                    echo "
+                                        <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
+                                            <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                            <div class='single-img'>
+                                                <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                            </div>
+                                            <div style='font-size:20px;' class='text-center'>";
+                                                echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                                echo"<div class='text-primary'>
+                                                            <b></b>
+                                                            <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                    </div>
+                                                    <div class='mx-sm'>
+                                                    <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-sm' href='details.php?part_det={$partID}'>Details</a></div>
+                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-sm' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    ";
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="m-0 p-0 w-100">
+                        <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2"><b>System Parts</b></h1>
+                        <div class="b-1 text-white mr-3 ml-2"></div>
+                        <div class="d-flex flex-wrap jcc responsive-container">
+                            <?php
+                                $query = "SELECT * FROM pcpart ORDER BY RAND() ;";
                                 $check = mysqli_query($conn, $query);
                                 while ($row = mysqli_fetch_assoc($check)) {
                                         $partname = $row['partKeyword'];
@@ -145,13 +318,13 @@
                         </div>
                     </div>
                     <div class="ml-1 mr-1 p-0 w-100">
-                        <h1 align="left" style="font-size:30px;" class="text-black px-3 pt-3 ">Completed Builds</h1>
+                        <h1 align="left" style="font-size:30px;" class="text-black px-3 pt-3 "><b>Completed Builds</b></h1>
                         <div class="b-1 text-white mr-3 ml-2"></div>
                             <div class="d-flex flex-wrap jcc">
                                     <?php
                                         getCompleteBuilts();
                                     ?>
-                                </div>
+                            </div>
                         </div>
                     </div>
             </div>

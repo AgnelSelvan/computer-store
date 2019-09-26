@@ -32,7 +32,7 @@
     ';
     echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php?sb'>Deliver</a>"; -->
           <!-- NavBar Starts -->
-          <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white">
+          <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
                <div class="d-flex jcsb">
                     <div class="d-flex flex-row">
                          <div>
@@ -134,45 +134,46 @@
                               </div>
                          </div>
                     </div>
-                    <div class="mt-2">
-                         <div style="" class="acc-container2 white p-1">
-                              <b> Products You may also like</b>
+                    <div>
+                         <div class="mt-2">
+                              <div style="" class="acc-container2 white p-1">
+                                   <b> Products You may also like</b>
+                              </div>
                          </div>
-                    </div>
-                    <div class="d-flex flex-wrap jcc">
-                         <?php
-                                   $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3;";
-                                   $check = mysqli_query($conn, $query);
-                                   while ($row = mysqli_fetch_assoc($check)) {
-                                        $partname = $row['partKeyword'];
-                                        $partID = $row['pcPartID'];
-                                        echo "
-                                        <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
-                                        <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
-                                        <div class='single-img'>
-                                             <img class='img2 mt-1' src='../../admin/upload/".$row['image']."'/>
-                                        </div>
-                                        <div style='font-size:20px;' class='text-center'>";
-                                             echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
-                                             echo"<div class='text-primary'>
-                                                            <b></b>
-                                                            <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
-                                                  </div>
-                                                  <div class='mx-sm'>
-                                                  <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                         <div class="d-flex flex-wrap jcc">
+                              <?php
+                                        $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,3;";
+                                        $check = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_assoc($check)) {
+                                             $partname = $row['partKeyword'];
+                                             $partID = $row['pcPartID'];
+                                             echo "
+                                             <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
+                                             <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                             <div class='single-img'>
+                                                  <img class='img2 mt-1' src='../../admin/upload/".$row['image']."'/>
+                                             </div>
+                                             <div style='font-size:20px;' class='text-center'>";
+                                                  echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                                  echo"<div class='text-primary'>
+                                                                 <b></b>
+                                                                 <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                       </div>
+                                                       <div class='mx-sm'>
+                                                       <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
                                                             <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
                                                             <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
-                                                  </div>
-                                                  </div>
-                                        </div>
-                                        </div>
-                                        ";
-                              }
-                              ?>
+                                                       </div>
+                                                       </div>
+                                             </div>
+                                             </div>
+                                             ";
+                                   }
+                                   ?>
+                         </div>
                     </div>
           </div>
           <!-- Content Ends -->
-          <script src="" async defer></script>
           <?php require'../../footer.php'?>
      </body>
 </html>
