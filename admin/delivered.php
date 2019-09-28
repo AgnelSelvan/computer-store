@@ -101,7 +101,7 @@
      <div class=" container">
           <?php
                if(isset($_GET['deliveredpart'])){
-                    $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                    $checkselect = "SELECT * FROM orders WHERE partID !=0 and sttus='Dispatched'";
                     $check = mysqli_query($conn, $checkselect);
                     $countrow = mysqli_num_rows($check);
                     // print($countrow);
@@ -181,7 +181,7 @@
                          </table>
                     <?php }
                }elseif(isset($_GET['deliveredpc'])){
-                    $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                    $checkselect = "SELECT * FROM orders WHERE partID !=0  sttus='Dispatched'";
                     $check = mysqli_query($conn, $checkselect);
                     $countrow = mysqli_num_rows($check);
                     // print($countrow);
@@ -262,7 +262,7 @@
                          </table>
                     <?php }
                }elseif(isset($_GET['deliveredsb'])){
-                    $checkselect = "SELECT * FROM orders WHERE partID !=0 ";
+                    $checkselect = "SELECT * FROM sborders WHERE partID !=0 ";
                     $check = mysqli_query($conn, $checkselect);
                     $countrow = mysqli_num_rows($check);
                     // print($countrow);

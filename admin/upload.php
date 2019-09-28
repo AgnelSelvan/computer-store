@@ -52,12 +52,14 @@ error_reporting(0);
            $ram_type = $_POST['ramType'];
            $ram_company = $_POST['ramCompany'];
            $ram_capacity = $_POST['ramCapacity'];
+           $Qty = $_POST['qty'];
+
   
             if(empty($compType) || empty($motherboard) || empty($processor) || empty($pcDetailPrice) || empty($harddisk) || empty($monitor_company) || empty($monitor_display) || empty($graphics_card_type) || empty($graphics_card) || empty($keyboard_company) || empty($mouse_company) || empty($speaker_company) || empty($ram_type) || empty($ram_company) || empty($ram_capacity)){
               header("location: upload_pc_details.php?error=emptyfield");
             }
             else{
-              $query = "INSERT INTO pc_details VALUES(NULL,'$folderhaha','$compName', '$compType', '$motherboard', '$processor','$pcDetailPrice' , '$harddisk', '$monitor_company', '$monitor_display', '$graphics_card_type', '$graphics_card', '$keyboard_company', '$mouse_company', '$speaker_company', '$ram_type', '$ram_company', '$ram_capacity') ;";
+              $query = "INSERT INTO pc_details VALUES(NULL,'$folderhaha','$compName', '$compType', '$motherboard', '$processor','$pcDetailPrice' , '$harddisk', '$monitor_company', '$monitor_display', '$graphics_card_type', '$graphics_card', '$keyboard_company', '$mouse_company', '$speaker_company', '$ram_type', '$ram_company', '$ram_capacity', '$Qty') ;";
               
               $check = mysqli_query($conn, $query);
               if($check){
@@ -380,8 +382,12 @@ error_reporting(0);
                                 </div>
 
                                 <div align="left" style="padding:10px 0px;">
-                                    Enter Price:<input type="number" class="input-field" name="pcDetailPrice" placeholder="Enter Price...">                                
+                                    Enter Price:<input type="number" class="input-field" name="pcDetailPrice" placeholder="Enter Price...">
                                 </div>
+                                <div>
+                                   <b>Enter Quantity</b>
+                                   <input class="input-field" type="number" name="qty" placeholder="Enter Quantity...">
+                              </div>
                             </div>
                             <div>
                                 <input class="btn button-field text-deco-none" type="submit" name="upload" value="Upload">

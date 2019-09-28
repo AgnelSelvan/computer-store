@@ -3,52 +3,110 @@ error_reporting(0);
      session_start();
      require"../includes/dbh.inc.php";
      $userID = $_SESSION['userId'];
+     $amount = 0;
      
-     // print($userID);
-     $username = "SELECT * FROM users WHERE isUsers='$userID'";
-     $checkuser = mysqli_query($conn, $username);
-     while($row = mysqli_fetch_array($checkuser)){
-          $userName = $row['uidUsers'];
-          $mobNumber = $row['mobNumber'];
-          $userEmail = $row['emailUsers'];
-          // print($userName);
-          // print($userEmail);
-          // print($mobNumber);
-     }
-
-     $selectcart = "SELECT * FROM cart WHERE userID='$userID'";
-     $checkcart = mysqli_query($conn, $selectcart);
-     while($rowcart = mysqli_fetch_array($checkcart)){
-          $partID = $rowcart['productid'];
-          $selectpart = "SELECT * FROM pcpart WHERE pcpartID='$partID'";
-          $checkpart = mysqli_query($conn, $selectpart);
-          while($rowpart = mysqli_fetch_array($checkpart)){
-               $parts[] = $rowpart['partTitle'];
-               $amount += $rowpart['price'];
+     if(isset($_GET['paymentMethodsb'])){
+          // print($userID);
+          $username = "SELECT * FROM users WHERE isUsers='$userID'";
+          $checkuser = mysqli_query($conn, $username);
+          while($row = mysqli_fetch_array($checkuser)){
+               $userName = $row['uidUsers'];
+               $mobNumber = $row['mobNumber'];
+               $userEmail = $row['emailUsers'];
+               // print($userName);
+               // print($userEmail);
+               // print($mobNumber);
           }
+
+          $selectcart = "SELECT * FROM systembuild WHERE userID='$userID'";
+          $checkcart = mysqli_query($conn, $selectcart);
+          while($rowcart = mysqli_fetch_array($checkcart)){
+               $amount += $rowcart['partPrice'];
+          }
+          
+          // Echo "Online";
+          $sbname = $_GET['sbname'];
+          // print($sbname);
+               // print($amount);
+          // print_r($parts);
+          
+          $MERCHENT_KEY = "g1KBgJ0S";
+          $SALT = "QX6ZaZDlXb";
+          $txnid = "8kEpGUhR5mS3XJor+Y6Sk32SbDzZ4W2vs7sYtfC5fVU=";
+          $name = $userName;
+          $email = $userEmail;
+          $amount = $amount;
+          $phone = $mobNumber;
+          $surl = "http://localhost/computer-store/cart/order/order.php?sbsuccess&sbname=$sbname";
+          $furl = "http://localhost/computer-store/cart/payment.php?failure";
+          $productinfo = $sbname;
+          // print($productinfo);
+
+          $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt";
+          $hashString = $MERCHENT_KEY."|".$txnid."|".$amount."|".$productinfo."|".$name."|".$email."|||||||||||".$SALT;
+          $hash = hash("sha512", $hashSequence);
+          $hash = strtolower(hash('sha512', $hashString));
+
      }
-     // print($amount);
-     // print_r($parts);
-     
-     $MERCHENT_KEY = "g1KBgJ0S";
-     $SALT = "QX6ZaZDlXb";
-     $txnid = "8kEpGUhR5mS3XJor+Y6Sk32SbDzZ4W2vs7sYtfC5fVU=";
-     $name = $userName;
-     $email = $userEmail;
-     $amount = $amount;
-     $phone = $mobNumber;
-     $surl = "http://localhost/computer-store/cart/order/order.php?success";
-     $furl = "http://localhost/computer-store/cart/payment.php?failure";
-     $productinfo = join(',',$parts);
-     // print($productinfo);
+     else{
+          // print($userID);
+          $username = "SELECT * FROM users WHERE isUsers='$userID'";
+          $checkuser = mysqli_query($conn, $username);
+          while($row = mysqli_fetch_array($checkuser)){
+               $userName = $row['uidUsers'];
+               $mobNumber = $row['mobNumber'];
+               $userEmail = $row['emailUsers'];
+               // print($userName);
+               // print($userEmail);
+               // print($mobNumber);
+          }
 
-     $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt";
-     $hashString = $MERCHENT_KEY."|".$txnid."|".$amount."|".$productinfo."|".$name."|".$email."|||||||||||".$SALT;
-     $hash = hash("sha512", $hashSequence);
-     $hash = strtolower(hash('sha512', $hashString));
+          $selectcart = "SELECT * FROM cart WHERE userID='$userID'";
+          $checkcart = mysqli_query($conn, $selectcart);
+          while($rowcart = mysqli_fetch_array($checkcart)){
+               $partID = $rowcart['productid'];
+               $selectpart = "SELECT * FROM pcpart WHERE pcpartID='$partID'";
+               $checkpart = mysqli_query($conn, $selectpart);
+               while($rowpart = mysqli_fetch_array($checkpart)){
+                    $parts[] = $rowpart['partTitle'];
+                    $amount += $rowpart['price'];
+               }
+          }
+          // print($amount);
+          // print_r($parts);
 
-     
-     
+          $selectpccart = "SELECT * FROM pccart WHERE userid='$userID'";
+          $checkpccart = mysqli_query($conn, $selectpccart);
+          while($rowpccart = mysqli_fetch_array($checkpccart)){
+               $pcID = $rowpccart['pcid'];
+               // print($pcID);
+               $selectpc = "SELECT * FROM pc_details WHERE pc_id='$pcID'";
+               $checkpc = mysqli_query($conn, $selectpc);
+               while($rowpc = mysqli_fetch_array($checkpc)){
+                    $parts[] = $rowpc['pcName'];
+                    $amount += $rowpc['pcPrice'];
+               }
+          }
+               // print($amount);
+          // print_r($parts);
+          
+          $MERCHENT_KEY = "g1KBgJ0S";
+          $SALT = "QX6ZaZDlXb";
+          $txnid = "8kEpGUhR5mS3XJor+Y6Sk32SbDzZ4W2vs7sYtfC5fVU=";
+          $name = $userName;
+          $email = $userEmail;
+          $amount = $amount;
+          $phone = $mobNumber;
+          $surl = "http://localhost/computer-store/cart/order/order.php?success";
+          $furl = "http://localhost/computer-store/cart/payment.php?failure";
+          $productinfo = join(',',$parts);
+          // print($productinfo);
+
+          $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt";
+          $hashString = $MERCHENT_KEY."|".$txnid."|".$amount."|".$productinfo."|".$name."|".$email."|||||||||||".$SALT;
+          $hash = hash("sha512", $hashSequence);
+          $hash = strtolower(hash('sha512', $hashString));
+     }
 
 ?>
 

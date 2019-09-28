@@ -68,19 +68,6 @@
             function currentDiv(n) {
                 showDivs(slideIndex = n);
             }
-
-            function showDivs(n) {
-                var i;
-                var x = document.getElementsByClassName("mySlides");
-                var dots = document.getElementsByClassName("demo");
-                if (n > x.length) {slideIndex = 1}
-                if (n < 1) {slideIndex = x.length}
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                x[slideIndex-1].style.display = "block";
-                dots[slideIndex-1].className += "";
-            }
         </script>
     </head>
     <body>
@@ -197,36 +184,37 @@
                         ?>
                     </div>
                 </div>
-            </div>
-            <div style=" background:gray">
-                <?php
-                    $userName = $_SESSION['userUid'];
-                    if($_SESSION['userId']){
-                        echo'
-                            <div class="p-sm '?><?php if(isset($_GET["close"])){echo "close";} echo'">
-                                <div style="">
-                                    <div class="container d-flex flex-row jcc">
-                                        <div style="background:#28AB87" class="text-white p-sm b-rad-2">
-                                            Welcome! &nbsp; '?><?php echo $userName; echo'
-                                        </div>
-                                        <div class="text-white m-sm">
-                                            '?><?php cartcount(); echo' Items in your cart
-                                        </div>
-                                        <div style="border:1px solid white; height:20px; margin:10px;"></div>
-                                        <div class="text-white my-sm">
-                                            Total Price: &#8377; '?><?php echo $grandTotal; echo'
-                                        </div>
-                                        <div class=" ml-2">
-                                            <a href="index.php?close">
-                                                <button class="" style="padding:6px;color:#28AB87;" name="close">&#10006;</button>
-                                            </a>
+            
+                <div style=" background:gray">
+                    <?php
+                        $userName = $_SESSION['userUid'];
+                        if($_SESSION['userId']){
+                            echo'
+                                <div class="p-sm '?><?php if(isset($_GET["close"])){echo "close";} echo'">
+                                    <div style="">
+                                        <div class="container d-flex flex-row jcc">
+                                            <div style="background:#28AB87" class="text-white p-sm b-rad-2">
+                                                Welcome! &nbsp; '?><?php echo $userName; echo'
+                                            </div>
+                                            <div class="text-white m-sm">
+                                                '?><?php cartcount(); echo' Items in your cart
+                                            </div>
+                                            <div style="border:1px solid white; height:20px; margin:10px;"></div>
+                                            <div class="text-white my-sm">
+                                                Total Price: &#8377; '?><?php echo $grandTotal; echo'
+                                            </div>
+                                            <div class=" ml-2">
+                                                <a href="index.php?close">
+                                                    <button class="" style="padding:6px;color:#28AB87;" name="close">&#10006;</button>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ';
-                    }
-                ?>
+                            ';
+                        }
+                    ?>
+                </div>
             </div>
         <!-- Navbar -->
         

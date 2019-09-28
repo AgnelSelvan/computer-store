@@ -3,16 +3,16 @@
 ?>
 <?php
 require './includes/dbh.inc.php';
-    if(isset($_GET['frgtPwd-submit'])){
+    if(isset($_POST['frgtPwd-submit'])){
         
         require './includes/emailController.inc.php';
 
-        $mailCheckinDb = $_GET['frtPwdEmail'];
+        $mailCheckinDb = $_POST['frtPwdEmail'];
         
             $query = "SELECT * FROM users WHERE emailUsers='$mailCheckinDb';";
             $connect = mysqli_query($conn, $query);
             if($connect){
-                $data = mysqli_fetch_array($connect);
+                $data = mysqli_num_rows($connect);
                 if($data){
                     sendVerificationEmail($mailCheckinDb);
                     $query = "INSERT INTO pwd_table VALUES(null, '$mailCheckinDb');";
@@ -30,7 +30,7 @@ require './includes/dbh.inc.php';
         }
 ?>
 <body>
-<style>
+    <style>
         .section{
             position: absolute;
             top: 50%;
@@ -83,12 +83,12 @@ require './includes/dbh.inc.php';
                             }
                             if(isset($_GET["user"])){
                                 if($_GET["user"]=='nouser'){
-                                    echo"<p class='pt-1' style='font-size:12px; color:red'>No User exists!</p>";
+                                    echo"<p class='pt-1' style='font-size:12px; color:red'>No such user exists!</p>";
                                 }
                             }
                         ?>
                         <div>
-                            <form action="" method="GET">
+                            <form action="" method="POST">
                                 <div class="mt-sm">
                                     <input type="text" class="input-field" name="frtPwdEmail" placeholder="Enter your mail...">
                                 </div>

@@ -7,39 +7,46 @@
      if (isset($_GET['sb'])) {
           if(isset($_POST['payment'])){
                $grandTotal = 0;
-               $ordernumber = rand();
-               $sbName = $_GET['sbname'];
-               //print($sbName);
-               $shippingCharge = $_SESSION['shippingCharge'];
-               $taxCharge = $_SESSION['taxCharge'];
-               $userID = $_SESSION['userId'];
+               $sbname = $_GET['sbname'];
                $paymentMethod = $_POST['paymentmethod'];
-               $cartSelect = "SELECT * FROM systembuild WHERE userID='$userID'";
-               $runQuery = mysqli_query($conn, $cartSelect);
-               if($runQuery){
-                    while($cartrow = mysqli_fetch_array($runQuery)){
-                         $subTotal = $cartrow['partPrice'];
-                         $total = $taxCharge + $subTotal + $shippingCharge;
-                         $partID = $cartrow['partID'];
-                         $grandTotal = $grandTotal + $subTotal;
-                         $partQty = 1;
-                         $paymentMethod = $_POST['paymentmethod'];
-                         $pcID = 0;
-                         if(empty($paymentMethod)){
-                              header("LOCATION: payment.php?payment=false");
-                         }
-                         else{
-                              $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$sbName', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
-                              $insertcheck = mysqli_query($conn, $insertorder);
-                              if($insertcheck){
-                                   $deletecart = "DELETE FROM systembuild WHERE partID='$partID'";
-                                   $rundelete = mysqli_query($conn, $deletecart);
+               // print($paymentMethod);
+               $ordernumber = rand();
+               if($paymentMethod == "cod"){
+                    $sbName = $_GET['sbname'];
+                    //print($sbName);
+                    $shippingCharge = $_SESSION['shippingCharge'];
+                    $taxCharge = $_SESSION['taxCharge'];
+                    $userID = $_SESSION['userId'];
+                    $cartSelect = "SELECT * FROM systembuild WHERE userID='$userID'";
+                    $runQuery = mysqli_query($conn, $cartSelect);
+                    if($runQuery){
+                         while($cartrow = mysqli_fetch_array($runQuery)){
+                              $subTotal = $cartrow['partPrice'];
+                              $total = $taxCharge + $subTotal + $shippingCharge;
+                              $partID = $cartrow['partID'];
+                              $grandTotal = $grandTotal + $subTotal;
+                              $partQty = 1;
+                              $paymentMethod = $_POST['paymentmethod'];
+                              $pcID = 0;
+                              if(empty($paymentMethod)){
+                                   header("LOCATION: payment.php?payment=false");
+                              }
+                              else{
+                                   $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$sbName', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
+                                   $insertcheck = mysqli_query($conn, $insertorder);
+                                   if($insertcheck){
+                                        $deletecart = "DELETE FROM systembuild WHERE partID='$partID'";
+                                        $rundelete = mysqli_query($conn, $deletecart);
+                                   }
                               }
                          }
+                         // print($grandTotal);
+                         $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
+                         $inserCheck = mysqli_query($conn, $insertquery);
                     }
-                    // print($grandTotal);
-                    $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
-                    $inserCheck = mysqli_query($conn, $insertquery);
+               }
+               else{
+                    header("LOCATION: ../../includes/onlinepayment.inc.php?paymentMethodsb=online&sbname=$sbname");
                }
           }
      }
@@ -163,7 +170,6 @@
                     while($cartrow = mysqli_fetch_array($runQuery)){
                          $pcID = $cartrow['pcid'];
                          $pcQty = 1;
-                         $paymentMethod = $_POST['paymentmethod'];
                          $partID = 0;
                          if(empty($paymentMethod)){
                               header("LOCATION: payment.php?payment=false");
@@ -194,8 +200,59 @@
           $pid = $_POST['payuMoneyId'];
           $amount = $_POST['amount'];
           $productinfo = $_POST['productinfo'];
-          $insert = "INSERT INTO payu VALUES (NULL, '$ordernumber', '$userID', '$txnid', '$amount', '$productinfo', NOW(), '$pid')";
-          $checkpayu = mysqli_query($conn, $insert);
+          if($txnid != 0){
+               $insert = "INSERT INTO payu VALUES (NULL, '$ordernumber', '$userID', '$txnid', '$amount', '$productinfo', NOW(), '$pid')";
+               $checkpayu = mysqli_query($conn, $insert);
+          }
+          
+     }
+     if(isset($_GET['sbsuccess'])){
+          $paymentMethod = "online";
+          $ordernumber = rand();
+          if($paymentMethod == "online"){
+               $sbName = $_GET['sbname'];
+               //print($sbName);
+               $shippingCharge = $_SESSION['shippingCharge'];
+               $taxCharge = $_SESSION['taxCharge'];
+               $userID = $_SESSION['userId'];
+               $cartSelect = "SELECT * FROM systembuild WHERE userID='$userID'";
+               $runQuery = mysqli_query($conn, $cartSelect);
+               if($runQuery){
+                    while($cartrow = mysqli_fetch_array($runQuery)){
+                         $subTotal = $cartrow['partPrice'];
+                         $total = $taxCharge + $subTotal + $shippingCharge;
+                         $partID = $cartrow['partID'];
+                         $grandTotal = $grandTotal + $subTotal;
+                         $partQty = 1;
+                         $pcID = 0;
+                         if(empty($paymentMethod)){
+                              header("LOCATION: payment.php?payment=false");
+                         }
+                         else{
+                              $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$sbName', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
+                              $insertcheck = mysqli_query($conn, $insertorder);
+                              if($insertcheck){
+                                   $deletecart = "DELETE FROM systembuild WHERE partID='$partID'";
+                                   $rundelete = mysqli_query($conn, $deletecart);
+                              }
+                         }
+                    }
+                    // print($grandTotal);
+                    if($grandTotal != 0){
+                         $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
+                         $inserCheck = mysqli_query($conn, $insertquery);
+                    }
+               }
+          }
+          $txnid = $_POST['txnid'];
+          $pid = $_POST['payuMoneyId'];
+          $amount = $_POST['amount'];
+          $productinfo = $_POST['productinfo'];
+          if($txnid != 0 ){
+               $insert = "INSERT INTO sbpayu VALUES (NULL, '$ordernumber', '$userID', '$txnid', '$amount', '$productinfo', NOW(), '$pid')";
+               $checkpayu = mysqli_query($conn, $insert);
+          }
+          
      }
 ?>
 
@@ -223,56 +280,56 @@
      </head>
      <body>
           <!-- NavBar Starts -->
-          <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
-               <div class="d-flex jcsb">
-                    <div class="d-flex flex-row">
-                         <div>
-                         <img class="img1" src="../../img/cpu.png" alt="">
-                         </div>
-                         <div class="hamburger">
-                         <div class="line"></div>
-                         <div class="line"></div>
-                         <div class="line"></div>
-                         </div>
-                         <div class="menu">
-                         <ul class="ls-none active current-item">
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../index.php">Home</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../builds/system-build.php">SystemBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../builds/completed_build.php">CompletedBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../about.php">About</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../contact.php">Contact</a></li>
-                         </ul>
-                         </div>
-                         <div>
-                         <a class="toggle-nav" href="#">&#9776;</a>
-                         </div>
-                    </div>
-                    <div class="mt-1">
-                         <?php
-                         if(isset($_SESSION['userId'])){
-                              echo'<form action="includes/logout.inc.php" method="post">
-                              <div class="d-flex jcfe">
-                              <div class="cart-btn">
-                              <div style="font-size:30px;" class="nav-icon"><a href="../../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-                              <div class="cart-items">'?><?php cartcount(); echo'</div>
+               <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
+                    <div class="d-flex jcsb">
+                         <div class="d-flex flex-row">
+                              <div>
+                              <img class="img1" src="../../img/cpu.png" alt="">
                               </div>
-                              <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                              <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                              <div class="hamburger">
+                              <div class="line"></div>
+                              <div class="line"></div>
+                              <div class="line"></div>
                               </div>
-                              </form>';
-                         }
-                         else{
-                              echo'
-                              <div class="container d-flex flex-row jcfe">
-                                   <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../../signup.php">Signup</a></div>
-                                   <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../../login.php">Login</a></div>
+                              <div class="menu">
+                              <ul class="ls-none active current-item">
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../index.php">Home</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../builds/system-build.php">SystemBuild</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../builds/completed_build.php">CompletedBuild</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../about.php">About</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../../contact.php">Contact</a></li>
+                              </ul>
                               </div>
-                              ';
-                         }
-                         ?>
+                              <div>
+                              <a class="toggle-nav" href="#">&#9776;</a>
+                              </div>
+                         </div>
+                         <div class="mt-1">
+                              <?php
+                              if(isset($_SESSION['userId'])){
+                                   echo'<form action="includes/logout.inc.php" method="post">
+                                   <div class="d-flex jcfe">
+                                   <div class="cart-btn">
+                                   <div style="font-size:30px;" class="nav-icon"><a href="../../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                   <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                   </div>
+                                   <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                   <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                   </div>
+                                   </form>';
+                              }
+                              else{
+                                   echo'
+                                   <div class="container d-flex flex-row jcfe">
+                                        <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../../signup.php">Signup</a></div>
+                                        <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../../login.php">Login</a></div>
+                                   </div>
+                                   ';
+                              }
+                              ?>
+                         </div>
                     </div>
                </div>
-          </div>
           <!-- Navbar Ends -->
           
           <!-- Content Starts -->
@@ -286,143 +343,145 @@
                                    <button id="print" onclick="javascript:printlayer('print-order-page')" class="px-1 py-sm"><i class="fa fa-print pr-sm"></i>Print Page</button>
                               </div>
                          </div>
-                         <div class="p-1 white text-center mb-1 min-w-50" id="print-order-page">
-                              <div class="m-sm"><h1>Thanks for your order</h1></div>
-                              <div class="mx-3"><hr></div>
-                              <div class="continer">
-                                   <div class="container">
-                                        <div class="mt-1 text-left">
-                                             <div class="d-flex jcsa">
-                                                  <div>
-                                                       <table style="color:gray">
-                                                            <tbody>
-                                                                 <tr>
-                                                                      <td class="text-left">Order number</td>
-                                                                      <td class="text-right"><?php echo $ordernumber; ?></td>
-                                                                 </tr>
-                                                                 <tr>
-                                                                      <td class="text-left">Order Date</td>
-                                                                      <td class="text-right"><?php echo date("l, F jS Y");?></td>
-                                                                 </tr>
-                                                                 <tr>
-                                                                      <td class="text-left">Customer Name</td>
-                                                                      <td class="text-right"><?php echo $_SESSION['userUid']; ?></td>
-                                                                 </tr>
+                         <div class="d-flex jcc md-d-flex md-flex-col" id="print-order-page">
+                              <div class="p-1 white text-center mb-1 min-w-50">
+                                   <div class="m-sm"><h1>Thanks for your order</h1></div>
+                                   <div class="mx-3"><hr></div>
+                                   <div class="">
+                                        <div class="container">
+                                             <div class="mt-1 text-left">
+                                                  <div class="d-flex jcsa">
+                                                       <div>
+                                                            <table style="color:gray">
+                                                                 <tbody>
+                                                                      <tr>
+                                                                           <td class="text-left">Order number</td>
+                                                                           <td class="text-right"><?php echo $ordernumber; ?></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                           <td class="text-left">Order Date</td>
+                                                                           <td class="text-right"><?php echo date("l, F jS Y");?></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                           <td class="text-left">Customer Name</td>
+                                                                           <td class="text-right"><?php echo $_SESSION['userUid']; ?></td>
+                                                                      </tr>
+                                                                      <?php
+                                                                           if(isset($_GET['success']) || isset($_GET['sbsuccess'])){
+                                                                                echo"
+                                                                                <tr>
+                                                                                     <td class='text-left'>Transactin ID</td>
+                                                                                     <td class='text-right'>"?><?php echo $pid; ?><?php echo"</td>
+                                                                                </tr>
+                                                                                ";
+                                                                           }
+                                                                      ?>
+                                                                 </tbody>
+                                                            </table>
+                                                       </div>
+                                                  </div>
+                                                  <div class="py-1">
+                                                       <i style="color:#28AB87;" class="fa fa-map-marker"></i>
+                                                       <b>
+                                                            Please keep the above number for your refernces. We'll also send a confirmation to the email address you used for this order.
+                                                       </b>
+                                                  </div>
+                                                  <div class=" d-flex jcsa">
+                                                       <div style="width:300px;">
+                                                            <p class="pb-sm"><b>Shipping Address</b></p>
+                                                            <p>
+                                                                 2467 Mission Street, SAN FRANSISCO, CA 942323-2348
+                                                                 US 412378478
+                                                            </p>
+                                                            <p>agnelselvan007@gamil.com</p>
+                                                       </div>
+                                                       <div>
+                                                            <p class="pb-sm"><b>Payment Method</b></p>
+                                                            <p>
                                                                  <?php
                                                                       if(isset($_GET['success'])){
-                                                                           echo"
-                                                                           <tr>
-                                                                                <td class='text-left'>Transactin ID</td>
-                                                                                <td class='text-right'>"?><?php echo $pid; ?><?php echo"</td>
-                                                                           </tr>
-                                                                           ";
+                                                                           echo"Online payment";
+                                                                      }
+                                                                      else{
+                                                                           echo"COD";
                                                                       }
                                                                  ?>
-                                                            </tbody>
-                                                       </table>
-                                                  </div>
-                                             </div>
-                                             <div class="py-1">
-                                                  <i style="color:#28AB87;" class="fa fa-map-marker"></i>
-                                                  <b>
-                                                        Please keep the above number for your refernces. We'll also send a confirmation to the email address you used for this order.
-                                                  </b>
-                                             </div>
-                                             <div class=" d-flex jcsa">
-                                                  <div style="width:300px;">
-                                                       <p class="pb-sm"><b>Shipping Address</b></p>
-                                                       <p>
-                                                            2467 Mission Street, SAN FRANSISCO, CA 942323-2348
-                                                            US 412378478
-                                                       </p>
-                                                       <p>agnelselvan007@gamil.com</p>
-                                                  </div>
-                                                  <div>
-                                                       <p class="pb-sm"><b>Payment Method</b></p>
-                                                       <p>
-                                                            <?php
-                                                                 if(isset($_GET['success'])){
-                                                                      echo"Online payment";
-                                                                 }
-                                                                 else{
-                                                                      echo"COD";
-                                                                 }
-                                                            ?>
-                                                       </p>
+                                                            </p>
+                                                       </div>
                                                   </div>
                                              </div>
                                         </div>
                                    </div>
                               </div>
-                         </div>
-                         <div class="ml-1 mb-1 white acc-container min-w-30">
-                              <div style="background:#e0e0e0;" class="p-1 text-black">
-                                   Order Summary
-                              </div>
-                              <div class="p-1">
-                                   <div class="d-flex jcsb m-sm">
-                                        <div>SubTotal</div>
-                                        <?php
-                                             if(isset($_GET['sb'])){
-                                                  $subtotal = $subTotal;
-                                             }
-                                             else{
-                                                  $subtotal = $_SESSION['grandtotal'];
-                                             }
-                                        ?>
-                                        <div class="mr-1">&#8377;<?php echo $subtotal; ?></div>
+                              <div class="ml-1 mb-1 white acc-container min-w-30">
+                                   <div style="background:#e0e0e0;" class="p-1 text-black">
+                                        Order Summary
                                    </div>
-                                   <div class="mx-sm">
-                                        <hr>
-                                   </div>
-                                   <div class="d-flex jcsb m-sm">
-                                        <div>Shipping</div>
-                                        <?php $shipping=$_SESSION['shippingCharge']; ?>
-                                        <div class="mr-1">&#8377; <?php echo $shipping; ?></div>
-                                   </div>
-                                   <div class="mx-sm">
-                                        <hr>
-                                   </div>
-                                   <div class="d-flex jcsb m-sm">
-                                        <div>Discount</div>
-                                        <div class="mr-1">
+                                   <div class="p-1">
+                                        <div class="d-flex jcsb m-sm">
+                                             <div>SubTotal</div>
                                              <?php
                                                   if(isset($_GET['sb'])){
-                                                       $discount = $discount;
-                                                       echo $discount;
+                                                       $subtotal = $subTotal;
                                                   }
                                                   else{
-                                                       $discount = 0;
-                                                       echo $discount;
+                                                       $subtotal = $_SESSION['grandtotal'];
                                                   }
                                              ?>
+                                             <div class="mr-1">&#8377;<?php echo $subtotal; ?></div>
                                         </div>
-                                   </div>
-                                   <div class="mx-sm">
-                                        <hr>
-                                   </div>
-                                   <div class="d-flex jcsb m-sm">
-                                        <div> Estimated Tax</div>
-                                        <?php $taxCharge=$_SESSION['taxCharge']; ?>
-                                        <div class="mr-1">&#8377; <?php echo $taxCharge; ?></div>
-                                   </div>
-                                   <div class="mx-sm">
-                                        <hr>
-                                   </div>
-                                   <div class="d-flex jcsb m-sm">
-                                        <div>Order Total</div>
-                                        <?php
-                                             if(isset($_GET['sb'])){
-                                                  $total = $total;
-                                             }
-                                             else{
-                                                  $total=$_SESSION['total'];
-                                             }
-                                        ?>
-                                        <div class="mr-1">&#8377; <?php echo $total ?></div>
-                                   </div>
-                                   <div class="mx-sm">
-                                        <hr>
+                                        <div class="mx-sm">
+                                             <hr>
+                                        </div>
+                                        <div class="d-flex jcsb m-sm">
+                                             <div>Shipping</div>
+                                             <?php $shipping=$_SESSION['shippingCharge']; ?>
+                                             <div class="mr-1">&#8377; <?php echo $shipping; ?></div>
+                                        </div>
+                                        <div class="mx-sm">
+                                             <hr>
+                                        </div>
+                                        <div class="d-flex jcsb m-sm">
+                                             <div>Discount</div>
+                                             <div class="mr-1">
+                                                  <?php
+                                                       if(isset($_GET['sb'])){
+                                                            $discount = $discount;
+                                                            echo $discount;
+                                                       }
+                                                       else{
+                                                            $discount = 0;
+                                                            echo $discount;
+                                                       }
+                                                  ?>
+                                             </div>
+                                        </div>
+                                        <div class="mx-sm">
+                                             <hr>
+                                        </div>
+                                        <div class="d-flex jcsb m-sm">
+                                             <div> Estimated Tax</div>
+                                             <?php $taxCharge=$_SESSION['taxCharge']; ?>
+                                             <div class="mr-1">&#8377; <?php echo $taxCharge; ?></div>
+                                        </div>
+                                        <div class="mx-sm">
+                                             <hr>
+                                        </div>
+                                        <div class="d-flex jcsb m-sm">
+                                             <div>Order Total</div>
+                                             <?php
+                                                  if(isset($_GET['sb'])){
+                                                       $total = $total;
+                                                  }
+                                                  else{
+                                                       $total=$_SESSION['total'];
+                                                  }
+                                             ?>
+                                             <div class="mr-1">&#8377; <?php echo $total ?></div>
+                                        </div>
+                                        <div class="mx-sm">
+                                             <hr>
+                                        </div>
                                    </div>
                               </div>
                          </div>
