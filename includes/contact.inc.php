@@ -9,7 +9,7 @@
           // print($subject);
           // print($message);
           
-          $mailTo = "agnelselvan007@gmail.com";
+          $mailTo = "agnelselvan007@yahoo.com";
           $headers = "From: ".$email;
           $body = "You have received a mail from ".$name.".\n\n".$message;
 

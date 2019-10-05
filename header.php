@@ -7,9 +7,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login</title>
+        <title>Computer-Store</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png" >
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="./customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
@@ -30,7 +31,7 @@
             <div class="d-flex jcsb">
                 <div class="d-flex flex-row">
                     <div>
-                        <img class="img1" src="img/cpu.png" alt="">
+                        <a href="indexcopy.php"><img class="img1" src="img/cpu.png" alt=""></a>
                     </div>
                     <div class="hamburger">
                         <div class="line"></div>

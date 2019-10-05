@@ -39,53 +39,44 @@
         }
 
     }
-?>
-<!-- <main>
-        <div class="body-div">
-            <section class="index-section">
-                <h1 class="login-heading">Update Password</h1>
-                <?php
-                    // if(isset($_GET["update"])){
-                    //     if($_GET["update"] == "success"){
-                    //     echo"<p class='signupsuccess'>Password updated successfully</p>";
-                        
-                    //     }
-                    //     elseif($_GET["update"] == "unsuccess"){
-                    //         echo"<p class='signupserror'>Password not updated</p>";
-                    //     }
-                    // }
-                    // if(isset($_GET["error"])){
-                    //     if($_GET["error"] == "passwordwrong"){
-                    //     echo"<p class='signuperror'>Password does not match</p>";
-                    //     }
-                    //     elseif($_GET["error"] == "unsuccess"){
-                    //         echo"<p class='signupserror'>Update problem</p>";
-                    //         header("location: forget-pwd.php");
-                    //     }
+    if(isset($_GET['admin-update-submit'])){
+        $password = $_GET['admin-up-pwd'];
+        $passwordCheck = $_GET['admin-up-pwd-repeat'];
+        if($password != $passwordCheck){
+            header("location: update-pwd.php?error=passwordwrong");
+        }
+        else{
+           
+            $takeMail = "SELECT min(idpwd),emailVerify from pwd_table;";
+            $check = mysqli_query($conn, $takeMail);
+            if($check){
+                $data = mysqli_fetch_array($check);
+                $realdata = $data[1];
 
-                    // }
-                    
-                ?>
-                <div class="form">
-                <form action="" method="GET">
-                        <input type="password" name="up-pwd" placeholder="Enter your new password..."><br>
-                        <input type="password" name="up-pwd-repeat" placeholder="Repeat Password..."><br>
-                        <button type='submit' name='update-submit'>Submit</button>
-                        <?php
-                    // if(isset($_GET["update"])){
-                    //     if($_GET["update"] == "success"){
-                        
-                    //     echo"<div style='padding-left:28%' class='logincard'><a style='pointer:cursor' href='login.php'>Back to Login</a></div>";
-                    //     }
-                    // }
-                ?>
-                    </form>
-                
-                </div>
-                
-            </section>
-        </div>
-</main> -->
+                $hashedUpdatedPwd = password_hash($password, PASSWORD_DEFAULT);
+                $query = "UPDATE admins SET adminPassword='$hashedUpdatedPwd' WHERE adminEmail='$realdata';";
+                $connect = mysqli_query($conn, $query);
+                if($connect){
+                    $query = "DELETE FROM pwd_table WHERE emailVerify='$realdata'; ";
+                    $check = mysqli_query($conn, $query);
+                    if($check){
+                        header("location: update-pwd.php?admin&delete=success");
+                    }
+                    header("location: update-pwd.php?admin&update=success");
+                }
+                else{
+                    header("location: update-pwd.php?admin&update=unsuccess");
+                }
+            }
+            else{
+                header("location: update-pwd.php?admin&error=sqlerror");
+            }
+            
+        }
+
+    }
+?>
+
 <body>
 <style>
         .section{
@@ -151,19 +142,37 @@
                                     header("location: forget-pwd.php");
                                 }
 
-                            }                        
+                            }
                         ?>
                         <div>
+                            <?php
+                                if(isset($_GET['admin'])){
+                                    ?>
+                                        <form action="" method="GET">
+                                            <input type="password" class="input-field" name="admin-up-pwd" placeholder="Enter your new password..."><br>
+                                            <input type="password" class="input-field" name="admin-up-pwd-repeat" placeholder="Repeat Password..."><br>
+                                            <button style="width:140px;background:#28AB87" class="btn button-field" type='submit' name='admin-update-submit'>Submit</button>
+                                        </form>
+                                    <?php
+                                }
+                                else{
+                            ?>
                             <form action="" method="GET">
                                 <input type="password" class="input-field" name="up-pwd" placeholder="Enter your new password..."><br>
                                 <input type="password" class="input-field" name="up-pwd-repeat" placeholder="Repeat Password..."><br>
                                 <button style="width:140px;background:#28AB87" class="btn button-field" type='submit' name='update-submit'>Submit</button>
                                 <?php
+                                    if(isset($_GET["admin"])){
+                                        if($_GET["update"] == "success"){
+                                            echo"<div class='logincard'><a style='width:140px;background:#28AB87' class='btn button-field text-deco-none' href='admin/admin.php'>Back to Login</a></div>";
+                                        }
+                                    }
                                     if(isset($_GET["update"])){
                                         if($_GET["update"] == "success"){
                                             echo"<div class='logincard'><a style='width:140px;background:#28AB87' class='btn button-field text-deco-none' href='login.php'>Back to Login</a></div>";
                                         }
                                     }
+                                }
                                 ?>
                             </form>
                         </div>

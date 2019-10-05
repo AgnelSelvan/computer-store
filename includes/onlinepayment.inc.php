@@ -38,7 +38,7 @@ error_reporting(0);
           $amount = $amount;
           $phone = $mobNumber;
           $surl = "http://localhost/computer-store/cart/order/order.php?sbsuccess&sbname=$sbname";
-          $furl = "http://localhost/computer-store/cart/payment.php?failure";
+          $furl = "http://localhost/computer-store/cart/order/payment.php?failure";
           $productinfo = $sbname;
           // print($productinfo);
 
@@ -69,9 +69,10 @@ error_reporting(0);
                $checkpart = mysqli_query($conn, $selectpart);
                while($rowpart = mysqli_fetch_array($checkpart)){
                     $parts[] = $rowpart['partTitle'];
-                    $amount += $rowpart['price'];
+                    // $amount += $rowpart['price'];
                }
           }
+          $amount = $_SESSION['total'];
           // print($amount);
           // print_r($parts);
 
@@ -84,10 +85,9 @@ error_reporting(0);
                $checkpc = mysqli_query($conn, $selectpc);
                while($rowpc = mysqli_fetch_array($checkpc)){
                     $parts[] = $rowpc['pcName'];
-                    $amount += $rowpc['pcPrice'];
                }
           }
-               // print($amount);
+          // print($amount);
           // print_r($parts);
           
           $MERCHENT_KEY = "g1KBgJ0S";
@@ -98,7 +98,7 @@ error_reporting(0);
           $amount = $amount;
           $phone = $mobNumber;
           $surl = "http://localhost/computer-store/cart/order/order.php?success";
-          $furl = "http://localhost/computer-store/cart/payment.php?failure";
+          $furl = "http://localhost/computer-store/cart/order/payment.php?failure";
           $productinfo = join(',',$parts);
           // print($productinfo);
 

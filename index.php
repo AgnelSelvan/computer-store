@@ -3,14 +3,30 @@
     include('./functions/functions.php');
     session_start();
     $userID = $_SESSION['userId'];
+    // print($userID);
+    
     $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
     $check = mysqli_query($conn, $selectQuery);
     while ($row = mysqli_fetch_array($check)) {
         $partID = $row['productid'];
         $partquery = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
         $checkpart = mysqli_query($conn, $partquery);
+        $count = mysqli_num_rows($checkpart);
         while($partrow = mysqli_fetch_array($checkpart)){
             $grandTotal += $partrow['price'];
+        }
+    }
+
+    $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
+    $runGetCart = mysqli_query($conn, $getCart);
+    while($row = mysqli_fetch_array($runGetCart)){
+        
+        $productID = $row['pcid'];
+        $quantity = 1;
+        $getproduct = "SELECT * FROM pc_details WHERE pc_id='$productID'";
+        $rungetProduct = mysqli_query($conn, $getproduct);
+        while($productrow = mysqli_fetch_array($rungetProduct)){
+                $grandTotal += $_SESSION['grandtotal'];
         }
     }
 
@@ -39,9 +55,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login</title>
+        <title>Computer-Store</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png" >
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="./customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
@@ -76,7 +93,7 @@
                 <div class="d-flex jcsb">
                     <div class="d-flex flex-row">
                         <div>
-                            <img class="img1" src="img/cpu.png" alt="">
+                            <a href="indexcopy.php"><img class="img1" src="img/cpu.png" alt=""></a>
                         </div>
                         <div class="hamburger">
                             <div class="line"></div>
@@ -85,7 +102,7 @@
                         </div>
                         <div class="menu">
                             <ul class="ls-none active current-item">
-                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php?home">Home</a></li>
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
                                 <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
                                 <li class="p-1">
@@ -196,22 +213,40 @@
                                             <div style="background:#28AB87" class="text-white p-sm b-rad-2">
                                                 Welcome! &nbsp; '?><?php echo $userName; echo'
                                             </div>
-                                            <div class="text-white m-sm">
-                                                '?><?php cartcount(); echo' Items in your cart
-                                            </div>
-                                            <div style="border:1px solid white; height:20px; margin:10px;"></div>
-                                            <div class="text-white my-sm">
-                                                Total Price: &#8377; '?><?php echo $grandTotal; echo'
-                                            </div>
-                                            <div class=" ml-2">
-                                                <a href="index.php?close">
-                                                    <button class="" style="padding:6px;color:#28AB87;" name="close">&#10006;</button>
-                                                </a>
+                                            '?>
+                                            <?php
+                                            if ($count == 0){
+                                                echo'
+                                                            <div class="text-white m-sm">Fill ur Bucket'?><?php echo $userName; echo'  ! Many offers are on!! </div>
+                                                            <div class=" ml-2">
+                                                                <a href="index.php?close">
+                                                                    <button class="" style="padding:6px;color:#28AB87;" name="close">&#10006;</button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                ';
+                                            }
+                                            else{
+                                                echo'
+                                                <div class="text-white m-sm">
+                                                    '?><?php cartcount(); echo' Items in your cart
+                                                </div>
+                                                <div style="border:1px solid white; height:20px; margin:10px;"></div>
+                                                <div class="text-white my-sm">
+                                                    Total Price: &#8377; '?><?php echo $grandTotal; echo'
+                                                </div>
+                                                <div class=" ml-2">
+                                                    <a href="index.php?close">
+                                                        <button class="" style="padding:6px;color:#28AB87;" name="close">&#10006;</button>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ';
+                                ';
+                            }
                         }
                     ?>
                 </div>
@@ -219,7 +254,6 @@
         <!-- Navbar -->
         
         <!-- Content -->
-            
             <div class="primary bg-color md-m-0 md-p-0 pt-1 sm-p-0">
                 <div class="d-flex flex-col jcc">
                     <div class=" min-w-100 m-auto p-auto">
@@ -233,7 +267,7 @@
                                 WHILE($row = mysqli_fetch_array($check)){
                                     $partName = $row['pcPartComponents'];
                                 }
-                                ?>
+                        ?>
                         <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2"><b><?php echo $partName?></b></h1>
                         <div class="b-1 text-white mr-3 ml-2"></div>
                         <div class="d-flex flex-wrap jcc responsive-container">
@@ -268,6 +302,67 @@
                         </div>
                     </div>
                     <div class="m-0 p-0 w-100">
+                        <?php
+                            if(isset($_GET['parts'])){
+                                ?>
+                                <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2"><b>System Parts</b></h1>
+                                <div class="b-1 text-white mr-3 ml-2"></div>
+                                <div class="d-flex flex-wrap jcc responsive-container">
+                                <?php
+                                    $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,14;";
+                                    $check = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_assoc($check)) {
+                                         $partname = $row['partKeyword'];
+                                         $partID = $row['pcPartID'];
+                                         $discount = $row['price']*2;
+                                         echo "
+                                         <div style='width:250px;' class='d-flex responsive-card  flex-col mx-sm mt-1 white p-sm b-rad-1 shadow-md '>
+                                              <div class='text-center single-img'>
+                                                   <a style='color:#28AB87' class='text-deco-none transparent' href='details.php?part_det=".$partID."'>
+                                                        <img width='200' height='200' src='admin/upload/".$row['image']."'/>
+                                                   </a>
+                                              </div>
+                                              <div class='text-center p-1 ' >
+                                                   <b><p style='color:gray;' class=''>{$row['partTitle']}</p></b>
+                                                   <p style='font-size:18px;color:rgb(40,171,135)' class='my-sm'>&#8377;{$row['price']} <strike class='pl-1'>&#8377;{$discount}</strike></p>
+                                                        <div class='d-flex jcc my-sm'>
+                                                             <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1 shadow-md'><a href='details.php?part_det={$partID}' class='text-deco-none text-white'>Details</a></p>
+                                                             <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1 shadow-md'><a class='text-deco-none text-white' href='index.php?add_cart={$partID}'>AddToCart</a></p>
+                                                        </div>
+                                              </div>
+                                         </div>
+                                         
+                                         ";
+                                    }
+                            }
+                            elseif(isset($_GET['complete'])){
+                                ?>
+                                <h1 align="left" style="font-size:30px;" class="text-black px-3 pt-3 "><b>Completed Builds</b></h1>
+                                <div class="b-1 text-white mr-3 ml-2"></div>
+                                <div class="d-flex flex-wrap jcc">
+                                <?php
+                                $query = "SELECT * FROM pc_details ORDER BY RAND();";
+                                $check = mysqli_query($conn, $query);
+                                while ($row = mysqli_fetch_assoc($check)) {
+                                     $p_id = $row['pc_id'];
+                                     $discount = $row['pcPrice']*2;
+                                     echo "
+                                     <div style='width:250px;' class='d-flex responsive-card  flex-col mx-sm mt-1 white p-sm b-rad-1 shadow-md'>
+                                          <a style='color:#28AB87' class='text-deco-none single-img' href='details.php?pc_det=".$p_id."'>
+                                               <img class='img2 mt-1' src='./admin/upload/".$row['pc_image']."'/>
+                                          </a>
+                                          <p style='color:gray;' class='mt-1'>{$row['pcName']}</p>
+                                          <p style='font-size:18px;color:rgb(40,171,135)' class='my-sm'>&#8377;{$row['pcPrice']} <strike class='pl-1'>&#8377;{$discount}</strike></p>
+                                          
+                                          <div class='d-flex jcc my-1'>
+                                                <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1'><a href='details.php?pc_det={$p_id}' class='text-deco-none text-white'>Details</a></p>
+                                                <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1'><a class='text-deco-none text-white' href='index.php?addpc_cart={$p_id}'>Add to cart<a></p>
+                                          </div>
+                                     </div>"
+                                     ;} 
+                            }
+                            else{
+                        ?>
                         <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2"><b>System Parts</b></h1>
                         <div class="b-1 text-white mr-3 ml-2"></div>
                         <div class="d-flex flex-wrap jcc responsive-container">
@@ -299,9 +394,6 @@
                                         </div>
                                         ";
                                 }
-                                echo'
-                                
-                                ';
                             ?>
                         </div>
                     </div>
@@ -311,12 +403,41 @@
                             <div class="d-flex flex-wrap jcc">
                                     <?php
                                         getCompleteBuilts();
+                                        }
                                     ?>
                             </div>
                         </div>
                     </div>
             </div>
         <!-- Content -->
+        <script>
+            var slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                var i;
+                var slides = document.getElementsByClassName("mySlides");
+                var dots = document.getElementsByClassName("dot");
+                if (n > slides.length) {slideIndex = 1}    
+                if (n < 1) {slideIndex = slides.length}
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";  
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active1", "");
+                }
+                slides[slideIndex-1].style.display = "block";  
+                dots[slideIndex-1].className += " active1";
+            }
+        </script>
 <?php
     require "footer.php";
 ?>
@@ -338,11 +459,20 @@
                 $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
                 $check = mysqli_query($conn, $query);
                 if($check){
-                    echo"<script>window.open('index.php?part_det='$p_id'','_self')</script>";
+                    $checkqty = "SELECT * FROM pcpart WHERE pcPartID='$p_id'";
+                    $checkqtypcpart = mysqli_query($conn, $checkqty);
+                    while($qtyrow = mysqli_fetch_array($checkqtypcpart)){
+                        $part_qty = $qtyrow['qty'] - $part_qty;
+                        $updateqty = "UPDATE pcpart SET qty='$part_qty' WHERE pcPartID='$p_id';";
+                        $updatecheck = mysqli_query($conn, $updateqty);
+                        if($updatecheck){
+                            echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+                        }
+                    }
                 }
             }
         }
-   }
+    }
    if (isset($_GET['addpc_cart'])) {
     $userID=$_SESSION['userId'];
     $p_id = $_GET['addpc_cart'];
