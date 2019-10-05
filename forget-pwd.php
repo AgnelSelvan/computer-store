@@ -2,12 +2,13 @@
     require "header.php"
 ?>
 <?php
-require './includes/dbh.inc.php';
+    require './includes/dbh.inc.php';
     if(isset($_POST['frgtPwd-submit'])){
         
         require './includes/emailController.inc.php';
 
         $mailCheckinDb = $_POST['frtPwdEmail'];
+        // print($mailCheckinDb);
         
             $query = "SELECT * FROM users WHERE emailUsers='$mailCheckinDb';";
             $connect = mysqli_query($conn, $query);
@@ -16,6 +17,28 @@ require './includes/dbh.inc.php';
                 if($data){
                     sendVerificationEmail($mailCheckinDb);
                     $query = "INSERT INTO pwd_table VALUES(null, '$mailCheckinDb');";
+                    $check = mysqli_query($conn, $query);
+                    
+                    header("location: forget-pwd.php?mail=sent");
+                }
+                else{
+                    header("location: forget-pwd.php?user=nouser");
+                }
+            }
+            else{
+                header("location: forget-pwd.php?error=sqlerror");
+            }
+        }
+        if(isset($_POST['frgtPwd-submit-admin'])){
+            require './includes/emailController.inc.php';
+            $mailCheckinDbAdmin = $_POST['frtPwdEmailAdmin'];
+            $query = "SELECT * FROM admins WHERE adminEmail='$mailCheckinDbAdmin';";
+            $connect = mysqli_query($conn, $query);
+            if($connect){
+                $data = mysqli_num_rows($connect);
+                if($data){
+                    sendAdminVerificationEmail($mailCheckinDbAdmin);
+                    $query = "INSERT INTO pwd_table VALUES(null, '$mailCheckinDbAdmin');";
                     $check = mysqli_query($conn, $query);
                     
                     header("location: forget-pwd.php?mail=sent");
@@ -90,12 +113,32 @@ require './includes/dbh.inc.php';
                         <div>
                             <form action="" method="POST">
                                 <div class="mt-sm">
-                                    <input type="text" class="input-field" name="frtPwdEmail" placeholder="Enter your mail...">
+                                    <?php
+                                        if(isset($_GET['admin'])){
+                                            ?>
+                                                <input type="text" class="input-field" name="frtPwdEmailAdmin" placeholder="Enter your mail...">
+                                            <?php
+                                        }
+                                        else{
+                                            ?><input type="text" class="input-field" name="frtPwdEmail" placeholder="Enter your mail..."><?php
+                                        }
+                                    ?>
                                 </div>
                                 <div class="mt-1"> 
                                     <div class="d-flex container jcsa">
                                         <a style="width:150px;background:#28AB87" class="btn button-field text-deco-none" href="login.php">Back to login</a>
-                                        <button type="submit" style="width:140px;background:#28AB87" class="btn button-field" name="frgtPwd-submit">Submit</button>
+                                        <?php
+                                            if(isset($_GET['admin'])){
+                                                ?>
+                                                <button type="submit" style="width:140px;background:#28AB87" class="btn button-field" name="frgtPwd-submit-admin">Submit</button>
+                                                <?php
+                                            }
+                                            else{
+                                                ?>
+                                                <button type="submit" style="width:140px;background:#28AB87" class="btn button-field" name="frgtPwd-submit">Submit</button>
+                                                <?php
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </form>

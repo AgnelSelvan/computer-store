@@ -9,11 +9,12 @@
      <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <title>Cart</title>
+          <title>Computer-Store | Payment</title>
           <meta name="description" content="">
           <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
+        <link rel="shortcut icon" type="image/png" href="../../img/favicon.png" >
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
@@ -28,9 +29,6 @@
         </script>
      </head>
      <body>
-<!--           
-    ';
-    echo"<a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='payment.php?sb'>Deliver</a>"; -->
           <!-- NavBar Starts -->
                <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
                     <div class="d-flex jcsb">
@@ -97,6 +95,11 @@
                                              echo'<div style="font-size:16px;color:red" class="mt-sm">Select a payment method</div>';
                                         }
                                    }
+                                   if(isset($_GET['failure'])){
+                                        echo'<div style="font-size:16px;color:red" class="mt-sm">
+                                                  Online Payment failed! 
+                                             </div>';
+                                   }
                               ?>
                               
                               <div class="mt-1">
@@ -105,7 +108,6 @@
                                         <?php 
                                              if(isset($_GET['sb'])){
                                                   $sbname = $_POST['sbname'];
-                                                  print($sbname);
                                                   echo'
                                                   <form action="order.php?sb&sbname='.$sbname.'" method="POST">
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="onlinePayment">Online Payment(Payu)</div><hr>
@@ -161,8 +163,7 @@
                                                        </div>
                                                        <div class='mx-sm'>
                                                        <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
-                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
-                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='../../details.php?part_det={$partID}'>Details</a></div>
                                                        </div>
                                                        </div>
                                              </div>

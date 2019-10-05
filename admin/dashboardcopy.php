@@ -2,12 +2,15 @@
     error_reporting(0);
     include("../includes/dbh.inc.php");
     if(isset($_POST['admininsert'])){
-        $adminName = $_POST['signup-email'];
+        $adminEmail = $_POST['signup-email'];
+        $adminName = $_POST['signup-name'];
         $adminPassword = $_POST['signup-password'];
-        // print($adminName);
         $adminPassword = password_hash($adminPassword, PASSWORD_DEFAULT);
-        $adminInsert = "INSERT INTO admin VALUES(NULL, '$adminName','$adminPassword')";
+        $adminInsert = "INSERT INTO admins VALUES(NULL, '$adminName', '$adminEmail','$adminPassword', '')";
         $check = mysqli_query($conn, $adminInsert);
+        if($check){
+            header("LOCATION: ./dashboard.php?dashboard&signup=success");
+        }
 
     }
 ?>
@@ -16,9 +19,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login</title>
+        <title>Computer-Store</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png" >
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
         <style>
@@ -61,10 +65,22 @@
                     <h4 style="color:gray">Make Admin</h4>
                 </div>
                 <div>
+                    <div class="text-center">
+                        <?php
+                            if(isset($_GET['signup'])){
+                                if($_GET['signup'] == "success"){
+                                    echo"<div style='color:green; font-size:12px;'>Added as a new admin!</div>";
+                                }
+                            }
+                        ?>
+                    </div>
                     <!-- SIGN UP MODAL -->
                 <div id="modal-signup" class="modal">
                     <div class="modal-content">
                         <form action="" method="POST">
+                            <div class="text-center">
+                                <input name="signup-name" class="admin-input" type="name" placeholder="Enter Admin Name...">
+                            </div>
                             <div class="">
                                 <input class="admin-input" type="email" name="signup-email" placeholder="Enter Email to make Admin..." required />
                             </div>

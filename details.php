@@ -30,30 +30,36 @@
           $part_qty = $_POST['quantity'];
           $p_id = $_GET['add_cart'];
           // print($p_id);
-          $checkqty = "SELECT * FROM pcpart WHERE pcPartID='$p_id'";
-          $checkqtypcpart = mysqli_query($conn, $checkqty);
-          while($qtyrow = mysqli_fetch_array($checkqtypcpart)){
-               if($qtyrow['qty'] < $part_qty){
-                    header("LOCATION: details.php?part_det=$p_id&outofstock");
-               }
-               else{
-                    if($part_qty == 0){
-                         header("LOCATION: details.php?qty=no");
+          if($userID == 0){
+               header("LOCATION: login.php?login=notlogin");
+          }
+          else{
+               $checkqty = "SELECT * FROM pcpart WHERE pcPartID='$p_id'";
+               $checkqtypcpart = mysqli_query($conn, $checkqty);
+               while($qtyrow = mysqli_fetch_array($checkqtypcpart)){
+                    if($qtyrow['qty'] < $part_qty){
+                         header("LOCATION: details.php?part_det=$p_id&outofstock");
                     }
                     else{
-                         $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
-                         $run_product = mysqli_query($conn, $check_product);
-                         if (mysqli_fetch_array($run_product) > 0) {
-                              echo"<script>alert('This product has already added in cart')</script>";
-                              echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-                         } else {
-                         $query = "INSERT INTO cart VALUES (null, '$userID', '$p_id','$part_qty');";
-                         $check = mysqli_query($conn, $query);
-                         if($check){
-                              $updateqty = "UPDATE pcpart SET qty='$part_qty' WHERE pcPartID='$p_id';";
-                              $updatecheck = mysqli_query($conn, $updateqty);
-                              if($updatecheck){
-                                   echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+                         if($part_qty == 0){
+                              header("LOCATION: details.php?part_det=$p_id&qty=no");
+                         }
+                         else{
+                              $check_product = "SELECT * FROM cart WHERE userID='$userID' AND productid='$p_id';";
+                              $run_product = mysqli_query($conn, $check_product);
+                              if (mysqli_fetch_array($run_product) > 0) {
+                                   echo"<script>alert('This product has already added in cart')</script>";
+                                   echo"<script>window.open('details.php?part_det=$p_id','_self')</script>";
+                              } else {
+                              $query = "INSERT INTO cart VALUES (null, '$userID', '$p_id','$part_qty');";
+                              $check = mysqli_query($conn, $query);
+                              if($check){
+                                   $part_qty = $qtyrow['qty'] - $part_qty;
+                                   $updateqty = "UPDATE pcpart SET qty='$part_qty' WHERE pcPartID='$p_id';";
+                                   $updatecheck = mysqli_query($conn, $updateqty);
+                                   if($updatecheck){
+                                        echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+                                        }
                                    }
                               }
                          }
@@ -81,16 +87,21 @@
      if (isset($_GET['addpc_cart'])) {
           $userID=$_SESSION['userId'];
           $p_id = $_GET['addpc_cart'];
-          $check_product = "SELECT * FROM pccart WHERE userid='$userID' AND pcid='$p_id';";
-          $run_product = mysqli_query($conn, $check_product);
-          if (mysqli_fetch_array($run_product) > 0) {
-               echo"<script>alert('This product has already added in cart')</script>";
-               echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
-          } else {
-          $query = "INSERT INTO pccart VALUES (null, '$p_id', '$userID');";
-          $check = mysqli_query($conn, $query);
-          if($check){
-               echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+          if($userID == 0){
+               header("LOCATION: login.php?login=notlogin");
+          }
+          else{
+               $check_product = "SELECT * FROM pccart WHERE userid='$userID' AND pcid='$p_id';";
+               $run_product = mysqli_query($conn, $check_product);
+               if (mysqli_fetch_array($run_product) > 0) {
+                    echo"<script>alert('This product has already added in cart')</script>";
+                    echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+               } else {
+               $query = "INSERT INTO pccart VALUES (null, '$p_id', '$userID');";
+               $check = mysqli_query($conn, $query);
+               if($check){
+                    echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
+                    }
                }
           }
      }
@@ -104,7 +115,8 @@
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
      <link rel="stylesheet" type="text/css" href="js/jquery.exzoom.css" >
-     <title>Details</title>
+     <link rel="shortcut icon" type="image/png" href="img/favicon.png" >
+     <title>Computer-Store | Details</title>
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="./customstyle.css">
         <style>
@@ -118,7 +130,7 @@
           <div class="d-flex jcsb">
                <div class="d-flex flex-row">
                     <div>
-                         <img class="img1" src="img/cpu.png" alt="">
+                         <a href="indexcopy.php"><img class="img1" src="img/cpu.png" alt=""></a>
                     </div>
                     <div class="hamburger">
                          <div class="line"></div>
@@ -166,15 +178,25 @@
                          <div style="width:100%" class="white shadow-md">
                               <div class=" white pt-1">
                                    <?php
+                                        
+                                   ?>
+                                   <?php
+                                        if(isset($_GET['qty'])){
+                                             echo"<div class='text-center' style='color:red;font-size:14px;'>Enter some quantity!</div>";
+                                        }
                                         if(isset($_GET['outofstock'])){
-                                             echo"<div class='text-center' style='color:red'>Out of Stock!</div>";
+                                             echo"<div class='text-center' style='color:red;font-size:14px;'>Out of Stock!</div>";
                                         }
                                    ?>
                                    <h3 class=""><b><?php echo $partTitle; ?></b></h3>
                               </div>
                               <div class="mx-1 pb-1" style="font-size:18px;">
                                    <p><?php if(isset($_GET['part_det']) || isset($_GET['add_cart'])){ echo "
-                                        <div class='text-left p-2'>$desc</div>"; }?></p>
+                                        <div class='text-left p-2'>$desc</div>
+                                        <div style='color:gray;font-size:20px;' class='p-sm'><b>MRP: &#8377;$price</b></div>
+                                        <div style='color:gray;font-size:20px;' class=' p-sm'>You Save:<strike>"?><?php echo $price/2; ?><?php echo"</strike></div>
+                                        <div style='font-size:20px;'  class='p-sm'><b>Quantity: &#8377;$qty</b></div>
+                                        "; }?></p>
                                    <p class="text-left">
                                         <?php
                                              if(isset($_GET['pc_det']) || isset($_GET['addpc_cart'])){
@@ -247,11 +269,6 @@
                                         ?>
                                    </p>
                                    <div class="p-1 aic">
-                                   <?php
-                                        if(isset($_GET['qty'])){
-                                             echo"Enter some quantity";
-                                        }
-                                   ?>
                                    <div class="white p-sm">
                                         <div class="mb-1">
                                              <div class="container">
@@ -293,60 +310,62 @@
                               </div>
                          </div>
                     </div>
-               <div style="" class="white mt-1 p-1">
+               <div style="" class="white mt-1 p-1 b-rad-1 shadow-sm">
                         <b> Products You may also like</b>
                </div>
                <div class="mt-1">
                     <div class="d-flex flex-wrap jcsa">
                                     <?php
-                                        $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4";
-                                        $check = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_assoc($check)) {
-                                             $partname = $row['partKeyword'];
-                                             $partID = $row['pcPartID'];
-                                             echo "
-                                                  <div style='width:220px;' class='shadow-md white b-rad-2 card-hover'>
-                                                       <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
-                                                       <div class='single-img'>
-                                                            <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                        if(isset($_GET['part_det'])){
+                                             $query = "SELECT * FROM pcpart ORDER BY RAND() LIMIT 0,4";
+                                             $check = mysqli_query($conn, $query);
+                                             while ($row = mysqli_fetch_assoc($check)) {
+                                                  $partname = $row['partKeyword'];
+                                                  $partID = $row['pcPartID'];
+                                                  echo "
+                                                       <div style='width:220px;' class='shadow-md white b-rad-2 card-hover'>
+                                                            <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                                            <div class='single-img'>
+                                                                 <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                                            </div>
+                                                            <div style='font-size:20px;' class='text-center'>
+                                                                 <h4 class='m-1'>{$row['partTitle']}</h4></a><br>
+                                                                 <div class='text-primary'>
+                                                                      <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                                 </div>
+                                                                 <div class='mx-sm'>
+                                                                 <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                                      <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
+                                                                      <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                                 </div>
+                                                                 </div>
                                                        </div>
-                                                       <div style='font-size:20px;' class='text-center'>
-                                                            <h4 class='m-1'>{$row['partTitle']}</h4></a><br>
-                                                            <div class='text-primary'>
-                                                                 <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
-                                                            </div>
-                                                            <div class='mx-sm'>
-                                                            <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
-                                                                    <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
-                                                                    <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
-                                                            </div>
-                                                            </div>
-                                                    </div>
-                                                  </div>
-                                             ";
+                                                       </div>
+                                                  ";
+                                             }
                                         }
-                                        echo'
-                                        
-                                        ';
                                     ?>
                     <?php
                          if(isset($_GET['pc_det'])){
-                              $query = "SELECT * FROM pc_details ORDER BY RAND() LIMIT 0,3;";
+                              $query = "SELECT * FROM pc_details ORDER BY RAND() LIMIT 0,4;";
                               $check = mysqli_query($conn, $query);
                               while ($row = mysqli_fetch_assoc($check)) {
                                    $p_id = $row['pc_id'];
                                    echo "
-                                        <div style='width:240px;' class='shadow-md text-center white m-1 p-1 b-rad-5'>
-                                             <img class='img2 mt-1' src='./admin/upload/".$row['pc_image']."'/><br>
-                                             <h3 style='margin-top:20px;'>{$row['pcName']}</h3>
-                                             <div style='font-size:24px;color:#28AB87;'  class='text-primary p-1'>
-                                                  <b>&#8377;  {$row['pcPrice']}</b>
-                                             </div>
-                                             <div class='my-1'>
-                                             <a class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Details<a>
-                                             <a class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Add to cart<a></div>
-                                        </div>"
-                              ;}
+                                   <div style='width:240px;' class='shadow-md responsive-card text-center white m-1 p-1 b-rad-2 card-hover'>
+                                   <a style='color:#28AB87' class='text-deco-none' href='details.php?pc_det=".$p_id."'>
+                                        <div class='single-img'>
+                                        <img class='img2 mt-1' src='./admin/upload/".$row['pc_image']."'/><br>
+                                        </div>
+                                        <h3 class='m-1'>{$row['pcName']}</h3></a>
+                                        <div style='font-size:24px;'  class='text-black p-1'>
+                                             <b>&#8377;  {$row['pcPrice']}</b>
+                                        </div>
+                                        <div class='my-1'>
+                                        <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?pc_det={$p_id}'>Details<a>
+                                        <a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='index.php?addpc_cart={$p_id}'>Add to cart<a></div>
+                                   </div>"
+                                   ;} 
                          }
                     ?>
                </div>

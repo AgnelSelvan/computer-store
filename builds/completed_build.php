@@ -8,7 +8,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login</title>
+        <title>Computer-Store | Completed-Build</title>
+        <link rel="shortcut icon" type="image/png" href="../img/favicon.png" >
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -130,7 +131,7 @@
             <div class="d-flex jcsb">
                 <div class="d-flex flex-row">
                     <div>
-                        <img class="img1" src="../img/cpu.png" alt="">
+                        <a href="../indexcopy.php"><img class="img1" src="../img/cpu.png" alt=""></a>
                     </div>
                     <div class="hamburger">
                         <div class="line"></div>

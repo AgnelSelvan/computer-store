@@ -7,9 +7,10 @@
      <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <title>My Account</title>
+          <title>Computer-Store | My Account</title>
           <meta name="description" content="">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="../img/favicon.png" >
         <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" href="../customstyle.css">
         <style>
@@ -34,56 +35,56 @@
      </head>
      <body>
      <!-- Navbar Starts -->
-     <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
-          <div class="d-flex jcsb">
-               <div class="d-flex flex-row">
-                    <div>
-                         <img class="img1" src="../img/cpu.png" alt="">
+          <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
+               <div class="d-flex jcsb">
+                    <div class="d-flex flex-row">
+                         <div>
+                              <a href="../indexcopy.php"><img class="img1" src="../img/cpu.png" alt=""></a>
+                         </div>
+                         <div class="hamburger">
+                              <div class="line"></div>
+                              <div class="line"></div>
+                              <div class="line"></div>
+                         </div>
+                         <div class="menu">
+                              <ul class="ls-none active current-item">
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/system-build.php">SystemBuild</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/completed_build.php">CompletedBuild</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
+                              </ul>
+                         </div>
+                         <div>
+                              <a class="toggle-nav" href="#">&#9776;</a>
+                         </div>
                     </div>
-                    <div class="hamburger">
-                         <div class="line"></div>
-                         <div class="line"></div>
-                         <div class="line"></div>
+                    <div class="mt-1">
+                         <?php
+                              if(isset($_SESSION['userId'])){
+                                   echo'<form action="includes/logout.inc.php" method="post">
+                                   <div class="d-flex jcfe">
+                                   <div class="cart-btn">
+                                   <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                   <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                   </div>
+                                   <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                   <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                   </div>
+                                   </form>';
+                                   }
+                                   else{
+                                   echo'
+                                   <div class="container d-flex flex-row jcfe">
+                                        <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                        <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                                   </div>
+                                   ';
+                                   }
+                         ?>
                     </div>
-                    <div class="menu">
-                         <ul class="ls-none active current-item">
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/system-build.php">SystemBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/completed_build.php">CompletedBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
-                         </ul>
-                    </div>
-                    <div>
-                         <a class="toggle-nav" href="#">&#9776;</a>
-                    </div>
-               </div>
-               <div class="mt-1">
-                    <?php
-                         if(isset($_SESSION['userId'])){
-                              echo'<form action="includes/logout.inc.php" method="post">
-                              <div class="d-flex jcfe">
-                              <div class="cart-btn">
-                              <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-                              <div class="cart-items">'?><?php cartcount(); echo'</div>
-                              </div>
-                              <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                              <div style="margin:10px 0;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
-                              </div>
-                              </form>';
-                              }
-                              else{
-                              echo'
-                              <div class="container d-flex flex-row jcfe">
-                                   <div ><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
-                                   <div><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
-                              </div>
-                              ';
-                              }
-                    ?>
                </div>
           </div>
-     </div>
      <!-- Navbar Ends -->
 
           <?php
@@ -120,7 +121,22 @@
                               ?>
                               <div style="width:100%;" class="container d-flex md-flex md-flex-col acc-container b-rad-2 shadow-sm ">
                                    <div style="background:#eeeeee; font-size:16px;" class="b-rad-2 pb-1"> 
-                                        <div class="pt-1  text-center"><img style="width:90%;" class="b-rad-2 text-center" src="../<?php echo $userImage; ?>" alt="My photo"/></div>
+                                        <div class="pt-1  text-center"><img style="width:90%;" class="b-rad-2 text-center" src="
+                                             <?php
+                                                  $selectimage = "SELECT * FROM users WHERE pwdUsers=''";
+                                                  $query = mysqli_query($conn, $selectimage);
+                                                  while($row = mysqli_fetch_array($query)){
+                                                       $pass = $row['pwdUsers'];
+                                                       if(empty($pass)){
+                                                            echo $row['userImage'];
+                                                       }
+                                                       else{
+                                                            echo"../".$userImage;
+                                                       }
+                                                  }
+                                             ?>" 
+                                             alt="My photo"/>
+                                        </div>
                                         <div class="text-left text-black pl-1">
                                              <div class="m-1 "><i style="padding-right:10px;" class="fas fa-user"></i>Name: <?php echo $name; ?> </div>
                                              <div class="m-1"><i style="padding-right:10px;" class="fas fa-envelope"></i>Email: <?php echo $userEmail; ?></div>

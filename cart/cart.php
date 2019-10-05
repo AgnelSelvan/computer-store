@@ -7,7 +7,8 @@
      <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <title>Cart</title>
+          <title>Computer-Store | Cart</title>
+          <link rel="shortcut icon" type="image/png" href="../img/favicon.png" >
           <meta name="description" content="">
           <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../style.css">
@@ -27,56 +28,56 @@
      </head>
      <body>
           <!-- NavBar Starts -->
-          <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
-               <div class="d-flex jcsb">
-                    <div class="d-flex flex-row">
-                         <div>
-                         <img class="img1" src="../img/cpu.png" alt="">
-                         </div>
-                         <div class="hamburger">
-                         <div class="line"></div>
-                         <div class="line"></div>
-                         <div class="line"></div>
-                         </div>
-                         <div class="menu">
-                         <ul class="ls-none active current-item">
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/system-build.php">SystemBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/completed_build.php">CompletedBuild</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
-                              <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
-                         </ul>
-                         </div>
-                         <div>
-                         <a class="toggle-nav" href="#">&#9776;</a>
-                         </div>
-                    </div>
-                    <div class="mt-1">
-                         <?php
-                         if(isset($_SESSION['userId'])){
-                              echo'<form action="includes/logout.inc.php" method="post">
-                              <div class="d-flex jcfe">
-                              <div class="cart-btn">
-                              <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-                              <div class="cart-items">'?><?php cartcount(); echo'</div>
+               <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
+                    <div class="d-flex jcsb">
+                         <div class="d-flex flex-row">
+                              <div>
+                                   <a href="../indexcopy.php"><img class="img1" src="../img/cpu.png" alt=""></a>
                               </div>
-                              <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                              <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                              <div class="hamburger">
+                              <div class="line"></div>
+                              <div class="line"></div>
+                              <div class="line"></div>
                               </div>
-                              </form>';
-                         }
-                         else{
-                              echo'
-                              <div class="container d-flex flex-row jcfe">
-                                   <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
-                                   <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                              <div class="menu">
+                              <ul class="ls-none active current-item">
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/system-build.php">SystemBuild</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../builds/completed_build.php">CompletedBuild</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
+                                   <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
+                              </ul>
                               </div>
-                              ';
-                         }
-                         ?>
+                              <div>
+                              <a class="toggle-nav" href="#">&#9776;</a>
+                              </div>
+                         </div>
+                         <div class="mt-1">
+                              <?php
+                              if(isset($_SESSION['userId'])){
+                                   echo'<form action="includes/logout.inc.php" method="post">
+                                   <div class="d-flex jcfe">
+                                   <div class="cart-btn">
+                                   <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                   <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                   </div>
+                                   <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                   <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                   </div>
+                                   </form>';
+                              }
+                              else{
+                                   echo'
+                                   <div class="container d-flex flex-row jcfe">
+                                        <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                        <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                                   </div>
+                                   ';
+                              }
+                              ?>
+                         </div>
                     </div>
                </div>
-          </div>
           <!-- Navbar Ends -->
 
           <div class="primary bg-color">
@@ -85,16 +86,18 @@
                     <div class="d-flex md-d-flex md-flex-col">
                          <!-- Cart Table Starts -->
                          <div class="w-100 b-rad-2 shadow-md white text-left p-3 md-p-1 sm-p-sm" >
-                              <?php
-                                   $userID = $_SESSION['userId'];
-                                   $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
-                                   $runQuery = mysqli_query($conn, $selectQuery);
-                                   $count = mysqli_num_rows($runQuery);
-                                   
-                                   $countCart = "SELECT * FROM pccart WHERE userid='$userID'";
-                                   $countQuery = mysqli_query($conn, $countCart);
-                                   $count += mysqli_num_rows($countQuery);
-                              ?>
+                              <!-- Count the products in cart -->
+                                   <?php
+                                        $userID = $_SESSION['userId'];
+                                        $selectQuery = "SELECT * FROM cart WHERE userID='$userID'";
+                                        $runQuery = mysqli_query($conn, $selectQuery);
+                                        $count = mysqli_num_rows($runQuery);
+                                        
+                                        $countCart = "SELECT * FROM pccart WHERE userid='$userID'";
+                                        $countQuery = mysqli_query($conn, $countCart);
+                                        $count += mysqli_num_rows($countQuery);
+                                   ?>
+                              <!-- Count the products in cart ENDS -->
                               <h1 style="color:#003426;" class=" md-m-sm sm-md-0 md-p-sm sm-m-0">Shopping Cart</h1>
                               <div class="pb-1 mt-1 md-m-sm sm-md-0 md-p-sm sm-m-0" style="color:gray">You Have currently <?php cartcount() ?> item(s) in your cart</div>
                                    <?php
@@ -130,7 +133,7 @@
                                                                                      $haha = $quantity * $unitprice;
                                                                                      $discount = $unitprice * $quantity * 0.11;
                                                                                      $subTotal = $haha - $discount;
-                                                                                     $grandTotal += $subTotal;
+                                                                                     $partgrandTotal += $subTotal;
                                                                                      echo '
                                                                                      <tr>
                                                                                           <td>
@@ -148,7 +151,7 @@
                                                                                      ';
                                                                                 }
                                                                                 session_start();
-                                                                                $_SESSION['grandtotal'] = $grandTotal;
+                                                                                $_SESSION['partgrandtotal'] = $partgrandTotal;
                                                                            }
 
                                                                            $getCart = "SELECT * FROM pccart WHERE userid='$userID'";
@@ -167,7 +170,7 @@
                                                                                      $haha = $quantity * $unitprice;
                                                                                      $discount = $unitprice * $quantity * 0.11;
                                                                                      $subTotal = $haha - $discount;
-                                                                                     $grandTotal += $subTotal;
+                                                                                     $pcgrandTotal += $subTotal;
                                                                                      echo '
                                                                                      <tr>
                                                                                           <td>
@@ -184,8 +187,11 @@
                                                                                      </tr>
                                                                                      ';
                                                                                 }
-                                                                                $_SESSION['grandtotal'] = $grandTotal;
                                                                            }
+                                                                           $_SESSION['pcgrandtotal'] = $pcgrandTotal;
+
+                                                                           $_SESSION['grandtotal'] = $_SESSION['partgrandtotal'] + $_SESSION['pcgrandtotal'];
+                                                                           $grandTotal = $_SESSION['grandtotal'];
                                                                       ?>
                                                             </tbody>
                                                        </table>
@@ -193,7 +199,7 @@
                                                             if($count === 0){ echo "<p style='font-size:14px;'>No items in your cart</p>";}
                                                             else{
                                                                  echo"<b>Total: </b> "; 
-                                                                 echo "&#8377;"+$grandTotal;}?>
+                                                                 echo "&#8377;"+$_SESSION['grandtotal'];}?>
                                                             </div>
                                                        <div class="d-flex jcsb md-d-flex md-flex-col text-center">
                                                             <div>

@@ -7,9 +7,10 @@
      <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <title>Cart</title>
+          <title>Computer-Store | ProceedCheckout</title>
           <meta name="description" content="">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="shortcut icon" type="image/png" href="../../img/favicon.png" >
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
@@ -132,14 +133,10 @@
                                         <div class="container text-center mb-1">
                                              <?php 
                                                   if(isset($_GET['sb'])){
-                                                  //echo'
-                                                       // <div class="mt-1">
-                                                       //      <label for="">Enter your System Build PC name:</label>
-                                                       //      <input type="text" name="sbname" class="input-field-f" placeholder="Enter your PC name...">
-                                                       // </div>
                                                        echo'
                                                             <form action="payment.php?sb" method="POST">
                                                                  <input type="text" name="sbname" class="input-field-f" placeholder="Enter your PC name...">
+                                                                 
                                                                  <input style="background:#28AB87" class="button-field text-deco-none shadow-md" type="submit" value="Deliver"/> 
                                                             </form>
                                                        ';

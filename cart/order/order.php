@@ -73,21 +73,21 @@
                               else{
                                    $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                                    $insertcheck = mysqli_query($conn, $insertorder);
-                                   if($insertcheck){
-                                        $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
-                                        $query = mysqli_query($conn, $selectpart);
-                                        // print($partID);
-                                        while($selectPCpart = mysqli_fetch_array($query)){
-                                             $qty = $selectPCpart['qty'];
-                                             $updateQty = $qty - $partQty;
-                                             $updatecheck = "UPDATE pcpart SET qty='$updateQty' WHERE  pcPartID='$partID'";
-                                             $updatequery = mysqli_query($conn, $updatecheck);
-                                             if($updatequery){
+                                   // if($insertcheck){
+                                   //      $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+                                   //      $query = mysqli_query($conn, $selectpart);
+                                   //      // print($partID);
+                                   //      while($selectPCpart = mysqli_fetch_array($query)){
+                                   //           $qty = $selectPCpart['qty'];
+                                   //           $updateQty = $qty - $partQty;
+                                   //           $updatecheck = "UPDATE pcpart SET qty='$updateQty' WHERE  pcPartID='$partID'";
+                                   //           $updatequery = mysqli_query($conn, $updatecheck);
+                                             // if($updatequery){
                                                   $deletecart = "DELETE FROM cart WHERE productid='$partID'";
                                                   $rundelete = mysqli_query($conn, $deletecart);
-                                             }
-                                        }
-                                   }
+                                             // }
+                                        // }
+                                   // }
                               }
                          }
                     }
@@ -260,9 +260,10 @@
      <head>
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <title>Cart</title>
+          <title>Computer-Store | Order</title>
           <meta name="description" content="">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="shortcut icon" type="image/png" href="../../img/favicon.png" >
         <link rel="stylesheet" href="../../style.css">
         <link rel="stylesheet" href="../../customstyle.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
@@ -413,7 +414,7 @@
                                         </div>
                                    </div>
                               </div>
-                              <div class="ml-1 mb-1 white acc-container min-w-30">
+                              <div style="min-width:30%" class="ml-1 mb-1 white acc-container min-w-30">
                                    <div style="background:#e0e0e0;" class="p-1 text-black">
                                         Order Summary
                                    </div>
@@ -514,8 +515,7 @@
                                                   </div>
                                                   <div class='mx-sm'>
                                                   <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
-                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
-                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='../../details.php?part_det={$partID}'>Details</a></div>
                                                   </div>
                                                   </div>
                                         </div>

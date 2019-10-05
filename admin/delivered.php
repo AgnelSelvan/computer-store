@@ -35,6 +35,7 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Computer-Store</title>
      <style>
           .content-table{
                   border-collapse: collapse;
@@ -106,7 +107,7 @@
                     $countrow = mysqli_num_rows($check);
                     // print($countrow);
                     if($countrow == 0){
-                         echo "<div class='text-center '><b>No items Delivered Yet!</b></div>";
+                         echo "<div class='text-center '><b>All items Delivered !</b></div>";
                     }
                     else{
                     ?>
@@ -181,12 +182,12 @@
                          </table>
                     <?php }
                }elseif(isset($_GET['deliveredpc'])){
-                    $checkselect = "SELECT * FROM orders WHERE partID !=0  sttus='Dispatched'";
+                    $checkselect = "SELECT * FROM orders WHERE pcID != 0 and sttus='Dispatched'";
                     $check = mysqli_query($conn, $checkselect);
                     $countrow = mysqli_num_rows($check);
                     // print($countrow);
                     if($countrow == 0){
-                         echo "<div class='text-center '><b>No items Delievred Yet!</b></div>";
+                         echo "<div class='text-center '><b>All items Delivered!</b></div>";
                     }
                     else{
                     ?>
@@ -267,7 +268,7 @@
                     $countrow = mysqli_num_rows($check);
                     // print($countrow);
                     if($countrow == 0){
-                         echo "<div class='text-center '><b>No items Delivered yet !</b></div>";
+                         echo "<div class='text-center '><b>All items Delivered!</b></div>";
                     }
                     else{
                     ?>
