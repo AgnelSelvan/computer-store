@@ -86,11 +86,17 @@
                 showDivs(slideIndex = n);
             }
         </script>
+        <style media="screen">
+            ::selection{
+                background-color: black;
+                color: white;
+            }
+        </style>
     </head>
     <body>
         <!-- Navbar -->
             <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
-                <div class="d-flex jcsb">
+                <div class="d-flex  jcsb">
                     <div class="d-flex flex-row">
                         <div>
                             <a href="indexcopy.php"><img class="img1" src="img/cpu.png" alt=""></a>

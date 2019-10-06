@@ -1,4 +1,7 @@
-
+::selection{
+    background-color: black;
+    color: white;
+}
 .bg-color{
      background: #eeeeee;
 }
