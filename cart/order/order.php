@@ -8,6 +8,7 @@
           if(isset($_POST['payment'])){
                $grandTotal = 0;
                $sbname = $_GET['sbname'];
+               $packing = $_GET['packing'];
                $paymentMethod = $_POST['paymentmethod'];
                // print($paymentMethod);
                $ordernumber = rand();
@@ -41,7 +42,7 @@
                               }
                          }
                          // print($grandTotal);
-                         $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
+                         $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), '$packing', 'Pending')";
                          $inserCheck = mysqli_query($conn, $insertquery);
                     }
                }
@@ -363,9 +364,17 @@
                                                                            <td class="text-left">Order Date</td>
                                                                            <td class="text-right"><?php echo date("l, F jS Y");?></td>
                                                                       </tr>
+                                                                      <?php
+                                                                           $userID = $_SESSION['userId'];
+                                                                           $selct = "SELECT * FROM users WHERE isUsers='$userID'";
+                                                                           $query = mysqli_query($conn, $selct);
+                                                                           while($row = mysqli_fetch_array($query)){
+                                                                                $userName = $row['uidUsers'];
+                                                                           }
+                                                                      ?>
                                                                       <tr>
                                                                            <td class="text-left">Customer Name</td>
-                                                                           <td class="text-right"><?php echo $_SESSION['userUid']; ?></td>
+                                                                           <td class="text-right"><?php echo $userName; ?></td>
                                                                       </tr>
                                                                       <?php
                                                                            if(isset($_GET['success']) || isset($_GET['sbsuccess'])){

@@ -108,8 +108,10 @@
                                         <?php 
                                              if(isset($_GET['sb'])){
                                                   $sbname = $_POST['sbname'];
+                                                  $packing= $_POST['packing'];
+                                                  //echo $packing;
                                                   echo'
-                                                  <form action="order.php?sb&sbname='.$sbname.'" method="POST">
+                                                  <form action="order.php?sb&sbname='.$sbname.'&packing='.$packing.'" method="POST">
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="onlinePayment">Online Payment(Payu)</div><hr>
                                                   <div class="p-sm"><input type="radio" name="paymentmethod" value="cod">Cash on delivery</div><hr>
                                                   <div class="text-center my-1">

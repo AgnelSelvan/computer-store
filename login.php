@@ -61,6 +61,11 @@
                                         echo"<p class='pt-1' style='font-size:12px; color:red'>Wrong password!</p>";
                                     }
                                 }
+                                if(isset($_GET['pass'])){
+                                    if($_GET['pass'] == 'googlelogin'){
+                                        echo"<p class='pt-1' style='font-size:12px; color:red'>Please login with google!</p>";
+                                    }
+                                }
                                 if(isset($_GET["login"])){
                                     if($_GET["login"] == 'notlogin'){
                                         echo"<p class='pt-1' style='font-size:12px; color:red'>Please login first</p>";

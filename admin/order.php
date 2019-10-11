@@ -341,6 +341,7 @@ error_reporting(0);
                                         <th>Amount:</th>
                                         <th>Order Date:</th>
                                         <th>Payment:</th>
+                                        <th>Packing Type:</th>
                                         <th>Status:</th>
                                    </tr>
                               </thead>
@@ -357,6 +358,7 @@ error_reporting(0);
                                                   $payment = $orderrow['paymentMethod'];
                                                   $orderDate = $orderrow['date'];
                                                   $status = $orderrow['sttus'];
+                                                  $packing = $orderrow['PackingType'];
                                                   $grandTotal = $orderrow['amount'];
                                                   echo"
                                                        <tr>
@@ -366,6 +368,7 @@ error_reporting(0);
                                                             <th>".$grandTotal."</th>
                                                             <th>".$orderDate."</th>
                                                             <th>".$payment."</th>
+                                                            <th>".$packing."</th>
                                                             <th>";?>
                                                             <?php 
                                                                  if($status == "Pending"){

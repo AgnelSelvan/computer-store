@@ -136,7 +136,9 @@
                                                        echo'
                                                             <form action="payment.php?sb" method="POST">
                                                                  <input type="text" name="sbname" class="input-field-f" placeholder="Enter your PC name...">
-                                                                 
+                                                                 <div><label>Packing type:</label></div>
+                                                                 <input  type="radio" name="packing" class="text-left" value="assemble" checked> Assemble<br>
+                                                                 <input type="radio" name="packing" value="noassemble">No Assemble<br>
                                                                  <input style="background:#28AB87" class="button-field text-deco-none shadow-md" type="submit" value="Deliver"/> 
                                                             </form>
                                                        ';
@@ -165,7 +167,7 @@
                                         $partID = $row['pcPartID'];
                                         echo "
                                         <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
-                                        <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                        <a style='color:#28AB87' class='text-deco-none' href='../../details.php?part_det=".$partID."'>
                                         <div class='single-img'>
                                              <img class='img2 mt-1' src='../../admin/upload/".$row['image']."'/>
                                         </div>
@@ -177,8 +179,8 @@
                                                   </div>
                                                   <div class='mx-sm'>
                                                   <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
-                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='details.php?part_det={$partID}'>Details</a></div>
-                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-md' href='../../details.php?part_det={$partID}'>Details</a></div>
+                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-md' href='../../index.php?add_cart={$partID}'>AddToCart</a></div>
                                                   </div>
                                                   </div>
                                         </div>
