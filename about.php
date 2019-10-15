@@ -34,6 +34,19 @@
                 e.preventDefault();
             });
             });
+            function showHide(){
+                var click = document.getElementById("dropdown-content");
+                if(click.style.display === "none"){
+                    click.style.display = "block";
+                }
+                else{
+                    click.style.display = "none";
+                }
+                
+            }
+            function currentDiv(n) {
+                showDivs(slideIndex = n);
+            }
         </script>
     </head>
     <body>
@@ -53,6 +66,88 @@
                             <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="index.php">Home</a></li>
                             <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/system-build.php">SystemBuild</a></li>
                             <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="builds/completed_build.php">CompletedBuild</a></li>
+                            <li class="p-1">
+                                <div class="dropdown">
+                                    <a style="cursor:pointer" class="pl-1 text-deco-none text-black nav" onclick="showHide()">Catergories</a>
+                                    <div style="display:none;" id="dropdown-content" class="dropdown-content shadow-sm text-center mr-2">
+                                            <div class="d-flex flex-wrap p-sm">
+                                                <div style="background:#e0e0e0;" class="m-1" >
+                                                    <a href="index.php?showpart=2">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="100" src="./img/nav-cpu.png" alt="cpu">
+                                                            <p class="text-center">CPU</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=1">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="100" src="./img/nav-case.png" alt="case">
+                                                            <p class="text-center">Case</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=5">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="100" src="./img/nav-memory.png" alt="ram">
+                                                            <p class="text-center">RAM</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=9">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="100" src="./img/nav-ssd.png" alt="ssd">
+                                                            <p class="text-center">Harddisk</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=6">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="100" src="./img/nav-videocard.png" alt="videocard">
+                                                            <p class="text-center">Graphics Card</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=7">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="100" height="100" src="./img/nav-mouse.png" alt="mouse">
+                                                            <p class="text-center">Mouse</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=8">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="140" height="100" src="./img/nav-keyboard.png" alt="keyboard">
+                                                            <p class="text-center">Keyboard</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=4">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="140" height="100" src="./img/nav-monitor.png" alt="monitor">
+                                                            <p class="text-center">Monitor</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div style="background:#e0e0e0" class="m-1" >
+                                                    <a href="index.php?showpart=3">
+                                                        <div class="d-flex flex-col">
+                                                            <img width="140" height="100" src="./img/nav-motherboard.png" alt="motherboard">
+                                                            <p class="text-center">Motherboard</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </li>
                             <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="about.php">About</a></li>
                             <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="contact.php">Contact</a></li>
                         </ul>

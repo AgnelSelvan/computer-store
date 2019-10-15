@@ -2,6 +2,7 @@
     require "../includes/dbh.inc.php";
     include('../functions/functions.php');
     session_start();
+    $userID=$_SESSION['userId'];
 ?>
 <!DOCTYPE html>
      <head>
@@ -123,10 +124,11 @@
                                    <div style="background:#eeeeee; font-size:16px;" class="b-rad-2 pb-1"> 
                                         <div class="pt-1  text-center"><img style="width:90%;" class="b-rad-2 text-center" src="
                                              <?php
-                                                  $selectimage = "SELECT * FROM users WHERE pwdUsers=''";
+                                                  $selectimage = "SELECT * FROM users WHERE isUsers='$userID'";
                                                   $query = mysqli_query($conn, $selectimage);
                                                   while($row = mysqli_fetch_array($query)){
                                                        $pass = $row['pwdUsers'];
+                                                       $image = $row['userImage'];
                                                        if(empty($pass)){
                                                             echo $row['userImage'];
                                                        }

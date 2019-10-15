@@ -48,6 +48,9 @@
         if($check and $checkorder and $checkcart and $checksb and $checksbpc){
             header("LOCATION: includes/logout.inc.php");
         }
+        else{
+            header("LOCATION: ./index.php");
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -86,12 +89,6 @@
                 showDivs(slideIndex = n);
             }
         </script>
-        <style media="screen">
-            ::selection{
-                background-color: black;
-                color: white;
-            }
-        </style>
     </head>
     <body>
         <!-- Navbar -->
@@ -281,6 +278,7 @@
                                 $showpart = "SELECT * FROM pcpart WHERE partKeyword='$partKeyword'";
                                 $check = mysqli_query($conn, $showpart);
                                 while($row = mysqli_fetch_array($check)){
+                                    $partID = $row['pcPartID'];
                                     echo "
                                         <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
                                             <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
@@ -340,6 +338,7 @@
                                          
                                          ";
                                     }
+                                header("LOCATION: index.php");
                             }
                             elseif(isset($_GET['complete'])){
                                 ?>
@@ -379,23 +378,23 @@
                                         $partname = $row['partKeyword'];
                                         $partID = $row['pcPartID'];
                                         echo "
-                                        <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
-                                            <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
-                                            <div class='single-img'>
-                                                <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                        <div style='width:270px;border:1px solid #D8D8D8' class='d-flex flex-col mx-sm mt-1 white p-sm b-rad-1 shadow-sm'>
+                                            <div class='text-center'>
+                                                <a style='color:#28AB87' class='text-deco-none transparent' href='details.php?part_det=".$partID."'>
+                                                <div class='single-img'>
+                                                        <img width='200' height='200' src='admin/upload/".$row['image']."'/>
+                                                        </div>
+                                                </a>
                                             </div>
-                                            <div style='font-size:20px;' class='text-center'>";
-                                                echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
-                                                echo"<div class='text-primary'>
-                                                            <b></b>
-                                                            <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
-                                                    </div>
-                                                    <div class='mx-sm'>
-                                                    <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                            <div class='text-center p-1' >
+                                                <p style='color:gray;' class=''>{$row['partTitle']}</p>
+                                                <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                <div class='mt-2'>
+                                                        <div style='' class='d-flex  jcsa'>
                                                             <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-sm' href='details.php?part_det={$partID}'>Details</a></div>
                                                             <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-sm' href='index.php?add_cart={$partID}'>AddToCart</a></div>
-                                                    </div>
-                                                    </div>
+                                                        </div>
+                                                </div>
                                             </div>
                                         </div>
                                         ";
@@ -416,7 +415,7 @@
                     </div>
             </div>
         <!-- Content -->
-        <script>
+        <!-- <script>
             var slideIndex = 1;
             showSlides(slideIndex);
 
@@ -443,7 +442,7 @@
                 slides[slideIndex-1].style.display = "block";  
                 dots[slideIndex-1].className += " active1";
             }
-        </script>
+        </script> -->
 <?php
     require "footer.php";
 ?>
@@ -460,21 +459,13 @@
             $part_qty = 1;
             if (mysqli_fetch_array($run_product) > 0) {
                 echo"<script>alert('This product has already added in cart')</script>";
-                echo"<script>window.open('index.php?pro_id=$p_id','_self')</script>";
+                echo"<script>window.open('index.php','_self')</script>";
             } else {
                 $query = "INSERT INTO cart(cID, userID, productid, quantity) VALUES (null, '$userID', '$p_id','$part_qty');";
                 $check = mysqli_query($conn, $query);
                 if($check){
-                    $checkqty = "SELECT * FROM pcpart WHERE pcPartID='$p_id'";
-                    $checkqtypcpart = mysqli_query($conn, $checkqty);
-                    while($qtyrow = mysqli_fetch_array($checkqtypcpart)){
-                        $part_qty = $qtyrow['qty'] - $part_qty;
-                        $updateqty = "UPDATE pcpart SET qty='$part_qty' WHERE pcPartID='$p_id';";
-                        $updatecheck = mysqli_query($conn, $updateqty);
-                        if($updatecheck){
-                            echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
-                        }
-                    }
+                            echo"<script>window.open('index.php','_self')</script>";
+                    
                 }
             }
         }
@@ -496,3 +487,23 @@
     }
 }
 ?>
+
+<!-- <div style='width:220px;' class='shadow-md responsive-card white b-rad-2 card-hover'>
+                                            <a style='color:#28AB87' class='text-deco-none' href='details.php?part_det=".$partID."'>
+                                            <div class='single-img'>
+                                                <img class='img2 mt-1' src='admin/upload/".$row['image']."'/>
+                                            </div>
+                                            <div style='font-size:20px;' class='text-center'>";
+                                                echo"<h4 class='m-1'>{$row['partTitle']}</h4></a><br>";
+                                                echo"<div class='text-primary'>
+                                                            <b></b>
+                                                            <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                    </div>
+                                                    <div class='mx-sm'>
+                                                    <div class='mb-3 mt-2 md-mt-2 d-flex jcsa md-flex-col'>
+                                                            <div class='md-mb-2'><a style='background:#28AB87' class='button-field text-deco-none shadow-sm' href='details.php?part_det={$partID}'>Details</a></div>
+                                                            <div><a style='background:#28AB87'  class='button-field text-deco-none shadow-sm' href='index.php?add_cart={$partID}'>AddToCart</a></div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+                                        </div> -->

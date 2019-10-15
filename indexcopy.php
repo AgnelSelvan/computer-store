@@ -319,7 +319,7 @@ $userID = $_SESSION['userId'];
                                                        <div class='d-flex jcfe'>
                                                             <p class='text' style='padding:2px 8px;color:red;border: 1px solid red'>-50%</p>
                                                        </div>
-                                                       <a style='color:#28AB87' class='text-deco-none' href='details.php?pc_det=".$p_id."'>
+                                                       <a style='color:#28AB87' class='text-deco-none single-img' href='details.php?pc_det=".$p_id."'>
                                                             <img class='img2 mt-1' src='./admin/upload/".$row['pc_image']."'/>
                                                        </a>
                                                        <p style='color:gray;' class='mt-1'>{$row['pcName']}</p>
@@ -344,15 +344,15 @@ $userID = $_SESSION['userId'];
                                                             <p class='text' style='padding:2px 8px;color:red;border: 1px solid red'>-50%</p>
                                                        </div>
                                                        <div class='text-center'>
-                                                            <a style='color:#28AB87' class='text-deco-none transparent' href='details.php?part_det=".$partID."'>
+                                                            <a style='color:#28AB87' class='text-deco-none transparent single-img' href='details.php?part_det=".$partID."'>
                                                                  <img width='200' height='200' src='admin/upload/".$row['image']."'/>
                                                             </a>
                                                        </div>
-                                                       <div class='text-center p-1 ' >
+                                                       <div class='text-center p-1' >
                                                             <p style='color:gray;' class=''>{$row['partTitle']}</p>
                                                             <p style='font-size:16px;color:rgb(40,171,135)' class='my-sm'>&#8377;{$row['price']} <strike class='pl-1'>&#8377;{$discount}</strike></p>
-                                                            <div style='align-self:flex-end'>
-                                                                 <div class='d-flex jcc'>
+                                                            <div style=''>
+                                                                 <div style='' class='d-flex jcc'>
                                                                       <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1'><a href='details.php?part_det={$partID}' class='text-deco-none text-white'>Details</a></p>
                                                                  </div>
                                                             </div>
@@ -410,7 +410,7 @@ $userID = $_SESSION['userId'];
                countdown();
                function countdown(){
                     var now = new Date();
-                    var eventDate = new Date(2019, 9, 09);
+                    var eventDate = new Date(2019, 10, 29);
 
                     var currentTime = now.getTime();
                     var eventTime = eventDate.getTime();

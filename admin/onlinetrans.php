@@ -79,7 +79,7 @@
                     <th>Payu Money ID</th>
                </tr>
           </thead>
-          <tbody>
+          <tbody style="" class="text-left">
           <?php
           $selectonline = "SELECT * FROM payu;";
           $checkonline = mysqli_query($conn, $selectonline);

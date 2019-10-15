@@ -54,12 +54,7 @@
                               $query = "INSERT INTO cart VALUES (null, '$userID', '$p_id','$part_qty');";
                               $check = mysqli_query($conn, $query);
                               if($check){
-                                   $part_qty = $qtyrow['qty'] - $part_qty;
-                                   $updateqty = "UPDATE pcpart SET qty='$part_qty' WHERE pcPartID='$p_id';";
-                                   $updatecheck = mysqli_query($conn, $updateqty);
-                                   if($updatecheck){
-                                        echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
-                                        }
+                                   echo"<script>window.open('details.php?part_det='$p_id'','_self')</script>";
                                    }
                               }
                          }
@@ -195,7 +190,7 @@
                                         <div class='text-left p-2'>$desc</div>
                                         <div style='color:gray;font-size:20px;' class='p-sm'><b>MRP: &#8377;$price</b></div>
                                         <div style='color:gray;font-size:20px;' class=' p-sm'>You Save:<strike>"?><?php echo $price/2; ?><?php echo"</strike></div>
-                                        <div style='font-size:20px;'  class='p-sm'><b>Quantity: &#8377;$qty</b></div>
+                                        <div style='font-size:20px;'  class='p-sm'><b>Quantity:$qty</b></div>
                                         "; }?></p>
                                    <p class="text-left">
                                         <?php

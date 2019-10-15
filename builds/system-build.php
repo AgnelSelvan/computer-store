@@ -10,10 +10,15 @@
         $partKeyword = $_GET['keyword'];
         $userID = $_SESSION['userId'];
         $discount = $partPrice * 0.25;
-        $insert = "INSERT INTO systembuild VALUES(NULL, '$userID', '$partKeyword', '$partID', '$partPrice', '$discount')";
-        $check = mysqli_query($conn, $insert);
-        if($check){
-            header("LOCATION: system-build.php");
+        if($userID == 0){
+            header("LOCATION: ../login.php?login=notlogin");
+        }
+        else{
+            $insert = "INSERT INTO systembuild VALUES(NULL, '$userID', '$partKeyword', '$partID', '$partPrice', '$discount')";
+            $check = mysqli_query($conn, $insert);
+            if($check){
+                header("LOCATION: system-build.php");
+            }
         }
     }
     if(isset($_GET['delPart'])){
@@ -58,60 +63,155 @@
                 e.preventDefault();
             });
             });
+            function showHide(){
+                var click = document.getElementById("dropdown-content");
+                if(click.style.display === "none"){
+                    click.style.display = "block";
+                }
+                else{
+                    click.style.display = "none";
+                }
+                
+            }
+            function currentDiv(n) {
+                showDivs(slideIndex = n);
+            }
         </script>
     </head>
     <body>
         <!-- Navbar Starts -->
-        <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
-            <div class="d-flex jcsb">
-                <div class="d-flex flex-row">
-                    <div>
-                        <a href="../indexcopy.php"><img class="img1" src="../img/cpu.png" alt=""></a>
+            <div style="position:sticky;top:0px;z-index:1;height:8%;" class="d-flex flex-col w-100 white shadow-sm">
+                <div class="d-flex jcsb">
+                    <div class="d-flex flex-row">
+                        <div>
+                            <a href="../indexcopy.php"><img class="img1" src="../img/cpu.png" alt=""></a>
+                        </div>
+                        <div class="hamburger">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="menu">
+                            <ul class="ls-none active current-item">
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="system-build.php">SystemBuild</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="completed_build.php">CompletedBuild</a></li>
+                                <li class="p-1">
+                                    <div class="dropdown">
+                                        <a style="cursor:pointer" class="pl-1 text-deco-none text-black nav" onclick="showHide()">Catergories</a>
+                                        <div style="display:none;" id="dropdown-content" class="dropdown-content shadow-sm text-center mr-2">
+                                                <div class="d-flex flex-wrap p-sm">
+                                                    <div style="background:#e0e0e0;" class="m-1" >
+                                                        <a href="../index.php?showpart=2">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="../img/nav-cpu.png" alt="cpu">
+                                                                <p class="text-center">CPU</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=1">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="../img/nav-case.png" alt="case">
+                                                                <p class="text-center">Case</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=5">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="../img/nav-memory.png" alt="ram">
+                                                                <p class="text-center">RAM</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=9">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="../img/nav-ssd.png" alt="ssd">
+                                                                <p class="text-center">Harddisk</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=6">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" src="../img/nav-videocard.png" alt="videocard">
+                                                                <p class="text-center">Graphics Card</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=7">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="100" height="100" src="../img/nav-mouse.png" alt="mouse">
+                                                                <p class="text-center">Mouse</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=8">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="140" height="100" src="../img/nav-keyboard.png" alt="keyboard">
+                                                                <p class="text-center">Keyboard</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=4">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="140" height="100" src="../img/nav-monitor.png" alt="monitor">
+                                                                <p class="text-center">Monitor</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div style="background:#e0e0e0" class="m-1" >
+                                                        <a href="../index.php?showpart=3">
+                                                            <div class="d-flex flex-col">
+                                                                <img width="140" height="100" src="../img/nav-motherboard.png" alt="motherboard">
+                                                                <p class="text-center">Motherboard</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
+                                <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a class="toggle-nav" href="#">&#9776;</a>
+                        </div>
                     </div>
-                    <div class="hamburger">
-                        <div class="line"></div>
-                        <div class="line"></div>
-                        <div class="line"></div>
+                    <div class="mt-1">
+                        <?php
+                            if(isset($_SESSION['userId'])){
+                                echo'<form action="includes/logout.inc.php" method="post">
+                                <div class="d-flex jcfe">
+                                <div class="cart-btn">
+                                <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
+                                <div class="cart-items">'?><?php cartcount(); echo'</div>
+                                </div>
+                                <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
+                                <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
+                                </div>
+                                </form>';
+                            }
+                            else{
+                                echo'
+                                <div class="container d-flex flex-row jcfe">
+                                    <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
+                                    <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
+                                </div>
+                                ';
+                            }
+                        ?>
                     </div>
-                    <div class="menu">
-                        <ul class="ls-none active current-item">
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../index.php">Home</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="system-build.php">SystemBuild</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="completed_build.php">CompletedBuild</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../about.php">About</a></li>
-                            <li class="p-1"><a class="pl-1 text-deco-none text-black nav" href="../contact.php">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <a class="toggle-nav" href="#">&#9776;</a>
-                    </div>
-                </div>
-                <div class="mt-1">
-                    <?php
-                        if(isset($_SESSION['userId'])){
-                            echo'<form action="includes/logout.inc.php" method="post">
-                            <div class="d-flex jcfe">
-                            <div class="cart-btn">
-                            <div style="font-size:30px;" class="nav-icon"><a href="../cart/cart.php"><i style="color:black;" class="fas fa-cart-plus"></i></a></div>
-                            <div class="cart-items">'?><?php cartcount(); echo'</div>
-                            </div>
-                            <div style="font-size:30px; padding:0 15px;" class="text-black"><a class="text-black" href="../account/myAccount.php?acc"><div class="mx-1" ><i class="fas fa-user-circle"></i></div></a></div>
-                            <div style="margin-top:10px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../includes/logout.inc.php" name="logout-submit">Logout</a></div>
-                            </div>
-                            </form>';
-                        }
-                        else{
-                            echo'
-                            <div class="container d-flex flex-row jcfe">
-                                <div style="margin-top:3px;"><a class="text-deco-none signup-button-field mr-2 text-black pr-1" href="../signup.php">Signup</a></div>
-                                <div style="margin-top:3px;"><a class="text-deco-none text-black pr-1 mr-2 nav loginphp" href="../login.php">Login</a></div>
-                            </div>
-                            ';
-                        }
-                    ?>
                 </div>
             </div>
-        </div>
         <!-- Navbar Ends -->
 
         <!-- Content Starts -->

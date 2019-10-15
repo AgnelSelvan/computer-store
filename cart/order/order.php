@@ -8,6 +8,7 @@
           if(isset($_POST['payment'])){
                $grandTotal = 0;
                $sbname = $_GET['sbname'];
+               $_SESSION['packingtype'] = $_GET['packing'];
                $packing = $_GET['packing'];
                $paymentMethod = $_POST['paymentmethod'];
                // print($paymentMethod);
@@ -74,21 +75,21 @@
                               else{
                                    $insertorder = "INSERT INTO orders VALUES(NULL, '$ordernumber', '$userID', '$pcID', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                                    $insertcheck = mysqli_query($conn, $insertorder);
-                                   // if($insertcheck){
-                                   //      $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
-                                   //      $query = mysqli_query($conn, $selectpart);
-                                   //      // print($partID);
-                                   //      while($selectPCpart = mysqli_fetch_array($query)){
-                                   //           $qty = $selectPCpart['qty'];
-                                   //           $updateQty = $qty - $partQty;
-                                   //           $updatecheck = "UPDATE pcpart SET qty='$updateQty' WHERE  pcPartID='$partID'";
-                                   //           $updatequery = mysqli_query($conn, $updatecheck);
-                                             // if($updatequery){
+                                   if($insertcheck){
+                                        $selectpart = "SELECT * FROM pcpart WHERE pcPartID='$partID'";
+                                        $query = mysqli_query($conn, $selectpart);
+                                        // print($partID);
+                                        while($selectPCpart = mysqli_fetch_array($query)){
+                                             $qty = $selectPCpart['qty'];
+                                             $updateQty = $qty - $partQty;
+                                             $updatecheck = "UPDATE pcpart SET qty='$updateQty' WHERE  pcPartID='$partID'";
+                                             $updatequery = mysqli_query($conn, $updatecheck);
+                                             if($updatequery){
                                                   $deletecart = "DELETE FROM cart WHERE productid='$partID'";
                                                   $rundelete = mysqli_query($conn, $deletecart);
-                                             // }
-                                        // }
-                                   // }
+                                             }
+                                        }
+                                   }
                               }
                          }
                     }
@@ -233,16 +234,19 @@
                               $insertorder = "INSERT INTO sborders VALUES(NULL, '$ordernumber', '$userID', '$sbName', '$partID', '$partQty', '$paymentMethod', '$subTotal', '$shippingCharge', '$taxCharge', '$total', NOW(), 'Pending')";
                               $insertcheck = mysqli_query($conn, $insertorder);
                               if($insertcheck){
+                                   // $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
+                                   // $inserCheck = mysqli_query($conn, $insertquery);
                                    $deletecart = "DELETE FROM systembuild WHERE partID='$partID'";
                                    $rundelete = mysqli_query($conn, $deletecart);
                               }
                          }
                     }
                     // print($grandTotal);
-                    if($grandTotal != 0){
-                         $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), 'Pending')";
+                         $packing = $_SESSION['packingtype'];
+                         $insertquery = "INSERT INTO sbpc VALUES(NULL, '$ordernumber', '$sbName', '$grandTotal', '$userID', '$paymentMethod', NOW(), '$packing', 'Pending')";
                          $inserCheck = mysqli_query($conn, $insertquery);
-                    }
+                         $delete = "DELETE FROM sbpc WHERE amount=0";
+                         $check = mysqli_query($conn, $delete);
                }
           }
           $txnid = $_POST['txnid'];

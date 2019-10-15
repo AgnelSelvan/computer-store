@@ -3,6 +3,35 @@
     include('../functions/functions.php');
     session_start();
     $userID = $_SESSION['userId'];
+    if(isset($_GET['delpartID'])){
+         $partID = $_GET['delpartID'];
+     //     echo $partID;
+          $delete = "DELETE FROM orders WHERE partID='$partID' and userID='$userID'";
+          $query = mysqli_query($conn, $delete);
+          header("LOCATION: myorders.php?order");
+    }
+    if(isset($_GET['delpcID'])){
+          $pcID = $_GET['delpcID'];
+     //     echo $pcID;
+          $delete = "DELETE FROM orders WHERE pcID='$pcID' and userID='$userID'";
+          $query = mysqli_query($conn, $delete);
+          header("LOCATION: myorders.php?order");
+     }
+     if(isset($_GET['delsbID'])){
+          $sbID = $_GET['delsbID'];
+          //echo $pcID;
+          $select = "SELECT * FROM sbpc WHERE sbPCID='$sbID' and userID='$userID'";
+          $query = mysqli_query($conn, $select);
+          while($row = mysqli_fetch_array($query)){
+               $orderNumber = $row['orderNumber'];
+          }
+          $delete = "DELETE FROM sbpc WHERE sbPCID='$sbID' and userID='$userID'";
+          $query = mysqli_query($conn, $delete);
+          // echo $orderNumber;
+          $deletesborder = "DELETE FROM sborders WHERE ordernumber='$orderNumber' and userID='$userID'";
+          $query = mysqli_query($conn, $deletesborder);
+          header("LOCATION: myorders.php?order");
+     }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,12 +106,6 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
      <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
      <script>
-          // function doTheThing(){
-          //      setTimeout(function(){
-          //           location.reload();
-          //      },1000)
-          // }
-          // doTheThing();
           jQuery(document).ready(function() {
           jQuery('.toggle-nav').click(function(e) {
                jQuery(this).toggleClass('active');
@@ -166,11 +189,13 @@
                                              $query = "SELECT * FROM orders WHERE userID='$userID'";
                                              $checkall = mysqli_query($conn, $query);
                                              $count = mysqli_num_rows($checkall);
+                                             $countall = $count;
                                              $query = "SELECT * FROM sbpc WHERE userID='$userID'";
                                              $checkall = mysqli_query($conn, $query);
-                                             $countall += $count;
+                                             $count = mysqli_num_rows($checkall);
+                                             $countsb += $count;
                                              // print($countall);
-                                             if($countall > 0){
+                                             if($countall > 0 or $countsb > 0){
                                         ?>
                                              
                                              <?php
@@ -195,6 +220,7 @@
                                                                  <th>Order Date:</th>
                                                                  <th>Payment</th>
                                                                  <th>Status</th>
+                                                                 <th>Cancel Item</th>
                                                             </tr>
                                                        </thead>
                                                        <tbody class="text-left">
@@ -228,6 +254,7 @@
                                                                                                <th>'.$date.'</th>
                                                                                                <th>'.$payment.'</th>
                                                                                                <th>'.$status.'</th>
+                                                                                               <th class="text-center"><a style="background:red;padding:7px 10px;border-radius:50%" href="myorders.php?order&delpartID='.$partID.'"><i class="fas fa-times text-white"></i></a></th>
                                                                                           </tr>
                                                                                      ';
                                                                                 }
@@ -265,6 +292,7 @@
                                                                  <th>Order Date:</th>
                                                                  <th>Payment</th>
                                                                  <th>Status</th>
+                                                                 <th>Cancel Item</th>
                                                             </tr>
                                                        </thead>
                                                        <tbody class="text-left">
@@ -298,6 +326,7 @@
                                                                                                <th>'.$date.'</th>
                                                                                                <th>'.$payment.'</th>
                                                                                                <th>'.$pcstatus.'</th>
+                                                                                               <th class="text-center"><a style="background:red;padding:7px 10px;border-radius:50%" href="myorders.php?order&delpcID='.$pcID.'"><i class="fas fa-times text-white"></i></a></th>
                                                                                           </tr>
                                                                                      ';
                                                                                 }
@@ -336,6 +365,7 @@
                                                                       <th>Order Date:</th>
                                                                       <th>Payment:</th>
                                                                       <th>Status:</th>
+                                                                      <th>Cancel Item</th>
                                                                  </tr>
                                                             </thead>
                                                             <tbody class="text-left">
@@ -361,6 +391,7 @@
                                                                                           <th>".$orderDate."</th>
                                                                                           <th>".$payment."</th>
                                                                                           <th>".$status."</th>
+                                                                                          <th class='text-center'><a style='background:red;padding:7px 10px;border-radius:50%' href='myorders.php?order&delsbID=".$sbpcID."'><i class='fas fa-times text-white'></i></a></th>
                                                                                      </tr>
                                                                                 ";
                                                                            }
