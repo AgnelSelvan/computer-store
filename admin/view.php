@@ -32,14 +32,14 @@
      <?php
           if(isset($_GET['pcpart'])){
                echo'<div>
-               <div class="min-w-full m-2 p-1 white b-rad-1 shadow-sm">
-                    <div class="d-flex jcsb">
-                         <div>Components</div>
-                         <div>Description</div>
-                         <div>Price</div>
+                    <div class="min-w-full m-2 p-1 white b-rad-1 shadow-sm">
+                         <div class="d-flex jcsb">
+                              <div>Components</div>
+                              <div>Description</div>
+                              <div>Price</div>
+                         </div>
                     </div>
                </div>
-          </div>
                <div class="mb-4 mx-2">
                     <div class="d-flex flex-col jcc  white">'?>
                     <?php
@@ -110,6 +110,50 @@
                    </div>
                </div>
                ';
+          }
+          elseif(isset($_GET['secpart'])){
+               ?>
+                <?php
+                         echo'<div>
+                         <div class="min-w-full mx-2 mt-2 p-1 white shadow-sm">
+                              <div class="d-flex jcsb">
+                                   <div>Components</div>
+                                   <div>Description</div>
+                                   <div>Price</div>
+                              </div>
+                         </div>
+                    </div>
+                    
+                    <div class="divider mx-2"></div>
+                         <div class="mb-4 mx-2">
+                              <div class="d-flex flex-col jcc shadow-md white">'?>
+                              <?php
+                              $query = "SELECT * FROM secndpart";
+                              $check = mysqli_query($conn, $query);
+                              while ($row = mysqli_fetch_assoc($check)) {
+                                        $partname = $row['partKeyword'];
+                                        $partID = $row['pcPartID'];
+                                        echo "
+                                        <div style='min-width:90%;' class='b-rad-2 my-1'>
+                                             <div style='font-size:20px;'>
+                                                  <div class='d-flex jcsa'>
+                                                       <div class='text-center single-img3'>
+                                                            <img class='img3 mt-1' src='../account/".$row['image']."'/>
+                                                       </div>
+                                                       <div style='width:300px;' ><h4 style='color:#28AB87' class='m-1'>{$row['partTitle']}</h4></div>
+                                                       <div style='width:500px;'>{$row['partDesc']}</div>
+                                                       <div class='text-primary'>
+                                                            <div class='m-1 text-black'><b>&#8377;{$row['price']}/-</b></div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <div class='divider mx-2'></div>
+                                        ";
+                              }
+                              ?>
+                         <?php echo'</div></div>'?>
+               <?php
           }
           
           ?>

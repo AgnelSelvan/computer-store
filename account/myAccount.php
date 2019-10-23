@@ -153,6 +153,11 @@
                                                   </a>
                                              </div>
                                              <div class="mt-2 mb-sm">
+                                                  <a style="color:#28AB87" class="text-deco-none  font-change" href="sellproduct.php">
+                                                       <i style="padding-right:20px; color:#28AB87" class="fas fa-exchange-alt"></i> Sell Second hand products
+                                                  </a>
+                                             </div>
+                                             <div class="mt-2 mb-sm">
                                                   <a style="color:#28AB87" class="text-deco-none  font-change" href= "editaccount.php">
                                                        <i style="padding-right:20px; color:#28AB87" class="fas fa-edit"></i>Edit Account
                                                   </a>

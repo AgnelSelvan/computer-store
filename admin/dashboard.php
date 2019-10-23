@@ -257,6 +257,9 @@
                                                   <div class="pb-1 text-left">
                                                        <a style="color: #28AB87;" class="text-deco-none" href="dashboard.php?pc">View PC</a>
                                                   </div>
+                                                  <div class="pb-1 text-left">
+                                                       <a style="color: #28AB87;" class="text-deco-none" href="dashboard.php?secpart">View 2ND Part</a>
+                                                  </div>
                                              </div>
                                         </section>
                                    </div>
@@ -322,7 +325,7 @@
                     <div class="page">
                          <div class="main">
                               <?php
-                                   if(isset($_GET['pcpart']) || isset($_GET['pc'])){
+                                   if(isset($_GET['pcpart']) || isset($_GET['pc']) || isset($_GET['secpart'])){
                                         include("view.php");
                                    }
                                    elseif(isset($_GET['delpcpart']) || isset($_GET['delpc'])){

@@ -185,8 +185,17 @@
                                                             </div>
                                                         </a>
                                                     </div>
+                                                    
                                                 </div>
-                                            
+                                                <div class="d-flex jcsa">
+                                                    <div class="text-left m-1">
+                                                        <a style="color:#28AB87" href="index.php?secpart">Second Hand Parts</a>
+                                                    </div>
+                                                    <div class="text-left m-1">
+                                                        <a style="color:#28AB87" href="index.php?secpc">Second Hand PC</a>
+                                                    </div>
+                                                    
+                                                </div>
                                         </div>
                                     </div>
                                 </li>
@@ -365,6 +374,39 @@
                                           </div>
                                      </div>"
                                      ;} 
+                            }
+                            elseif(isset($_GET['secpart'])){
+                                ?>
+                                <h1 align="left" style="font-size:30px;" class="text-black pl-2 pb-0.5 pt-2"><b>2nd Parts</b></h1>
+                                <div class="b-1 text-white mr-3 ml-2"></div>
+                                <div class="d-flex flex-wrap jcc responsive-container">
+                                <?php
+                                    $query = "SELECT * FROM secndpart ORDER BY RAND() LIMIT 0,14;";
+                                    $check = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_assoc($check)) {
+                                         $partname = $row['partKeyword'];
+                                         $partID = $row['pcPartID'];
+                                         $discount = $row['price']*2;
+                                         echo "
+                                         <div style='width:250px;' class='d-flex responsive-card  flex-col mx-sm mt-1 white p-sm b-rad-1 shadow-md '>
+                                              <div class='text-center single-img'>
+                                                   <a style='color:#28AB87' class='text-deco-none transparent' href='details.php?part_det=".$partID."'>
+                                                        <img width='200' height='200' src='./account/".$row['image']."'/>
+                                                   </a>
+                                              </div>
+                                              <div class='text-center p-1 ' >
+                                                   <b><p style='color:gray;' class=''>{$row['partTitle']}</p></b>
+                                                   <p style='font-size:18px;color:rgb(40,171,135)' class='my-sm'>&#8377;{$row['price']}</p>
+                                                        <div class='d-flex jcc my-sm'>
+                                                             <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1 shadow-md'><a href='details.php?part_det={$partID}' class='text-deco-none text-white'>Details</a></p>
+                                                             <p style='font-size:16px;background:rgb(40,171,135);color:white' class='mr-sm px-1 py-sm b-rad-1 shadow-md'><a class='text-deco-none text-white' href='index.php?add_cart={$partID}'>AddToCart</a></p>
+                                                        </div>
+                                              </div>
+                                         </div>
+                                         
+                                         ";
+                                    }
+                                header("LOCATION: index.php");
                             }
                             else{
                         ?>
