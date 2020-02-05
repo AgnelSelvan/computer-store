@@ -1,7 +1,7 @@
 <?php
 
-define('EMAIL','agnelselvan007@gmail.com');
-define('PASSWORD','agnelselvan00705071999');
+define('EMAIL','Your Email');
+define('PASSWORD','Your email password');
 
 $servername = "localhost";
 $dBUsername = "root";
